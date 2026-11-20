@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zeluvia — Aubaines d'épicerie de la semaine</title>
+<meta name="description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
+<meta name="theme-color" content="#16a34a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Zeluvia">
+<style>
+  :root{
+    --green:#16a34a; --green-dark:#15803d; --green-soft:#e8f7ee;
+    --ink:#1a2b1e; --muted:#5c6f60; --line:#dce8de; --bg:#f4faf5; --card:#ffffff;
+    --amber:#f59e0b;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0; padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg); color:var(--ink); padding-bottom:34px}
+  button{font-family:inherit; cursor:pointer}
+  a{color:var(--green-dark)}
+
+  /* Bandeau fixe du haut */
+  .topbar{position:sticky; top:0; z-index:50; background:var(--green); color:#fff;
+    display:flex; align-items:center; gap:10px; padding:10px 14px;
+    box-shadow:0 2px 10px rgba(0,0,0,.15)}
+  .topbar img{width:34px; height:34px; border-radius:8px; background:#fff}
+  .topbar .brand{font-size:21px; font-weight:800; letter-spacing:.2px; line-height:1}
+  .topbar .period{font-size:11.5px; opacity:.92; margin-top:3px}
+  .topbar .spacer{flex:1}
+  .listbtn{background:#fff; color:var(--green-dark); border:none; border-radius:999px;
+    font-size:15px; font-weight:700; padding:9px 14px; white-space:nowrap}
+  .listbtn small{display:block; font-size:11px; font-weight:600; color:var(--muted); text-align:center}
+
+  /* 3 étapes */
+  .steps{display:flex; gap:8px; padding:12px 14px 2px}
+  .step{flex:1; background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:9px 6px; text-align:center; font-size:12.5px; font-weight:600; color:var(--ink)}
+  .step .n{display:inline-flex; width:20px; height:20px; border-radius:50%; background:var(--green);
+    color:#fff; align-items:center; justify-content:center; font-size:12px; font-weight:800; margin-bottom:4px}
+
+  /* Installation */
+  .install{margin:12px 14px 0; background:#fff7e6; border:1px solid #f3ddab; border-radius:12px;
+    padding:11px 13px; font-size:13.5px; display:none}
+  .install.show{display:block}
+  .install b{color:#92600a}
+  .install .row{display:flex; gap:8px; margin-top:8px}
+  .install button{border:none; border-radius:8px; padding:8px 12px; font-size:13.5px; font-weight:700}
+  .install .go{background:var(--green); color:#fff}
+  .install .no{background:transparent; color:var(--muted)}
+
+  /* Recherche + filtres */
+  .tools{padding:12px 14px 0}
+  .search{width:100%; font-size:16px; padding:12px 14px; border:1.5px solid var(--line);
+    border-radius:12px; background:#fff; outline:none}
+  .search:focus{border-color:var(--green)}
+  .chips{display:flex; gap:7px; overflow-x:auto; padding:11px 1px 3px; scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto; border:1.5px solid var(--line); background:#fff; color:var(--ink);
+    border-radius:999px; padding:7px 13px; font-size:14px; font-weight:600}
+  .chip.on{background:var(--green); border-color:var(--green); color:#fff}
+
+  /* Sections magasin */
+  .store{margin-top:18px}
+  .store-head{display:flex; align-items:center; gap:10px; padding:0 14px}
+  .store-head h2{font-size:19px; margin:0; font-weight:800}
+  .flyer{margin-left:auto; text-decoration:none; background:var(--green-soft); color:var(--green-dark);
+    border:1.5px solid var(--green); font-weight:700; font-size:13.5px; padding:7px 12px; border-radius:999px}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:11px 14px 0}
+  @media (max-width:360px){ .cards{grid-template-columns:1fr} }
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:11px 12px;
+    display:flex; flex-direction:column; gap:7px; position:relative}
+  .card .name{font-size:14.5px; font-weight:600; line-height:1.3}
+  .card .price{font-size:19px; font-weight:800; color:var(--green-dark)}
+  .badge{align-self:flex-start; background:var(--amber); color:#fff; font-size:11px; font-weight:800;
+    border-radius:6px; padding:3px 7px; letter-spacing:.2px}
+  .addbtn{margin-top:auto; border:none; border-radius:10px; padding:11px; font-size:15px; font-weight:700;
+    background:var(--green); color:#fff; width:100%}
+  .addbtn.added{background:var(--green-soft); color:var(--green-dark); border:1.5px solid var(--green)}
+  .noresult{padding:26px 14px; text-align:center; color:var(--muted); font-size:15px; display:none}
+
+  footer{margin:26px 14px 0; font-size:12.5px; color:var(--muted); text-align:center; line-height:1.55}
+
+  .langbtn{background:rgba(255,255,255,.18); color:#fff; border:1.5px solid rgba(255,255,255,.65);
+    border-radius:999px; font-size:13.5px; font-weight:800; padding:8px 11px}
+  .kofi{display:none; margin:18px auto 4px; width:fit-content; background:#ff5e5b; color:#fff;
+    text-decoration:none; font-weight:800; font-size:15px; padding:12px 20px; border-radius:999px}
+  .kofi.show{display:block}
+
+  /* Vue Ma liste */
+  .listview{display:none}
+  body.inlist .shopview{display:none}
+  body.inlist .listview{display:block}
+  .backbar{display:flex; align-items:center; gap:8px; padding:13px 14px 0}
+  .backbtn{background:none; border:none; color:var(--green-dark); font-size:16.5px; font-weight:700; padding:6px 0}
+  .listview h2.title{font-size:20px; margin:8px 14px 0}
+  .group{margin-top:16px}
+  .group-head{display:flex; align-items:center; gap:10px; padding:0 14px}
+  .group-head h3{margin:0; font-size:16.5px}
+  .items{background:#fff; border:1px solid var(--line); border-radius:14px; margin:9px 14px 0; overflow:hidden}
+  .item{display:flex; align-items:center; gap:9px; padding:11px 12px; border-bottom:1px solid var(--line)}
+  .item:last-child{border-bottom:none}
+  .item .nm{flex:1; font-size:14.5px; font-weight:600; line-height:1.3}
+  .item .nm .pr{display:block; font-size:13px; color:var(--green-dark); font-weight:700; margin-top:2px}
+  .qty{display:flex; align-items:center; gap:6px}
+  .qty button{width:30px; height:30px; border-radius:50%; border:1.5px solid var(--line);
+    background:#fff; font-size:17px; font-weight:700; color:var(--ink); line-height:1}
+  .qty .qv{min-width:16px; text-align:center; font-weight:700; font-size:14.5px}
+  .buybtn{border:none; background:var(--green); color:#fff; font-weight:700; font-size:13.5px;
+    border-radius:8px; padding:9px 11px}
+  .buybtn.done{background:var(--green-soft); color:var(--green-dark)}
+  .delbtn{border:none; background:none; color:#b0bcb2; font-size:19px; padding:4px}
+  .grandtotal{margin:14px; background:var(--green); color:#fff; border-radius:12px;
+    padding:13px 16px; font-size:17px; font-weight:800; display:flex; justify-content:space-between}
+  .empty{margin:16px 14px; text-align:center; color:var(--muted); font-size:15px;
+    background:#fff; border:1px dashed var(--line); border-radius:14px; padding:22px 14px}
+  .spent{margin:12px 14px 0; font-size:14.5px; font-weight:700; color:var(--ink);
+    display:flex; justify-content:space-between}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <img src="icons/icon.svg" alt="Zeluvia">
+  <div>
+    <div class="brand">Zeluvia</div>
+    <div class="period">Prix valides du 19 au 25 novembre 2026</div>
+  </div>
+  <div class="spacer"></div>
+  <button class="langbtn" id="langBtn">EN</button>
+  <button class="listbtn" id="openList"><span id="mylistLbl">Ma liste</span> · <span id="listCount">0</span><small id="listTotal">0,00 $</small></button>
+</header>
+
+<div class="shopview">
+  <div class="steps">
+    <div class="step"><span class="n">1</span><br>Choisis tes aubaines</div>
+    <div class="step"><span class="n">2</span><br>Ajoute à ta liste</div>
+    <div class="step"><span class="n">3</span><br>Magasine par magasin</div>
+  </div>
+
+  <div class="install" id="installBox">
+    <b id="installT"></b><span id="installX"></span>
+    <div id="iosHelp" style="display:none; margin-top:6px"></div>
+    <div class="row">
+      <button class="go" id="installGo" style="display:none">Installer</button>
+      <button class="no" id="installNo">Plus tard</button>
+    </div>
+  </div>
+
+  <div class="tools">
+    <input class="search" id="search" type="search" placeholder="Chercher un aliment… (ex. poulet)" autocomplete="off">
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <main id="stores"></main>
+  <div class="noresult" id="noresult">Aucune aubaine ne correspond à ta recherche cette semaine.</div>
+
+  <footer>
+    <span id="footPeriod"></span> <span id="foot1"></span><br>
+    <span id="foot2"></span>
+    <a class="kofi" id="kofiBtn" target="_blank" rel="noopener"></a>
+  </footer>
+</div>
+
+<div class="listview">
+  <div class="backbar">
+    <button class="backbtn" id="closeList">← Continuer de magasiner</button>
+  </div>
+  <h2 class="title">Ma liste</h2>
+  <div id="listBody"></div>
+  <a class="kofi" id="kofiBtn2" target="_blank" rel="noopener"></a>
+</div>
+
+<script>
+"use strict";
+/* ===== Configuration ===== */
+const KOFI_URL = ""; // Adresse de la page Ko-fi de Zeluvia (à remplir après création du compte)
+const PERIOD = { fr: "Prix valides du 19 au 25 novembre 2026", en: "Prices valid November 19–25, 2026" };
+
+const STORES = [
+  { name: "Maxi",    flyer: "https://www.maxi.ca" },
+  { name: "Super C", flyer: "https://www.superc.ca" },
+  { name: "Metro",   flyer: "https://www.metro.ca" },
+  { name: "IGA",     flyer: "https://www.iga.net" },
+  { name: "Provigo", flyer: "https://www.provigo.ca" },
+  { name: "Walmart", flyer: "https://www.walmart.ca" }
+];
+
+/* Données vérifiées — semaine du 19 au 25 novembre 2026 (circulaires officielles). Ne jamais inventer un prix. */
+const DATA = [
+ // Maxi
+ {s:0,n:"Champignons blancs ou crémini entiers",ne:"White or cremini whole mushrooms",p:2.49,d:"2,49 $",de:"$2.49"},
+ {s:0,n:"Pamplemousse rouge",ne:"Red grapefruit",p:1.50,d:"1,50 $ chacun",de:"$1.50 each"},
+ {s:0,n:"Mangues rouges",ne:"Red mangoes",p:1.88,d:"1,88 $ chacune",de:"$1.88 each"},
+ {s:0,n:"Bœuf haché maigre",ne:"Lean ground beef",p:5.44,d:"5,44 $/lb",de:"$5.44/lb"},
+ {s:0,n:"Épaule de porc",ne:"Pork shoulder",p:1.99,d:"1,99 $/lb",de:"$1.99/lb"},
+ {s:0,n:"Poitrines de poulet",ne:"Chicken breasts",p:6.49,d:"6,49 $/lb",de:"$6.49/lb"},
+ {s:0,n:"Beurre Lactantia",ne:"Lactantia butter",p:4.97,d:"4,97 $",de:"$4.97",k:"beurre"},
+ {s:0,n:"Chou vert",ne:"Green cabbage",p:0.75,d:"0,75 $/lb",de:"$0.75/lb",k:"chou"},
+ {s:0,n:"Limes",ne:"Limes",p:0.50,d:"0,50 $ chacune",de:"$0.50 each"},
+ {s:0,n:"Carottes ou oignons",ne:"Carrots or onions",p:2.00,d:"2,00 $",de:"$2.00"},
+ {s:0,n:"Pâtes Barilla ou sauce pour pâtes Sélection",ne:"Barilla pasta or Selection pasta sauce",p:1.69,d:"1,69 $ chacun",de:"$1.69 each"},
+ {s:0,n:"Thé glacé / jus Oasis",ne:"Iced tea / Oasis juice",p:1.75,d:"1,75 $ chacun",de:"$1.75 each"},
+ // Super C
+ {s:1,n:"Saucisses fraîches La Fernandière",ne:"La Fernandière fresh sausages",p:10.00,d:"3 pour 10,00 $",de:"3 for $10.00"},
+ {s:1,n:"Grenade ou papaye large",ne:"Pomegranate or large papaya",p:0.99,d:"0,99 $ chacune",de:"$0.99 each",k:"grenade"},
+ {s:1,n:"Persil frisé ou italien, menthe ou racine de céleri",ne:"Curly or Italian parsley, mint or celery root",p:0.94,d:"0,94 $ chacun",de:"$0.94 each"},
+ {s:1,n:"Aubergines ou courgettes",ne:"Eggplants or zucchini",p:0.99,d:"0,99 $/lb",de:"$0.99/lb"},
+ {s:1,n:"Soupe aux tomates Aylmer",ne:"Aylmer tomato soup",p:0.62,d:"0,62 $",de:"$0.62"},
+ {s:1,n:"Chips Sélection",ne:"Selection chips",p:4.00,d:"2 pour 4,00 $",de:"2 for $4.00"},
+ {s:1,n:"Beurre Lactantia",ne:"Lactantia butter",p:4.65,d:"4,65 $",de:"$4.65",k:"beurre"},
+ {s:1,n:"Filet de porc frais",ne:"Fresh pork tenderloin",p:3.72,d:"3,72 $/lb",de:"$3.72/lb",k:"filetporc"},
+ {s:1,n:"Filet de saumon de l'Atlantique ou Coho frais",ne:"Fresh Atlantic or Coho salmon fillet",p:9.75,d:"9,75 $/lb",de:"$9.75/lb"},
+ {s:1,n:"Clémentines",ne:"Clementines",p:2.44,d:"2,44 $",de:"$2.44"},
+ {s:1,n:"Laitue iceberg",ne:"Iceberg lettuce",p:1.55,d:"1,55 $ chacune",de:"$1.55 each"},
+ {s:1,n:"Café instantané Maxwell House",ne:"Maxwell House instant coffee",p:3.94,d:"3,94 $",de:"$3.94"},
+ // Metro
+ {s:2,n:"Poitrines de poulet désossées sans peau, fraîches",ne:"Fresh boneless skinless chicken breasts",p:4.88,d:"4,88 $/lb",de:"$4.88/lb"},
+ {s:2,n:"Pommes Gala (grosses)",ne:"Gala apples (large)",p:1.29,d:"1,29 $/lb",de:"$1.29/lb"},
+ {s:2,n:"Courgettes vertes ou aubergines",ne:"Green zucchini or eggplants",p:1.29,d:"1,29 $/lb",de:"$1.29/lb"},
+ {s:2,n:"Carottes ou oignons jaunes",ne:"Carrots or yellow onions",p:1.49,d:"1,49 $ (sac 2 lb)",de:"$1.49 (2 lb bag)"},
+ {s:2,n:"Mûres",ne:"Blackberries",p:2.44,d:"2,44 $ (170 g)",de:"$2.44 (170 g)"},
+ {s:2,n:"Portions de saumon atlantique norvégien frais",ne:"Fresh Norwegian Atlantic salmon portions",p:3.99,d:"3,99 $ (portion 113 g)",de:"$3.99 (113 g portion)"},
+ {s:2,n:"Bacon Maple Leaf ou Schneiders, ou rondelles de saucisse surgelées",ne:"Maple Leaf or Schneiders bacon, or frozen sausage rounds",p:4.99,d:"4,99 $ (375 g)",de:"$4.99 (375 g)"},
+ {s:2,n:"Mini-concombres",ne:"Mini cucumbers",p:2.99,d:"2,99 $ (397 g)",de:"$2.99 (397 g)"},
+ {s:2,n:"Pizza surgelée Giuseppe (Dr. Oetker)",ne:"Giuseppe frozen pizza (Dr. Oetker)",p:3.99,d:"3,99 $ (439–785 g)",de:"$3.99 (439–785 g)"},
+ {s:2,n:"Lait ou crème Lactantia PurFiltre",ne:"Lactantia PurFiltre milk or cream",p:3.99,d:"3,99 $ (2 L ou 473 ml–1 L)",de:"$3.99 (2 L or 473 ml–1 L)"},
+ {s:2,n:"Céréales General Mills",ne:"General Mills cereal",p:5.00,d:"2 pour 5,00 $",de:"2 for $5.00"},
+ {s:2,n:"Coca-Cola ou Pepsi",ne:"Coca-Cola or Pepsi",p:7.99,d:"7,99 $ (12 × 355 ml)",de:"$7.99 (12 × 355 ml)"},
+ // IGA
+ {s:3,n:"Poulet entier frais",ne:"Fresh whole chicken",p:2.88,d:"2,88 $",de:"$2.88"},
+ {s:3,n:"Jambon cuit",ne:"Cooked ham",p:2.29,d:"2,29 $",de:"$2.29"},
+ {s:3,n:"Sucre blanc granulé",ne:"Granulated white sugar",p:1.97,d:"1,97 $",de:"$1.97"},
+ {s:3,n:"Pommes Cortland, Spartan ou McIntosh",ne:"Cortland, Spartan or McIntosh apples",p:1.99,d:"1,99 $",de:"$1.99"},
+ {s:3,n:"Filets de saumon coho frais",ne:"Fresh Coho salmon fillets",p:8.97,d:"8,97 $",de:"$8.97"},
+ {s:3,n:"Côtes levées de longe de porc fraîches",ne:"Fresh pork loin back ribs",p:2.99,d:"2,99 $",de:"$2.99"},
+ {s:3,n:"Bébés épinards, roquette ou mélange printanier",ne:"Baby spinach, arugula or spring mix",p:2.97,d:"2,97 $",de:"$2.97"},
+ {s:3,n:"Poires Bosc, Bartlett, Anjou ou rouges",ne:"Bosc, Bartlett, Anjou or red pears",p:3.49,d:"3,49 $",de:"$3.49"},
+ {s:3,n:"Canneberges fraîches",ne:"Fresh cranberries",p:2.99,d:"2,99 $",de:"$2.99"},
+ {s:3,n:"Chocolat",ne:"Chocolate",p:2.99,d:"2,99 $",de:"$2.99"},
+ {s:3,n:"Tortillas",ne:"Tortillas",p:2.99,d:"2,99 $",de:"$2.99"},
+ {s:3,n:"Nourriture pour bébé",ne:"Baby food",p:1.99,d:"1,99 $",de:"$1.99"},
+ // Provigo
+ {s:4,n:"Pilons de poulet",ne:"Chicken drumsticks",p:2.49,d:"2,49 $/lb",de:"$2.49/lb"},
+ {s:4,n:"Filets de saumon de l'Atlantique frais",ne:"Fresh Atlantic salmon fillets",p:10.00,d:"10,00 $/lb",de:"$10.00/lb"},
+ {s:4,n:"Portion de côtes de flanc de porc",ne:"Pork side rib portion",p:3.50,d:"3,50 $/lb",de:"$3.50/lb"},
+ {s:4,n:"Mûres ou framboises",ne:"Blackberries or raspberries",p:2.00,d:"2,00 $ chacun",de:"$2.00 each"},
+ {s:4,n:"Sac d'avocats Délices du Marché",ne:"Délices du Marché bag of avocados",p:3.00,d:"3,00 $ chacun",de:"$3.00 each"},
+ {s:4,n:"Grenade",ne:"Pomegranate",p:1.50,d:"1,50 $ chacune",de:"$1.50 each",k:"grenade"},
+ {s:4,n:"Choux de Bruxelles",ne:"Brussels sprouts",p:2.50,d:"2,50 $/lb",de:"$2.50/lb"},
+ {s:4,n:"Beurre Lactantia",ne:"Lactantia butter",p:4.99,d:"4,99 $ chacun",de:"$4.99 each",k:"beurre"},
+ {s:4,n:"Pizza Stromboli, pizzas Focaccia ou pain plat PC",ne:"Stromboli pizza, Focaccia pizzas or PC flatbread",p:3.50,d:"3,50 $ chacun",de:"$3.50 each"},
+ {s:4,n:"Plats cuisinés PC ou Menu Bleu",ne:"PC or Menu Bleu prepared meals",p:3.75,d:"3,75 $ chacun",de:"$3.75 each"},
+ {s:4,n:"Jus Allen's ou Del Monte 1 L, jus Oasis ou thé glacé Arizona 960 mL",ne:"Allen's or Del Monte juice 1 L, Oasis juice or Arizona iced tea 960 mL",p:1.25,d:"1,25 $ chacun",de:"$1.25 each"},
+ {s:4,n:"Boissons gazeuses Coca-Cola ou Pepsi",ne:"Coca-Cola or Pepsi soft drinks",p:1.99,d:"1,99 $ chacune",de:"$1.99 each"},
+ // Walmart
+ {s:5,n:"Oranges sans pépins en vrac",ne:"Seedless oranges (bulk)",p:2.47,d:"2,47 $/lb",de:"$2.47/lb"},
+ {s:5,n:"Filet de porc Olymel, paquet de 2",ne:"Olymel pork tenderloin, pack of 2",p:3.98,d:"3,98 $/lb",de:"$3.98/lb",k:"filetporc"},
+ {s:5,n:"Raisins rouges ou verts sans pépins",ne:"Seedless red or green grapes",p:4.44,d:"4,44 $/lb",de:"$4.44/lb"},
+ {s:5,n:"Chou vert ou rouge",ne:"Green or red cabbage",p:1.28,d:"1,28 $/lb",de:"$1.28/lb",k:"chou"},
+ {s:5,n:"Salades de charcuterie Your Fresh Market",ne:"Your Fresh Market deli salads",p:3.27,d:"3,27 $ chacune",de:"$3.27 each"},
+ {s:5,n:"Biscuits Christie OREO ou Chips Ahoy!",ne:"Christie OREO or Chips Ahoy! cookies",p:2.98,d:"2,98 $ chacun",de:"$2.98 each"},
+ {s:5,n:"Pizza surgelée Dr. Oetker Ristorante ou Casa Di Mama",ne:"Dr. Oetker Ristorante or Casa Di Mama frozen pizza",p:3.98,d:"3,98 $ chacune",de:"$3.98 each"},
+ {s:5,n:"Croustilles Lay's ou Hardbite",ne:"Lay's or Hardbite chips",p:1.94,d:"1,94 $ chacun",de:"$1.94 each"},
+ {s:5,n:"Coca-Cola, paquet de 6 x 710 mL",ne:"Coca-Cola, pack of 6 x 710 mL",p:3.98,d:"3,98 $ chacun",de:"$3.98 each"},
+ {s:5,n:"Bacon Great Value",ne:"Great Value bacon",p:5.47,d:"5,47 $ chacun",de:"$5.47 each"},
+ {s:5,n:"Beurre Gay Lea salé ou non salé 454 g (ou fromage Armstrong bloc 400 g)",ne:"Gay Lea salted or unsalted butter 454 g (or Armstrong cheese block 400 g)",p:4.97,d:"4,97 $ chacun",de:"$4.97 each"},
+ {s:5,n:"Crevettes blanches du Pacifique cuites Great Value",ne:"Great Value cooked Pacific white shrimp",p:8.97,d:"8,97 $ chacun",de:"$8.97 each"}
+];
+DATA.forEach((it, i) => it.id = "p" + i);
+
+const STR = {
+  fr: { step1:"Choisis tes aubaines", step2:"Ajoute à ta liste", step3:"Magasine par magasin",
+    installT:"Installe Zeluvia sur ton téléphone", installX:" — une icône sur ton écran d'accueil, comme une vraie appli.",
+    iosHelp:"Touche le bouton Partager de Safari, puis « Sur l'écran d'accueil ».",
+    install:"Installer", later:"Plus tard", search:"Chercher un aliment… (ex. poulet)", all:"Tous",
+    flyer:"Circulaire", best:"Meilleur prix", add:"Ajouter", added:"Ajouté ✓", mylist:"Ma liste",
+    back:"← Continuer de magasiner", tobuy:"À acheter", bought:"Achetés", total:"Total",
+    spent:"Total dépensé", buy:"Acheté", putback:"Remettre", empty:"Ta liste est vide. Ajoute des aubaines pour commencer!",
+    noresult:"Aucune aubaine ne correspond à ta recherche cette semaine.",
+    foot1:"Prix tirés des circulaires officielles des enseignes.", foot2:"Zeluvia — les aubaines d'épicerie du Québec, Canada.",
+    coffee:"☕ M'offrir un café" },
+  en: { step1:"Pick your deals", step2:"Add to your list", step3:"Shop store by store",
+    installT:"Install Zeluvia on your phone", installX:" — an icon on your home screen, just like a real app.",
+    iosHelp:"Tap Safari's Share button, then “Add to Home Screen”.",
+    install:"Install", later:"Later", search:"Search a food… (e.g. chicken)", all:"All",
+    flyer:"Flyer", best:"Best price", add:"Add", added:"Added ✓", mylist:"My list",
+    back:"← Keep shopping", tobuy:"To buy", bought:"Bought", total:"Total",
+    spent:"Total spent", buy:"Bought", putback:"Put back", empty:"Your list is empty. Add some deals to get started!",
+    noresult:"No deal matches your search this week.",
+    foot1:"Prices from the stores' official flyers.", foot2:"Zeluvia — grocery deals from Québec, Canada.",
+    coffee:"☕ Buy me a coffee" }
+};
+</script>
+<script>
+/* ===== État, langue, logique ===== */
+let lang = localStorage.getItem("zeluvia-lang") || ((navigator.language || "fr").toLowerCase().startsWith("en") ? "en" : "fr");
+let S = STR[lang];
+let state = { list: {}, bought: [] };
+try { const raw = localStorage.getItem("zeluvia-pwa-v1"); if (raw) state = JSON.parse(raw); } catch (e) {}
+function save() { localStorage.setItem("zeluvia-pwa-v1", JSON.stringify(state)); }
+const byId = {}; DATA.forEach(it => byId[it.id] = it);
+const bestIds = new Set();
+{ const best = {}; DATA.forEach(it => { if (it.k && (!best[it.k] || it.p < best[it.k].p)) best[it.k] = it; }); Object.values(best).forEach(it => bestIds.add(it.id)); }
+function fmt(v) { return lang === "fr" ? v.toFixed(2).replace(".", ",") + " $" : "$" + v.toFixed(2); }
+function nm(it) { return lang === "fr" ? it.n : it.ne; }
+function dsp(it) { return lang === "fr" ? it.d : it.de; }
+const $ = id => document.getElementById(id);
+let filter = -1, query = "";
+
+function renderChips() {
+  const c = $("chips"); c.innerHTML = "";
+  const mk = (label, val) => { const b = document.createElement("button"); b.className = "chip" + (filter === val ? " on" : ""); b.textContent = label; b.onclick = () => { filter = val; renderChips(); renderStores(); }; c.appendChild(b); };
+  mk(S.all, -1); STORES.forEach((st, si) => mk(st.name, si));
+}
+
+function renderStores() {
+  const main = $("stores"); main.innerHTML = "";
+  let any = false;
+  STORES.forEach((st, si) => {
+    if (filter !== -1 && filter !== si) return;
+    const items = DATA.filter(it => it.s === si && (!query || (it.n + " " + it.ne).toLowerCase().includes(query)));
+    if (!items.length) return;
+    any = true;
+    const sec = document.createElement("section"); sec.className = "store";
+    sec.innerHTML = `<div class="store-head"><h2>${st.name}</h2><a class="flyer" href="${st.flyer}" target="_blank" rel="noopener">${S.flyer} →</a></div>`;
+    const grid = document.createElement("div"); grid.className = "cards";
+    items.forEach(it => {
+      const card = document.createElement("div"); card.className = "card";
+      const inList = !!state.list[it.id];
+      card.innerHTML = `${bestIds.has(it.id) ? `<span class="badge">${S.best}</span>` : ""}<div class="name">${nm(it)}</div><div class="price">${dsp(it)}</div>`;
+      const b = document.createElement("button");
+      b.className = "addbtn" + (inList ? " added" : "");
+      b.textContent = inList ? S.added : S.add;
+      b.onclick = () => { if (state.list[it.id]) delete state.list[it.id]; else state.list[it.id] = 1; save(); renderStores(); updateTop(); };
+      card.appendChild(b); grid.appendChild(card);
+    });
+    sec.appendChild(grid); main.appendChild(sec);
+  });
+  $("noresult").style.display = any ? "none" : "block";
+}
+
+function totals() { let c = 0, t = 0; for (const id in state.list) { const q = state.list[id]; c += q; t += byId[id].p * q; } return { c, t }; }
+function updateTop() { const r = totals(); $("listCount").textContent = r.c; $("listTotal").textContent = fmt(r.t); }
+
+function renderList() {
+  const body = $("listBody"); body.innerHTML = "";
+  const ids = Object.keys(state.list);
+  if (!ids.length && !state.bought.length) { body.innerHTML = `<div class="empty">${S.empty}</div>`; return; }
+  if (ids.length) {
+    const h = document.createElement("h2"); h.className = "title"; h.style.marginTop = "14px"; h.textContent = S.tobuy; body.appendChild(h);
+    STORES.forEach((st, si) => {
+      const items = ids.map(id => byId[id]).filter(it => it.s === si);
+      if (!items.length) return;
+      const g = document.createElement("div"); g.className = "group";
+      g.innerHTML = `<div class="group-head"><h3>${st.name}</h3><a class="flyer" href="${st.flyer}" target="_blank" rel="noopener">${S.flyer} →</a></div>`;
+      const box = document.createElement("div"); box.className = "items";
+      items.forEach(it => {
+        const q = state.list[it.id];
+        const row = document.createElement("div"); row.className = "item";
+        row.innerHTML = `<div class="nm">${nm(it)}<span class="pr">${dsp(it)}</span></div>`;
+        const qty = document.createElement("div"); qty.className = "qty";
+        const minus = document.createElement("button"); minus.textContent = "−";
+        minus.onclick = () => { state.list[it.id]--; if (state.list[it.id] <= 0) delete state.list[it.id]; save(); renderList(); renderStores(); updateTop(); };
+        const qv = document.createElement("span"); qv.className = "qv"; qv.textContent = q;
+        const plus = document.createElement("button"); plus.textContent = "+";
+        plus.onclick = () => { state.list[it.id]++; save(); renderList(); updateTop(); };
+        qty.append(minus, qv, plus);
+        const buy = document.createElement("button"); buy.className = "buybtn"; buy.textContent = S.buy;
+        buy.onclick = () => { state.bought.unshift({ id: it.id, price: it.p, qty: q }); delete state.list[it.id]; save(); renderList(); renderStores(); updateTop(); };
+        const del = document.createElement("button"); del.className = "delbtn"; del.textContent = "✕";
+        del.onclick = () => { delete state.list[it.id]; save(); renderList(); renderStores(); updateTop(); };
+        row.append(qty, buy, del); box.appendChild(row);
+      });
+      g.appendChild(box); body.appendChild(g);
+    });
+    const gt = document.createElement("div"); gt.className = "grandtotal";
+    gt.innerHTML = `<span>${S.total}</span><span>${fmt(totals().t)}</span>`; body.appendChild(gt);
+  }
+  if (state.bought.length) {
+    const h = document.createElement("h2"); h.className = "title"; h.style.marginTop = "20px"; h.textContent = S.bought; body.appendChild(h);
+    const box = document.createElement("div"); box.className = "items";
+    state.bought.forEach((b, bi) => {
+      const it = byId[b.id]; if (!it) return;
+      const row = document.createElement("div"); row.className = "item";
+      row.innerHTML = `<div class="nm">${nm(it)} — ${STORES[it.s].name}${b.qty > 1 ? " ×" + b.qty : ""}<span class="pr">${fmt(b.price * b.qty)}</span></div>`;
+      const back = document.createElement("button"); back.className = "buybtn done"; back.textContent = S.putback;
+      back.onclick = () => { state.bought.splice(bi, 1); state.list[it.id] = (state.list[it.id] || 0) + b.qty; save(); renderList(); renderStores(); updateTop(); };
+      row.appendChild(back); box.appendChild(row);
+    });
+    body.appendChild(box);
+    const sp = document.createElement("div"); sp.className = "spent";
+    const tot = state.bought.reduce((a, b) => a + b.price * b.qty, 0);
+    sp.innerHTML = `<span>${S.spent}</span><span>${fmt(tot)}</span>`; body.appendChild(sp);
+  }
+}
+
+function applyI18n() {
+  S = STR[lang];
+  document.documentElement.lang = lang;
+  document.querySelector(".period").textContent = PERIOD[lang];
+  document.querySelectorAll(".step").forEach((el, i) => { el.innerHTML = `<span class="n">${i + 1}</span><br>${[S.step1, S.step2, S.step3][i]}`; });
+  $("installT").textContent = S.installT; $("installX").textContent = S.installX; $("iosHelp").textContent = S.iosHelp;
+  $("installGo").textContent = S.install; $("installNo").textContent = S.later;
+  $("search").placeholder = S.search;
+  $("mylistLbl").textContent = S.mylist;
+  $("closeList").textContent = S.back;
+  document.querySelector(".listview h2.title").textContent = S.mylist;
+  $("footPeriod").textContent = PERIOD[lang] + " —";
+  $("foot1").textContent = S.foot1; $("foot2").textContent = S.foot2;
+  $("langBtn").textContent = lang === "fr" ? "EN" : "FR";
+  document.querySelectorAll(".kofi").forEach(a => { a.textContent = S.coffee; if (KOFI_URL) { a.href = KOFI_URL; a.classList.add("show"); } });
+  renderChips(); renderStores(); renderList(); updateTop();
+}
+
+$("search").addEventListener("input", e => { query = e.target.value.trim().toLowerCase(); renderStores(); });
+$("langBtn").onclick = () => { lang = lang === "fr" ? "en" : "fr"; localStorage.setItem("zeluvia-lang", lang); applyI18n(); };
+$("openList").onclick = () => { document.body.classList.add("inlist"); renderList(); window.scrollTo(0, 0); };
+$("closeList").onclick = () => { document.body.classList.remove("inlist"); window.scrollTo(0, 0); };
+
+/* Installation (PWA) */
+let deferredPrompt = null;
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferredPrompt = e; maybeShowInstall(); });
+function isStandalone() { return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true; }
+function maybeShowInstall() {
+  if (isStandalone() || localStorage.getItem("zeluvia-install-dismissed")) return;
+  const isiOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (deferredPrompt) { $("installBox").classList.add("show"); $("installGo").style.display = ""; }
+  else if (isiOS) { $("installBox").classList.add("show"); $("iosHelp").style.display = ""; }
+}
+$("installGo").onclick = async () => { if (!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; $("installBox").classList.remove("show"); };
+$("installNo").onclick = () => { localStorage.setItem("zeluvia-install-dismissed", "1"); $("installBox").classList.remove("show"); };
+if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js").catch(() => {}); }
+
+applyI18n();
+maybeShowInstall();
+</script>
+</body>
+</html>

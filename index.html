@@ -1,452 +1,565 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-CA">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zeluvia — Aubaines d'épicerie de la semaine</title>
 <meta name="description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
-<meta name="theme-color" content="#16a34a">
+<meta name="theme-color" content="#153D2B">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
-<link rel="apple-touch-icon" href="icons/icon.svg">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Zeluvia">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <style>
   :root{
-    --green:#16a34a; --green-dark:#15803d; --green-soft:#e8f7ee;
-    --ink:#1a2b1e; --muted:#5c6f60; --line:#dce8de; --bg:#f4faf5; --card:#ffffff;
-    --amber:#f59e0b;
+    --yellow:#FFD147; --dark:#153D2B; --dark2:#103122; --bg:#F5F7F2; --card:#FFFFFF;
+    --ink:#16241B; --muted:#68766C; --line:#E3E9E1;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
-  html,body{margin:0; padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       background:var(--bg); color:var(--ink); padding-bottom:34px}
+  html{scroll-behavior:smooth}
+  body{margin:0; font-family:ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink)}
   button{font-family:inherit; cursor:pointer}
-  a{color:var(--green-dark)}
+  .wrap{max-width:1180px; margin:0 auto; padding:12px 14px 40px}
 
-  /* Bandeau fixe du haut */
-  .topbar{position:sticky; top:0; z-index:50; background:var(--green); color:#fff;
-    display:flex; align-items:center; gap:10px; padding:10px 14px;
-    box-shadow:0 2px 10px rgba(0,0,0,.15)}
-  .topbar img{width:34px; height:34px; border-radius:8px; background:#fff}
-  .topbar .brand{font-size:21px; font-weight:800; letter-spacing:.2px; line-height:1}
-  .topbar .period{font-size:11.5px; opacity:.92; margin-top:3px}
-  .topbar .spacer{flex:1}
-  .listbtn{background:#fff; color:var(--green-dark); border:none; border-radius:999px;
-    font-size:15px; font-weight:700; padding:9px 14px; white-space:nowrap}
-  .listbtn small{display:block; font-size:11px; font-weight:600; color:var(--muted); text-align:center}
+  /* Barre jaune « Ma liste » */
+  .listbar{position:sticky; top:10px; z-index:40; display:flex; align-items:center; gap:10px; background:var(--yellow); border-radius:999px; padding:9px 16px 9px 10px; box-shadow:0 6px 18px rgba(21,61,43,.18); border:none; width:100%; text-align:left}
+  .listbar .ic{width:38px; height:38px; border-radius:12px; background:var(--dark); color:#fff; display:flex; align-items:center; justify-content:center; font-size:19px; flex:none}
+  .listbar .t1{font-weight:800; font-size:17px; color:#14231a}
+  .listbar .t2{font-size:12.5px; color:#5c5640; font-weight:600}
+  .listbar .tot{margin-left:auto; font-weight:800; font-size:17px; color:#14231a}
 
-  /* 3 étapes */
-  .steps{display:flex; gap:8px; padding:12px 14px 2px}
-  .step{flex:1; background:var(--card); border:1px solid var(--line); border-radius:12px;
-    padding:9px 6px; text-align:center; font-size:12.5px; font-weight:600; color:var(--ink)}
-  .step .n{display:inline-flex; width:20px; height:20px; border-radius:50%; background:var(--green);
-    color:#fff; align-items:center; justify-content:center; font-size:12px; font-weight:800; margin-bottom:4px}
+  /* Héros */
+  .hero{display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px}
+  @media(min-width:900px){ .hero{grid-template-columns:1.15fr .85fr} }
+  .herobox{background:var(--dark); border-radius:28px; padding:26px 24px; color:#fff}
+  .pill-days{display:inline-flex; align-items:center; gap:8px; background:var(--yellow); color:#14231a; font-weight:700; font-size:13.5px; border-radius:999px; padding:7px 14px}
+  .pill-days .dot{width:9px; height:9px; border-radius:50%; background:#D8293B; flex:none}
+  .herobox h1{font-size:clamp(32px,6vw,46px); line-height:1.08; margin:16px 0 10px; font-weight:800; letter-spacing:-.5px}
+  .herobox p{color:#C9D6CC; font-size:16px; line-height:1.5; margin:0 0 18px}
+  .cta{display:inline-block; background:var(--yellow); color:#14231a; font-weight:800; font-size:16px; border:none; border-radius:999px; padding:13px 22px; text-decoration:none}
+  .herostats{margin-top:16px; font-size:13.5px; font-weight:700; color:#fff}
 
-  /* Installation */
-  .install{margin:12px 14px 0; background:#fff7e6; border:1px solid #f3ddab; border-radius:12px;
-    padding:11px 13px; font-size:13.5px; display:none}
-  .install.show{display:block}
-  .install b{color:#92600a}
-  .install .row{display:flex; gap:8px; margin-top:8px}
-  .install button{border:none; border-radius:8px; padding:8px 12px; font-size:13.5px; font-weight:700}
-  .install .go{background:var(--green); color:#fff}
-  .install .no{background:transparent; color:var(--muted)}
+  /* Panneau « Aliments à sélectionner » */
+  .panel{background:var(--card); border-radius:24px; padding:18px; box-shadow:0 2px 10px rgba(21,61,43,.06)}
+  .panel .ph{display:flex; align-items:center; justify-content:space-between; gap:8px}
+  .panel h2{font-size:19px; margin:0; font-weight:800}
+  .countpill{background:#E9EDE7; color:var(--ink); font-size:12.5px; font-weight:700; border-radius:999px; padding:5px 11px}
+  .panel .hint{color:var(--muted); font-size:13.5px; line-height:1.45; margin:8px 0 12px}
+  .tiles{display:grid; grid-template-columns:1fr 1fr; gap:9px}
+  .tile{background:var(--bg); border:2px solid transparent; border-radius:14px; padding:10px 12px; text-align:left; width:100%}
+  .tile .tn{font-weight:700; font-size:14px}
+  .tile .ts{color:var(--muted); font-size:12.5px; margin-top:2px}
+  .tile.sel{border-color:var(--dark); background:#EDF3EC}
+  .panel .empty-note{color:var(--muted); font-size:13.5px; margin:12px 0 0}
+  .btn-dark{display:inline-block; background:var(--dark); color:#fff; font-weight:700; font-size:15px; border:none; border-radius:999px; padding:11px 20px; margin-top:12px}
 
-  /* Recherche + filtres */
-  .tools{padding:12px 14px 0}
-  .search{width:100%; font-size:16px; padding:12px 14px; border:1.5px solid var(--line);
-    border-radius:12px; background:#fff; outline:none}
-  .search:focus{border-color:var(--green)}
-  .chips{display:flex; gap:7px; overflow-x:auto; padding:11px 1px 3px; scrollbar-width:none}
-  .chips::-webkit-scrollbar{display:none}
-  .chip{flex:0 0 auto; border:1.5px solid var(--line); background:#fff; color:var(--ink);
-    border-radius:999px; padding:7px 13px; font-size:14px; font-weight:600}
-  .chip.on{background:var(--green); border-color:var(--green); color:#fff}
+  /* Étapes */
+  .steps{margin-top:26px}
+  .steps h2, .sec-title{font-size:24px; font-weight:800; margin:0 0 6px}
+  .steps-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:12px}
+  @media(min-width:760px){ .steps-grid{grid-template-columns:repeat(3,1fr)} }
+  .step{background:var(--card); border-radius:18px; padding:16px; display:flex; gap:12px; align-items:flex-start}
+  .step .num{width:34px; height:34px; flex:none; border-radius:50%; background:var(--dark); color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center}
+  .step .st{font-weight:800; font-size:15.5px}
+  .step .sd{color:var(--muted); font-size:13.5px; margin-top:2px; line-height:1.4}
 
-  /* Sections magasin */
-  .store{margin-top:18px}
-  .store-head{display:flex; align-items:center; gap:10px; padding:0 14px}
-  .store-head h2{font-size:19px; margin:0; font-weight:800}
-  .flyer{margin-left:auto; text-decoration:none; background:var(--green-soft); color:var(--green-dark);
-    border:1.5px solid var(--green); font-weight:700; font-size:13.5px; padding:7px 12px; border-radius:999px}
-  .cards{display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:11px 14px 0}
-  @media (max-width:360px){ .cards{grid-template-columns:1fr} }
-  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:11px 12px;
-    display:flex; flex-direction:column; gap:7px; position:relative}
-  .card .emoji{font-size:36px; line-height:1.1}
-  .card .name{font-size:14.5px; font-weight:600; line-height:1.3}
-  .card .price{font-size:19px; font-weight:800; color:var(--green-dark)}
-  .badge{align-self:flex-start; background:var(--amber); color:#fff; font-size:11px; font-weight:800;
-    border-radius:6px; padding:3px 7px; letter-spacing:.2px}
-  .addbtn{margin-top:auto; border:none; border-radius:10px; padding:11px; font-size:15px; font-weight:700;
-    background:var(--green); color:#fff; width:100%}
-  .addbtn.added{background:var(--green-soft); color:var(--green-dark); border:1.5px solid var(--green)}
-  .noresult{padding:26px 14px; text-align:center; color:var(--muted); font-size:15px; display:none}
+  /* Comparaison */
+  .compare{margin-top:28px}
+  .cmp-row{background:var(--card); border-radius:18px; padding:14px 16px; margin-top:10px}
+  .cmp-row .cn{font-weight:800; font-size:16px; margin-bottom:9px}
+  .cmp-pills{display:flex; flex-wrap:wrap; gap:7px; align-items:center}
+  .cmp-pill{border-radius:999px; padding:7px 13px; font-size:13.5px; font-weight:700; background:#E9EDE7; color:var(--ink)}
+  .cmp-pill.best{background:var(--dark); color:#fff}
+  .cmp-gap{color:var(--muted); font-size:13px; margin-left:2px}
+  .cmp-add{margin-left:auto; background:var(--dark2); color:#fff; border:none; border-radius:999px; padding:8px 16px; font-weight:700; font-size:13.5px}
+  .cmp-add.added{background:#fff; color:var(--dark); border:2px solid var(--dark)}
 
-  footer{margin:26px 14px 0; font-size:12.5px; color:var(--muted); text-align:center; line-height:1.55}
+  /* Filtres */
+  .filters{margin-top:28px}
+  .filters .flabel{font-weight:800; font-size:16px; margin-bottom:9px}
+  .chips{display:flex; flex-wrap:wrap; gap:8px}
+  .chip{background:#fff; border:1.5px solid var(--line); color:var(--ink); border-radius:999px; padding:9px 15px; font-size:14px; font-weight:600}
+  .chip.on{background:var(--dark); color:#fff; border-color:var(--dark)}
+  .searchrow{margin-top:14px; display:grid; grid-template-columns:1fr; gap:9px}
+  @media(min-width:760px){ .searchrow{grid-template-columns:2fr 1fr 1fr} }
+  .searchrow input, .searchrow select{width:100%; padding:12px 14px; border-radius:14px; border:1.5px solid var(--line); background:#fff; font-size:15px; font-family:inherit; color:var(--ink)}
+  .seg{display:inline-flex; background:#E9EDE7; border-radius:999px; padding:4px; margin-top:14px; gap:4px}
+  .seg button{border:none; background:transparent; border-radius:999px; padding:9px 16px; font-weight:700; font-size:14px; color:var(--ink)}
+  .seg button.on{background:#fff; box-shadow:0 1px 5px rgba(0,0,0,.12)}
 
-  .langbtn{background:rgba(255,255,255,.18); color:#fff; border:1.5px solid rgba(255,255,255,.65);
-    border-radius:999px; font-size:13.5px; font-weight:800; padding:8px 11px}
-  .kofi{display:none; margin:18px auto 4px; width:fit-content; background:#ff5e5b; color:#fff;
-    text-decoration:none; font-weight:800; font-size:15px; padding:12px 20px; border-radius:999px}
-  .kofi.show{display:block}
+  /* Cartes produits */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(245px,1fr)); gap:14px; margin-top:16px}
+  .card{background:var(--card); border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
+  .photo{position:relative; background:var(--bg); aspect-ratio:4/3; cursor:pointer}
+  .photo img{width:100%; height:100%; object-fit:cover; display:block}
+  .nophoto{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; color:var(--muted)}
+  .nophoto .np-tx{text-decoration:underline; font-size:13.5px}
+  .storebadge{position:absolute; top:10px; left:10px; color:#fff; font-weight:800; font-size:12.5px; border-radius:9px; padding:5px 10px}
+  .bestbadge{position:absolute; left:10px; bottom:-11px; background:var(--yellow); color:#14231a; font-weight:800; font-size:12.5px; border-radius:999px; padding:5px 11px; box-shadow:0 2px 6px rgba(0,0,0,.15)}
+  .photoline{height:4px}
+  .cbody{padding:20px 14px 14px; display:flex; flex-direction:column; gap:3px; flex:1}
+  .cname{font-weight:700; font-size:16px; line-height:1.3}
+  .cunit{color:var(--muted); font-size:13px}
+  .csave{color:#1E7A34; font-size:13px; font-weight:600}
+  .cfoot{margin-top:auto; padding-top:10px; display:flex; align-items:flex-end; justify-content:space-between; gap:8px}
+  .cprice{font-size:29px; font-weight:800; line-height:1}
+  .cprice .pu{font-size:14px; font-weight:700}
+  .cflyer{color:var(--muted); font-size:12px; margin-top:3px}
+  .addbtn{border:none; border-radius:999px; padding:11px 17px; font-weight:800; font-size:14.5px; color:#fff; white-space:nowrap}
+  .addbtn.added{background:#fff !important; border:2px solid; padding:9px 15px}
 
-  /* Vue Ma liste */
-  .listview{display:none}
-  body.inlist .shopview{display:none}
-  body.inlist .listview{display:block}
-  .backbar{display:flex; align-items:center; gap:8px; padding:13px 14px 0}
-  .backbtn{background:none; border:none; color:var(--green-dark); font-size:16.5px; font-weight:700; padding:6px 0}
-  .listview h2.title{font-size:20px; margin:8px 14px 0}
-  .group{margin-top:16px}
-  .group-head{display:flex; align-items:center; gap:10px; padding:0 14px}
-  .group-head h3{margin:0; font-size:16.5px}
-  .items{background:#fff; border:1px solid var(--line); border-radius:14px; margin:9px 14px 0; overflow:hidden}
-  .item{display:flex; align-items:center; gap:9px; padding:11px 12px; border-bottom:1px solid var(--line)}
-  .item:last-child{border-bottom:none}
-  .item .nm{flex:1; font-size:14.5px; font-weight:600; line-height:1.3}
-  .item .nm .pr{display:block; font-size:13px; color:var(--green-dark); font-weight:700; margin-top:2px}
-  .qty{display:flex; align-items:center; gap:6px}
-  .qty button{width:30px; height:30px; border-radius:50%; border:1.5px solid var(--line);
-    background:#fff; font-size:17px; font-weight:700; color:var(--ink); line-height:1}
-  .qty .qv{min-width:16px; text-align:center; font-weight:700; font-size:14.5px}
-  .buybtn{border:none; background:var(--green); color:#fff; font-weight:700; font-size:13.5px;
-    border-radius:8px; padding:9px 11px}
-  .buybtn.done{background:var(--green-soft); color:var(--green-dark)}
-  .delbtn{border:none; background:none; color:#b0bcb2; font-size:19px; padding:4px}
-  .grandtotal{margin:14px; background:var(--green); color:#fff; border-radius:12px;
-    padding:13px 16px; font-size:17px; font-weight:800; display:flex; justify-content:space-between}
-  .empty{margin:16px 14px; text-align:center; color:var(--muted); font-size:15px;
-    background:#fff; border:1px dashed var(--line); border-radius:14px; padding:22px 14px}
-  .spent{margin:12px 14px 0; font-size:14.5px; font-weight:700; color:var(--ink);
-    display:flex; justify-content:space-between}
+  /* Panneau Ma liste */
+  .overlay{position:fixed; inset:0; background:rgba(16,30,20,.45); z-index:60; opacity:0; pointer-events:none; transition:opacity .25s}
+  .overlay.open{opacity:1; pointer-events:auto}
+  .drawer{position:fixed; top:0; right:0; height:100dvh; width:min(430px,94vw); background:#fff; z-index:61; transform:translateX(105%); transition:transform .3s; display:flex; flex-direction:column; box-shadow:-8px 0 30px rgba(0,0,0,.2)}
+  .drawer.open{transform:translateX(0)}
+  .drawer .dhead{padding:16px 16px 6px}
+  .drawer h2{font-size:27px; font-weight:800; margin:12px 0 4px}
+  .drawer .dbody{overflow-y:auto; padding:6px 16px 16px; flex:1}
+  .ghead{display:flex; align-items:center; gap:8px; background:var(--bg); border-radius:14px; padding:10px 12px; margin-top:14px}
+  .ghead .dot{width:10px; height:10px; border-radius:50%; flex:none}
+  .ghead a.gname{color:var(--dark); font-weight:800; font-size:16px}
+  .ghead .flyerpill{margin-left:auto; background:#fff; border:1.5px solid var(--dark); color:var(--dark); border-radius:999px; padding:6px 11px; font-size:12.5px; font-weight:700; text-decoration:none; white-space:nowrap}
+  .litem{background:var(--bg); border-radius:14px; padding:11px 12px; margin-top:9px}
+  .litem .lr1{display:flex; align-items:flex-start; gap:8px}
+  .chosenpill{background:#DFF2DF; color:#1E7A34; font-size:11.5px; font-weight:800; border-radius:999px; padding:4px 9px; flex:none}
+  .litem .ln{font-weight:700; font-size:14.5px; line-height:1.3}
+  .litem .lp{margin-left:auto; font-weight:800; font-size:15px; white-space:nowrap}
+  .litem .lr2{display:flex; align-items:center; gap:9px; margin-top:9px}
+  .qty{display:inline-flex; align-items:center; gap:2px; background:#fff; border:1.5px solid var(--line); border-radius:999px; padding:3px}
+  .qty button{width:28px; height:28px; border-radius:50%; border:none; background:var(--bg); font-size:16px; font-weight:800}
+  .qty .qv{min-width:20px; text-align:center; font-weight:800}
+  .boughtbtn{background:#fff; border:1.5px solid var(--dark); color:var(--dark); border-radius:999px; padding:8px 14px; font-weight:700; font-size:13.5px}
+  .rmbtn{background:none; border:none; color:var(--muted); font-size:13px; text-decoration:underline}
+  .dfoot{padding:12px 16px calc(14px + env(safe-area-inset-bottom)); border-top:1px solid var(--line)}
+  .bar-total{background:var(--dark); color:#fff; border-radius:14px; padding:13px 16px; font-weight:800; font-size:16px; display:flex; justify-content:space-between}
+  .bar-save{background:var(--yellow); color:#14231a; border-radius:14px; padding:13px 16px; font-weight:800; font-size:16px; display:flex; justify-content:space-between; margin-top:9px}
+  .dfoot .rowbtns{display:flex; gap:9px; margin-top:11px}
+  .btn-black{flex:1; background:#14231a; color:#fff; border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
+  .btn-grey{flex:1; background:#E9EDE7; color:var(--ink); border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
+  .bought-sec h3{font-size:19px; font-weight:800; margin:20px 0 2px}
+  .bought-item{display:flex; gap:8px; align-items:center; background:var(--bg); border-radius:12px; padding:9px 12px; margin-top:8px; font-size:14px}
+  .bought-item .bn{font-weight:600}
+  .bought-item .bp{margin-left:auto; font-weight:800}
+  .spent{font-weight:800; margin-top:10px; font-size:15px}
+  .empty-list{color:var(--muted); font-size:15px; margin-top:16px}
+
+  /* Pied de page */
+  footer{margin-top:34px; background:var(--card); border-radius:20px; padding:20px}
+  footer h2{font-size:20px; font-weight:800; margin:0 0 8px}
+  footer a{color:var(--dark); font-weight:700}
+  .flyerlinks{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+  .flyerlinks a{background:var(--bg); border-radius:999px; padding:8px 14px; text-decoration:none; font-size:14px}
+  footer .note{color:var(--muted); font-size:13.5px; line-height:1.5}
+  footer details{margin-top:10px; color:var(--muted); font-size:13.5px}
+  footer summary{font-weight:700; color:var(--ink); cursor:pointer}
+  .kofi{display:none; margin-top:14px; background:#FF5E5B; color:#fff; border:none; border-radius:999px; padding:11px 20px; font-weight:800; font-size:14.5px}
+
+  .toast{position:fixed; left:50%; bottom:26px; transform:translate(-50%,80px); background:#14231a; color:#fff; font-weight:700; font-size:14px; border-radius:999px; padding:11px 20px; z-index:80; transition:transform .3s; box-shadow:0 8px 24px rgba(0,0,0,.3)}
+  .toast.show{transform:translate(-50%,0)}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<header class="topbar">
-  <img src="icons/icon.svg" alt="Zeluvia">
-  <div>
-    <div class="brand">Zeluvia</div>
-    <div class="period">Prix valides du 19 au 25 novembre 2026</div>
-  </div>
-  <div class="spacer"></div>
-  <button class="langbtn" id="langBtn">EN</button>
-  <button class="listbtn" id="openList"><span id="mylistLbl">Ma liste</span> · <span id="listCount">0</span><small id="listTotal">0,00 $</small></button>
-</header>
+  <button class="listbar" id="listbar" aria-label="Ouvrir ma liste">
+    <span class="ic">🛒</span>
+    <span><span class="t1">Ma liste</span><br><span class="t2" id="listcount">0 article choisi</span></span>
+    <span class="tot" id="listtotal">0,00 $</span>
+  </button>
 
-<div class="shopview">
-  <div class="steps">
-    <div class="step"><span class="n">1</span><br>Choisis tes aubaines</div>
-    <div class="step"><span class="n">2</span><br>Ajoute à ta liste</div>
-    <div class="step"><span class="n">3</span><br>Magasine par magasin</div>
-  </div>
-
-  <div class="install" id="installBox">
-    <b id="installT"></b><span id="installX"></span>
-    <div id="iosHelp" style="display:none; margin-top:6px"></div>
-    <div class="row">
-      <button class="go" id="installGo" style="display:none">Installer</button>
-      <button class="no" id="installNo">Plus tard</button>
+  <div class="hero">
+    <div class="herobox">
+      <span class="pill-days"><span class="dot"></span><span id="daysleft"></span></span>
+      <h1>Vos besoins,<br>vos meilleurs prix.</h1>
+      <p>Les prix de 6 épiceries, comparés pour vous. Touchez les aliments qu'il vous faut : on garde le meilleur prix de la semaine et on prépare votre liste, magasin par magasin.</p>
+      <a class="cta" href="#aubaines">Voir les aubaines de la semaine ↓</a>
+      <div class="herostats" id="herostats"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h2>Aliments à sélectionner</h2><span class="countpill" id="tilecount">0 choisi</span></div>
+      <p class="hint">Touchez un aliment pour l'ajouter à votre liste, au meilleur prix. Touchez-le de nouveau pour le retirer.</p>
+      <div class="tiles" id="tiles"></div>
+      <p class="empty-note" id="tilenote">Aucun aliment choisi pour le moment.</p>
+      <button class="btn-dark" id="btnvoirliste">Voir ma liste</button>
     </div>
   </div>
 
-  <div class="tools">
-    <input class="search" id="search" type="search" placeholder="Chercher un aliment… (ex. poulet)" autocomplete="off">
-    <div class="chips" id="chips"></div>
-  </div>
+  <section class="steps">
+    <h2>Comment ça marche, en 3 étapes</h2>
+    <div class="steps-grid">
+      <div class="step"><span class="num">1</span><div><div class="st">Choisissez vos aliments</div><div class="sd">Parcourez les aubaines de la semaine dans les 6 épiceries.</div></div></div>
+      <div class="step"><span class="num">2</span><div><div class="st">Ajoutez les aubaines à votre liste</div><div class="sd">Chaque aliment est gardé au meilleur prix trouvé.</div></div></div>
+      <div class="step"><span class="num">3</span><div><div class="st">Magasinez avec votre liste, en magasin</div><div class="sd">Votre liste est rangée magasin par magasin, prête pour vos courses.</div></div></div>
+    </div>
+  </section>
 
-  <main id="stores"></main>
-  <div class="noresult" id="noresult">Aucune aubaine ne correspond à ta recherche cette semaine.</div>
+  <section class="compare" id="compare">
+    <h2 class="sec-title">Le même produit, pas le même prix</h2>
+    <div id="cmplist"></div>
+  </section>
+
+  <section class="filters" id="aubaines">
+    <h2 class="sec-title">Sélection de la semaine</h2>
+    <p style="color:var(--muted); font-size:14px; margin:4px 0 14px">Touchez « Ajouter » pour mettre une aubaine dans votre liste. Touchez la photo d'un aliment pour voir la circulaire.</p>
+    <div class="flabel">J'ai besoin de</div>
+    <div class="chips" id="catchips"></div>
+    <div class="searchrow">
+      <input type="search" id="q" placeholder="🔍 Ou cherchez un aliment par son nom…">
+      <select id="fstore" aria-label="Filtrer par enseigne"></select>
+      <select id="fcat" aria-label="Filtrer par catégorie"></select>
+    </div>
+    <div class="seg" id="mode">
+      <button data-m="best" class="on">Meilleur prix</button>
+      <button data-m="all">Sélection complète</button>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p id="nores" style="display:none; color:var(--muted); margin-top:14px">Aucune aubaine ne correspond à votre recherche.</p>
+  </section>
 
   <footer>
-    <span id="footPeriod"></span> <span id="foot1"></span><br>
-    <span id="foot2"></span>
-    <a class="kofi" id="kofiBtn" target="_blank" rel="noopener"></a>
+    <h2>Une circulaire complète à consulter ?</h2>
+    <div class="flyerlinks" id="flyerlinks"></div>
+    <p class="note">Prix valides du 19 au 25 novembre 2026. Prix relevés dans les circulaires de la semaine des 6 épiceries. Les prix en magasin peuvent varier.</p>
+    <details>
+      <summary>Sources des prix et des photos</summary>
+      <p>Prix : circulaires hebdomadaires officielles de Maxi, Super C, Metro, IGA, Provigo et Walmart (semaine du 19 au 25 novembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.</p>
+    </details>
+    <button class="kofi" id="kofi">☕ Offrir un café — 3 $</button>
   </footer>
 </div>
 
-<div class="listview">
-  <div class="backbar">
-    <button class="backbtn" id="closeList">← Continuer de magasiner</button>
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Ma liste de courses">
+  <div class="dhead">
+    <button class="btn-dark" id="btnback" style="margin-top:0">← Continuer de magasiner</button>
+    <h2>Ma liste de courses</h2>
   </div>
-  <h2 class="title">Ma liste</h2>
-  <div id="listBody"></div>
-  <a class="kofi" id="kofiBtn2" target="_blank" rel="noopener"></a>
-</div>
+  <div class="dbody" id="dbody"></div>
+  <div class="dfoot">
+    <div class="bar-total"><span>Total estimé</span><span id="ftotal">0,00 $</span></div>
+    <div class="bar-save"><span>Économies confirmées</span><span id="fsave">0,00 $</span></div>
+    <div class="rowbtns">
+      <button class="btn-black" id="btncopy">Copier ma liste</button>
+      <button class="btn-grey" id="btndl">Télécharger</button>
+    </div>
+  </div>
+</aside>
+
+<div class="toast" id="toast">Ajouté à la liste de courses</div>
 
 <script>
-"use strict";
-/* ===== Configuration ===== */
-const KOFI_URL = ""; // Adresse de la page Ko-fi de Zeluvia (à remplir après création du compte)
-const PERIOD = { fr: "Prix valides du 19 au 25 novembre 2026", en: "Prices valid November 19–25, 2026" };
+const KOFI_URL = ""; // À remplir avec l'adresse Ko-fi de Kimly : les boutons café apparaîtront.
 
 const STORES = [
-  { name: "Maxi",    flyer: "https://www.maxi.ca" },
-  { name: "Super C", flyer: "https://www.superc.ca" },
-  { name: "Metro",   flyer: "https://www.metro.ca" },
-  { name: "IGA",     flyer: "https://www.iga.net" },
-  { name: "Provigo", flyer: "https://www.provigo.ca" },
-  { name: "Walmart", flyer: "https://www.walmart.ca" }
+  { name: "Maxi",    color: "#1E52A1", flyer: "https://www.maxi.ca/fr/imprim%C3%A9s-et-promotions" },
+  { name: "Super C", color: "#E1251B", flyer: "https://www.superc.ca/circulaire" },
+  { name: "Metro",   color: "#D8293B", flyer: "https://www.metro.ca/circulaire" },
+  { name: "IGA",     color: "#D8293B", flyer: "https://www.iga.net/fr/circulaire" },
+  { name: "Provigo", color: "#C8102E", flyer: "https://www.provigo.ca/fr/imprim%C3%A9s-et-promotions" },
+  { name: "Walmart", color: "#0071CE", flyer: "https://www.walmart.ca/fr/circulaire" }
 ];
 
-/* Données vérifiées — semaine du 19 au 25 novembre 2026 (circulaires officielles). Ne jamais inventer un prix. */
+// [magasin, nom, prix, unité, type d'unité] — prix vérifiés, semaine du 19 au 25 novembre 2026
 const DATA = [
- // Maxi
- {s:0,n:"Champignons blancs ou crémini entiers",ne:"White or cremini whole mushrooms",p:2.49,d:"2,49 $",de:"$2.49"},
- {s:0,n:"Pamplemousse rouge",ne:"Red grapefruit",p:1.50,d:"1,50 $ chacun",de:"$1.50 each"},
- {s:0,n:"Mangues rouges",ne:"Red mangoes",p:1.88,d:"1,88 $ chacune",de:"$1.88 each"},
- {s:0,n:"Bœuf haché maigre",ne:"Lean ground beef",p:5.44,d:"5,44 $/lb",de:"$5.44/lb"},
- {s:0,n:"Épaule de porc",ne:"Pork shoulder",p:1.99,d:"1,99 $/lb",de:"$1.99/lb"},
- {s:0,n:"Poitrines de poulet",ne:"Chicken breasts",p:6.49,d:"6,49 $/lb",de:"$6.49/lb"},
- {s:0,n:"Beurre Lactantia",ne:"Lactantia butter",p:4.97,d:"4,97 $",de:"$4.97",k:"beurre"},
- {s:0,n:"Chou vert",ne:"Green cabbage",p:0.75,d:"0,75 $/lb",de:"$0.75/lb",k:"chou"},
- {s:0,n:"Limes",ne:"Limes",p:0.50,d:"0,50 $ chacune",de:"$0.50 each"},
- {s:0,n:"Carottes ou oignons",ne:"Carrots or onions",p:2.00,d:"2,00 $",de:"$2.00"},
- {s:0,n:"Pâtes Barilla ou sauce pour pâtes Sélection",ne:"Barilla pasta or Selection pasta sauce",p:1.69,d:"1,69 $ chacun",de:"$1.69 each"},
- {s:0,n:"Thé glacé / jus Oasis",ne:"Iced tea / Oasis juice",p:1.75,d:"1,75 $ chacun",de:"$1.75 each"},
- // Super C
- {s:1,n:"Saucisses fraîches La Fernandière",ne:"La Fernandière fresh sausages",p:10.00,d:"3 pour 10,00 $",de:"3 for $10.00"},
- {s:1,n:"Grenade ou papaye large",ne:"Pomegranate or large papaya",p:0.99,d:"0,99 $ chacune",de:"$0.99 each",k:"grenade"},
- {s:1,n:"Persil frisé ou italien, menthe ou racine de céleri",ne:"Curly or Italian parsley, mint or celery root",p:0.94,d:"0,94 $ chacun",de:"$0.94 each"},
- {s:1,n:"Aubergines ou courgettes",ne:"Eggplants or zucchini",p:0.99,d:"0,99 $/lb",de:"$0.99/lb"},
- {s:1,n:"Soupe aux tomates Aylmer",ne:"Aylmer tomato soup",p:0.62,d:"0,62 $",de:"$0.62"},
- {s:1,n:"Chips Sélection",ne:"Selection chips",p:4.00,d:"2 pour 4,00 $",de:"2 for $4.00"},
- {s:1,n:"Beurre Lactantia",ne:"Lactantia butter",p:4.65,d:"4,65 $",de:"$4.65",k:"beurre"},
- {s:1,n:"Filet de porc frais",ne:"Fresh pork tenderloin",p:3.72,d:"3,72 $/lb",de:"$3.72/lb",k:"filetporc"},
- {s:1,n:"Filet de saumon de l'Atlantique ou Coho frais",ne:"Fresh Atlantic or Coho salmon fillet",p:9.75,d:"9,75 $/lb",de:"$9.75/lb"},
- {s:1,n:"Clémentines",ne:"Clementines",p:2.44,d:"2,44 $",de:"$2.44"},
- {s:1,n:"Laitue iceberg",ne:"Iceberg lettuce",p:1.55,d:"1,55 $ chacune",de:"$1.55 each"},
- {s:1,n:"Café instantané Maxwell House",ne:"Maxwell House instant coffee",p:3.94,d:"3,94 $",de:"$3.94"},
- // Metro
- {s:2,n:"Poitrines de poulet désossées sans peau, fraîches",ne:"Fresh boneless skinless chicken breasts",p:4.88,d:"4,88 $/lb",de:"$4.88/lb"},
- {s:2,n:"Pommes Gala (grosses)",ne:"Gala apples (large)",p:1.29,d:"1,29 $/lb",de:"$1.29/lb"},
- {s:2,n:"Courgettes vertes ou aubergines",ne:"Green zucchini or eggplants",p:1.29,d:"1,29 $/lb",de:"$1.29/lb"},
- {s:2,n:"Carottes ou oignons jaunes",ne:"Carrots or yellow onions",p:1.49,d:"1,49 $ (sac 2 lb)",de:"$1.49 (2 lb bag)"},
- {s:2,n:"Mûres",ne:"Blackberries",p:2.44,d:"2,44 $ (170 g)",de:"$2.44 (170 g)"},
- {s:2,n:"Portions de saumon atlantique norvégien frais",ne:"Fresh Norwegian Atlantic salmon portions",p:3.99,d:"3,99 $ (portion 113 g)",de:"$3.99 (113 g portion)"},
- {s:2,n:"Bacon Maple Leaf ou Schneiders, ou rondelles de saucisse surgelées",ne:"Maple Leaf or Schneiders bacon, or frozen sausage rounds",p:4.99,d:"4,99 $ (375 g)",de:"$4.99 (375 g)"},
- {s:2,n:"Mini-concombres",ne:"Mini cucumbers",p:2.99,d:"2,99 $ (397 g)",de:"$2.99 (397 g)"},
- {s:2,n:"Pizza surgelée Giuseppe (Dr. Oetker)",ne:"Giuseppe frozen pizza (Dr. Oetker)",p:3.99,d:"3,99 $ (439–785 g)",de:"$3.99 (439–785 g)"},
- {s:2,n:"Lait ou crème Lactantia PurFiltre",ne:"Lactantia PurFiltre milk or cream",p:3.99,d:"3,99 $ (2 L ou 473 ml–1 L)",de:"$3.99 (2 L or 473 ml–1 L)"},
- {s:2,n:"Céréales General Mills",ne:"General Mills cereal",p:5.00,d:"2 pour 5,00 $",de:"2 for $5.00"},
- {s:2,n:"Coca-Cola ou Pepsi",ne:"Coca-Cola or Pepsi",p:7.99,d:"7,99 $ (12 × 355 ml)",de:"$7.99 (12 × 355 ml)"},
- // IGA
- {s:3,n:"Poulet entier frais",ne:"Fresh whole chicken",p:2.88,d:"2,88 $",de:"$2.88"},
- {s:3,n:"Jambon cuit",ne:"Cooked ham",p:2.29,d:"2,29 $",de:"$2.29"},
- {s:3,n:"Sucre blanc granulé",ne:"Granulated white sugar",p:1.97,d:"1,97 $",de:"$1.97"},
- {s:3,n:"Pommes Cortland, Spartan ou McIntosh",ne:"Cortland, Spartan or McIntosh apples",p:1.99,d:"1,99 $",de:"$1.99"},
- {s:3,n:"Filets de saumon coho frais",ne:"Fresh Coho salmon fillets",p:8.97,d:"8,97 $",de:"$8.97"},
- {s:3,n:"Côtes levées de longe de porc fraîches",ne:"Fresh pork loin back ribs",p:2.99,d:"2,99 $",de:"$2.99"},
- {s:3,n:"Bébés épinards, roquette ou mélange printanier",ne:"Baby spinach, arugula or spring mix",p:2.97,d:"2,97 $",de:"$2.97"},
- {s:3,n:"Poires Bosc, Bartlett, Anjou ou rouges",ne:"Bosc, Bartlett, Anjou or red pears",p:3.49,d:"3,49 $",de:"$3.49"},
- {s:3,n:"Canneberges fraîches",ne:"Fresh cranberries",p:2.99,d:"2,99 $",de:"$2.99"},
- {s:3,n:"Chocolat",ne:"Chocolate",p:2.99,d:"2,99 $",de:"$2.99"},
- {s:3,n:"Tortillas",ne:"Tortillas",p:2.99,d:"2,99 $",de:"$2.99"},
- {s:3,n:"Nourriture pour bébé",ne:"Baby food",p:1.99,d:"1,99 $",de:"$1.99"},
- // Provigo
- {s:4,n:"Pilons de poulet",ne:"Chicken drumsticks",p:2.49,d:"2,49 $/lb",de:"$2.49/lb"},
- {s:4,n:"Filets de saumon de l'Atlantique frais",ne:"Fresh Atlantic salmon fillets",p:10.00,d:"10,00 $/lb",de:"$10.00/lb"},
- {s:4,n:"Portion de côtes de flanc de porc",ne:"Pork side rib portion",p:3.50,d:"3,50 $/lb",de:"$3.50/lb"},
- {s:4,n:"Mûres ou framboises",ne:"Blackberries or raspberries",p:2.00,d:"2,00 $ chacun",de:"$2.00 each"},
- {s:4,n:"Sac d'avocats Délices du Marché",ne:"Délices du Marché bag of avocados",p:3.00,d:"3,00 $ chacun",de:"$3.00 each"},
- {s:4,n:"Grenade",ne:"Pomegranate",p:1.50,d:"1,50 $ chacune",de:"$1.50 each",k:"grenade"},
- {s:4,n:"Choux de Bruxelles",ne:"Brussels sprouts",p:2.50,d:"2,50 $/lb",de:"$2.50/lb"},
- {s:4,n:"Beurre Lactantia",ne:"Lactantia butter",p:4.99,d:"4,99 $ chacun",de:"$4.99 each",k:"beurre"},
- {s:4,n:"Pizza Stromboli, pizzas Focaccia ou pain plat PC",ne:"Stromboli pizza, Focaccia pizzas or PC flatbread",p:3.50,d:"3,50 $ chacun",de:"$3.50 each"},
- {s:4,n:"Plats cuisinés PC ou Menu Bleu",ne:"PC or Menu Bleu prepared meals",p:3.75,d:"3,75 $ chacun",de:"$3.75 each"},
- {s:4,n:"Jus Allen's ou Del Monte 1 L, jus Oasis ou thé glacé Arizona 960 mL",ne:"Allen's or Del Monte juice 1 L, Oasis juice or Arizona iced tea 960 mL",p:1.25,d:"1,25 $ chacun",de:"$1.25 each"},
- {s:4,n:"Boissons gazeuses Coca-Cola ou Pepsi",ne:"Coca-Cola or Pepsi soft drinks",p:1.99,d:"1,99 $ chacune",de:"$1.99 each"},
- // Walmart
- {s:5,n:"Oranges sans pépins en vrac",ne:"Seedless oranges (bulk)",p:2.47,d:"2,47 $/lb",de:"$2.47/lb"},
- {s:5,n:"Filet de porc Olymel, paquet de 2",ne:"Olymel pork tenderloin, pack of 2",p:3.98,d:"3,98 $/lb",de:"$3.98/lb",k:"filetporc"},
- {s:5,n:"Raisins rouges ou verts sans pépins",ne:"Seedless red or green grapes",p:4.44,d:"4,44 $/lb",de:"$4.44/lb"},
- {s:5,n:"Chou vert ou rouge",ne:"Green or red cabbage",p:1.28,d:"1,28 $/lb",de:"$1.28/lb",k:"chou"},
- {s:5,n:"Salades de charcuterie Your Fresh Market",ne:"Your Fresh Market deli salads",p:3.27,d:"3,27 $ chacune",de:"$3.27 each"},
- {s:5,n:"Biscuits Christie OREO ou Chips Ahoy!",ne:"Christie OREO or Chips Ahoy! cookies",p:2.98,d:"2,98 $ chacun",de:"$2.98 each"},
- {s:5,n:"Pizza surgelée Dr. Oetker Ristorante ou Casa Di Mama",ne:"Dr. Oetker Ristorante or Casa Di Mama frozen pizza",p:3.98,d:"3,98 $ chacune",de:"$3.98 each"},
- {s:5,n:"Croustilles Lay's ou Hardbite",ne:"Lay's or Hardbite chips",p:1.94,d:"1,94 $ chacun",de:"$1.94 each"},
- {s:5,n:"Coca-Cola, paquet de 6 x 710 mL",ne:"Coca-Cola, pack of 6 x 710 mL",p:3.98,d:"3,98 $ chacun",de:"$3.98 each"},
- {s:5,n:"Bacon Great Value",ne:"Great Value bacon",p:5.47,d:"5,47 $ chacun",de:"$5.47 each"},
- {s:5,n:"Beurre Gay Lea salé ou non salé 454 g (ou fromage Armstrong bloc 400 g)",ne:"Gay Lea salted or unsalted butter 454 g (or Armstrong cheese block 400 g)",p:4.97,d:"4,97 $ chacun",de:"$4.97 each"},
- {s:5,n:"Crevettes blanches du Pacifique cuites Great Value",ne:"Great Value cooked Pacific white shrimp",p:8.97,d:"8,97 $ chacun",de:"$8.97 each"}
+[0,"Champignons blancs ou crémini",2.49,"170 g","fixe"],[0,"Pamplemousse rouge",0.88,"ch.","fixe"],[0,"Mangues rouges",1.88,"ch.","fixe"],[0,"Bœuf haché maigre",5.44,"/lb","lb"],[0,"Épaule de porc fraîche désossée",1.99,"/lb","lb"],[0,"Poitrines de poulet avec dos",5.49,"/lb","lb"],[0,"Beurre Lactantia",4.97,"ch.","fixe"],[0,"Chou vert",0.75,"/lb","lb"],[0,"Limes",0.68,"ch.","fixe"],[0,"Carottes ou oignons jaunes",2.00,"sac 2 lb","fixe"],[0,"Pâtes Barilla ou sauce pour pâtes",1.69,"ch.","fixe"],[0,"Thé glacé ou jus Oasis",2.97,"ch.","fixe"],
+[1,"Saucisses fraîches ou fumées ou bacon fumé Selection",2.44,"/lb","lb"],[1,"Grenade ou papaye",0.99,"ch.","fixe"],[1,"Persil ou menthe fraîche",0.99,"ch.","fixe"],[1,"Aubergines ou courgettes vertes",1.44,"/lb","lb"],[1,"Soupe aux tomates Selection",0.97,"284 ml","fixe"],[1,"Chips Selection",1.25,"ch.","fixe"],[1,"Beurre Lactantia",4.65,"ch.","fixe"],[1,"Filet de porc entier frais",3.72,"/lb","lb"],[1,"Filet de saumon frais",3.99,"/lb","lb"],[1,"Clémentines marocaines",2.44,"/lb","lb"],[1,"Laitue iceberg",1.74,"ch.","fixe"],[1,"Café moulu Maxwell House",7.97,"631-925 g","fixe"],
+[2,"Poitrines de poulet désossées sans peau, fraîches",4.88,"/lb","lb"],[2,"Pommes Gala ou McIntosh",1.52,"/lb","lb"],[2,"Courgettes vertes ou aubergines",1.79,"/lb","lb"],[2,"Carottes ou oignons",2.49,"sac 2 lb","fixe"],[2,"Mûres",2.44,"170 g","fixe"],[2,"Portions de saumon norvégien",6.57,"/lb","lb"],[2,"Bacon ou rondelles de saucisse Irresistibles",4.99,"375-500 g","fixe"],[2,"Mini-concombres",2.99,"sac 340 g","fixe"],[2,"Pizza Giuseppe Dr. Oetker",5.47,"ch.","fixe"],[2,"Lait ou crème Lactantia PurFiltre",2.69,"1 L","fixe"],[2,"Céréales General Mills",3.99,"297-725 g","fixe"],[2,"Coca-Cola ou Pepsi",7.99,"12×355 ml","fixe"],
+[3,"Poulet entier frais",2.88,"ch.","fixe"],[3,"Jambon cuit La Belle Bretagne",1.49,"/100 g","fixe"],[3,"Sucre blanc granulé",2.29,"2 kg","fixe"],[3,"Pommes Cortland, Spartan ou Ambrosia",1.79,"/lb","lb"],[3,"Filets de saumon coho frais",8.97,"/lb","lb"],[3,"Côtes levées de porc assaisonnées",4.48,"/lb","lb"],[3,"Bébés épinards ou roquette Attitude",2.97,"142 g","fixe"],[3,"Poires",2.97,"sac 2 lb","fixe"],[3,"Canneberges fraîches",1.97,"340 g","fixe"],[3,"Chocolat Lindt Lindor ou Excellence",3.47,"100 g","fixe"],[3,"Tortillas Casa Mendosa",2.47,"10 unités","fixe"],[3,"Nourriture pour bébé Heinz",1.00,"ch.","fixe"],
+[4,"Pilons de poulet",2.49,"/lb","lb"],[4,"Filets de saumon",8.77,"/lb","lb"],[4,"Côtes de flanc de porc marinées",3.99,"/lb","lb"],[4,"Mûres ou framboises",2.50,"170 g","fixe"],[4,"Avocats Hass",5.00,"sac 5","fixe"],[4,"Grenade",1.50,"ch.","fixe"],[4,"Choux de Bruxelles",2.49,"/lb","lb"],[4,"Beurre Lactantia",6.18,"ch.","fixe"],[4,"Pizza Stromboli ou Focaccia",5.00,"ch.","fixe"],[4,"Plats cuisinés Stefano ou Quebec Déli",7.00,"ch.","fixe"],[4,"Jus Allen's ou Oasis",1.25,"1,54 L","fixe"],[4,"Boissons gazeuses PC ou Montellier",2.00,"2 L","fixe"],
+[5,"Oranges sans pépins en vrac",2.47,"/lb","lb"],[5,"Filet de porc Olymel",4.37,"/lb","lb"],[5,"Raisins verts ou rouges en vrac",4.44,"/lb","lb"],[5,"Chou vert ou rouge en vrac",0.97,"/lb","lb"],[5,"Salades de charcuterie Reser's",3.97,"397-454 g","fixe"],[5,"Biscuits OREO ou Chips Ahoy!",2.47,"format éco","fixe"],[5,"Pizza Dr. Oetker",4.97,"ch.","fixe"],[5,"Croustilles Lay's",2.27,"format éco","fixe"],[5,"Coca-Cola ou boissons gazeuses",4.47,"6×710 ml","fixe"],[5,"Bacon Great Value",3.97,"375 g","fixe"],[5,"Beurre Gay Lea ou fromage Armstrong",4.97,"ch.","fixe"],[5,"Crevettes crues Great Value",8.97,"340 g","fixe"]
 ];
-const EMOJI = ["🍄","🍊","🥭","🥩","🍖","🍗","🧈","🥬","🍋","🥕","🍝","🧃",
-"🌭","🍎","🌿","🍆","🍅","🍟","🧈","🍖","🐟","🍊","🥬","☕",
-"🍗","🍎","🍆","🥕","🫐","🐟","🥓","🥒","🍕","🥛","🥣","🥤",
-"🍗","🍖","🍬","🍎","🐟","🍖","🥗","🍐","🍒","🍫","🫓","🍼",
-"🍗","🐟","🍖","🫐","🥑","🍎","🥬","🧈","🍕","🍱","🧃","🥤",
-"🍊","🍖","🍇","🥬","🥗","🍪","🍕","🍟","🥤","🥓","🧈","🍤"];
-DATA.forEach((it, i) => { it.id = "p" + i; it.e = EMOJI[i] || "🛒"; });
 
-const STR = {
-  fr: { step1:"Choisis tes aubaines", step2:"Ajoute à ta liste", step3:"Magasine par magasin",
-    installT:"Installe Zeluvia sur ton téléphone", installX:" — une icône sur ton écran d'accueil, comme une vraie appli.",
-    iosHelp:"Touche le bouton Partager de Safari, puis « Sur l'écran d'accueil ».",
-    install:"Installer", later:"Plus tard", search:"Chercher un aliment… (ex. poulet)", all:"Tous",
-    flyer:"Circulaire", best:"Meilleur prix", add:"Ajouter", added:"Ajouté ✓", mylist:"Ma liste",
-    back:"← Continuer de magasiner", tobuy:"À acheter", bought:"Achetés", total:"Total",
-    spent:"Total dépensé", buy:"Acheté", putback:"Remettre", empty:"Ta liste est vide. Ajoute des aubaines pour commencer!",
-    noresult:"Aucune aubaine ne correspond à ta recherche cette semaine.",
-    foot1:"Prix tirés des circulaires officielles des enseignes.", foot2:"Zeluvia — les aubaines d'épicerie du Québec, Canada.",
-    coffee:"☕ M'offrir un café" },
-  en: { step1:"Pick your deals", step2:"Add to your list", step3:"Shop store by store",
-    installT:"Install Zeluvia on your phone", installX:" — an icon on your home screen, just like a real app.",
-    iosHelp:"Tap Safari's Share button, then “Add to Home Screen”.",
-    install:"Install", later:"Later", search:"Search a food… (e.g. chicken)", all:"All",
-    flyer:"Flyer", best:"Best price", add:"Add", added:"Added ✓", mylist:"My list",
-    back:"← Keep shopping", tobuy:"To buy", bought:"Bought", total:"Total",
-    spent:"Total spent", buy:"Bought", putback:"Put back", empty:"Your list is empty. Add some deals to get started!",
-    noresult:"No deal matches your search this week.",
-    foot1:"Prices from the stores' official flyers.", foot2:"Zeluvia — grocery deals from Québec, Canada.",
-    coffee:"☕ Buy me a coffee" }
-};
-</script>
-<script>
-/* ===== État, langue, logique ===== */
-let lang = localStorage.getItem("zeluvia-lang") || ((navigator.language || "fr").toLowerCase().startsWith("en") ? "en" : "fr");
-let S = STR[lang];
-let state = { list: {}, bought: [] };
-try { const raw = localStorage.getItem("zeluvia-pwa-v1"); if (raw) state = JSON.parse(raw); } catch (e) {}
-function save() { localStorage.setItem("zeluvia-pwa-v1", JSON.stringify(state)); }
-const byId = {}; DATA.forEach(it => byId[it.id] = it);
+// Catégorie par produit : fl = fruits et légumes, v = viandes, pl = produits laitiers, gm = garde-manger
+const CAT = ["fl","fl","fl","v","v","v","pl","fl","fl","fl","gm","gm",
+"v","fl","fl","fl","gm","gm","pl","v","v","fl","fl","gm",
+"v","fl","fl","fl","fl","v","v","fl","gm","pl","gm","gm",
+"v","v","gm","fl","v","v","fl","fl","fl","gm","gm","gm",
+"v","v","v","fl","fl","fl","fl","pl","gm","gm","gm","gm",
+"fl","v","fl","fl","gm","gm","gm","gm","gm","v","pl","v"];
+
+// Groupe de comparaison (même produit, plusieurs épiceries) ; vide = produit unique
+const GKEY = ["","","","","","","beurre","chou","","carottes","","",
+"","grenade","","","","","beurre","filetporc","saumon","","","",
+"poitrines","pommes","","carottes","mures","saumon","","","","","","coke",
+"","","","pommes","saumon","","","","","","","",
+"","saumon","","mures","","grenade","","beurre","","","","",
+"","filetporc","","chou","","","","","coke","","beurre",""];
+
+// Photo par produit (URL) ; vide = « Photo non disponible », comme l'originale
+const PHOTO = ["","","","","","","","","","","","",
+"","","","","","","","","","","","",
+"","","","","","","","","","","","",
+"","","","","","","","","","","","",
+"","","","","","","","","","","","",
+"","","","","","","","","","","",""];
+
+// Tuiles « Aliments à sélectionner » : [libellé court, id du produit au meilleur prix]
+const TILES = [["Limes",8],["Soupe aux tomates",16],["Chou vert",7],["Grenade",13],["Pommes Gala",25],["Épaule de porc",4],["Pilons de poulet",48],["Poulet entier",36],["Filet de porc",19],["Beurre",18],["Poitrines de poulet",24],["Saumon coho",40]];
+
+// Section « Le même produit, pas le même prix » : [nom, ids à comparer]
+const COMPARE = [["Beurre Lactantia",[18,6,70,55]],["Filet de porc",[19,61]],["Poitrines de poulet",[24,5]],["Chou vert",[7,63]]];
+
+const CATS = [["all","Tout voir"],["petit","Petit budget"],["fl","Fruits et légumes"],["v","Viandes"],["pl","Produits laitiers"],["gm","Garde-manger"]];
+const PERIOD_END = new Date("2026-11-25T23:59:59");
+
+DATA.forEach((it, i) => { it.push(i); }); // it[5] = id
+const byId = id => DATA[id];
+const fmt = n => n.toFixed(2).replace(".", ",") + " $";
+const unitLabel = u => u === "ch." ? "chacun" : u;
+const priceDisp = it => it[4] === "lb" ? fmt(it[2]) + "/lb" : fmt(it[2]);
+
+// Meilleur prix par groupe + économies possibles
+const groups = {};
+DATA.forEach(it => { if (GKEY[it[5]]) (groups[GKEY[it[5]]] ||= []).push(it); });
 const bestIds = new Set();
-{ const best = {}; DATA.forEach(it => { if (it.k && (!best[it.k] || it.p < best[it.k].p)) best[it.k] = it; }); Object.values(best).forEach(it => bestIds.add(it.id)); }
-function fmt(v) { return lang === "fr" ? v.toFixed(2).replace(".", ",") + " $" : "$" + v.toFixed(2); }
-function nm(it) { return lang === "fr" ? it.n : it.ne; }
-function dsp(it) { return lang === "fr" ? it.d : it.de; }
-const $ = id => document.getElementById(id);
-let filter = -1, query = "";
-
-function renderChips() {
-  const c = $("chips"); c.innerHTML = "";
-  const mk = (label, val) => { const b = document.createElement("button"); b.className = "chip" + (filter === val ? " on" : ""); b.textContent = label; b.onclick = () => { filter = val; renderChips(); renderStores(); }; c.appendChild(b); };
-  mk(S.all, -1); STORES.forEach((st, si) => mk(st.name, si));
+Object.values(groups).forEach(g => { bestIds.add(g.reduce((a, b) => b[2] < a[2] ? b : a)[5]); });
+function savingsLine(it) {
+  const g = groups[GKEY[it[5]]];
+  if (!g || g.length < 2 || !bestIds.has(it[5])) return "";
+  const worst = g.reduce((a, b) => b[2] > a[2] ? b : a);
+  if (worst[5] === it[5]) return "";
+  return `Économisez ${fmt(worst[2] - it[2])} vs ${STORES[worst[0]].name} (${priceDisp(worst)})`;
+}
+function groupSaving(it) { // économie réalisée si acheté ici plutôt qu'au plus cher du groupe
+  const g = groups[GKEY[it[5]]];
+  if (!g || g.length < 2) return 0;
+  const worst = g.reduce((a, b) => b[2] > a[2] ? b : a);
+  return Math.max(0, worst[2] - it[2]);
 }
 
-function renderStores() {
-  const main = $("stores"); main.innerHTML = "";
-  let any = false;
-  STORES.forEach((st, si) => {
-    if (filter !== -1 && filter !== si) return;
-    const items = DATA.filter(it => it.s === si && (!query || (it.n + " " + it.ne).toLowerCase().includes(query)));
-    if (!items.length) return;
-    any = true;
-    const sec = document.createElement("section"); sec.className = "store";
-    sec.innerHTML = `<div class="store-head"><h2>${st.name}</h2><a class="flyer" href="${st.flyer}" target="_blank" rel="noopener">${S.flyer} →</a></div>`;
-    const grid = document.createElement("div"); grid.className = "cards";
-    items.forEach(it => {
-      const card = document.createElement("div"); card.className = "card";
-      const inList = !!state.list[it.id];
-      card.innerHTML = `${bestIds.has(it.id) ? `<span class="badge">${S.best}</span>` : ""}<div class="emoji">${it.e}</div><div class="name">${nm(it)}</div><div class="price">${dsp(it)}</div>`;
-      const b = document.createElement("button");
-      b.className = "addbtn" + (inList ? " added" : "");
-      b.textContent = inList ? S.added : S.add;
-      b.onclick = () => { if (state.list[it.id]) delete state.list[it.id]; else state.list[it.id] = 1; save(); renderStores(); updateTop(); };
-      card.appendChild(b); grid.appendChild(card);
-    });
-    sec.appendChild(grid); main.appendChild(sec);
+// État (liste + achats), gardé sur l'appareil
+let state = { list: {}, bought: [] };
+try { const s = JSON.parse(localStorage.getItem("zeluvia-pwa-v1")); if (s && s.list) state = s; } catch (e) {}
+function save() { localStorage.setItem("zeluvia-pwa-v1", JSON.stringify(state)); }
+const inList = id => (state.list[id] || 0) > 0;
+const listCount = () => Object.values(state.list).reduce((a, b) => a + b, 0);
+const listTotal = () => Object.entries(state.list).reduce((a, [id, q]) => a + byId(+id)[2] * q, 0);
+
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 1800);
+}
+function toggleItem(id) {
+  if (inList(id)) { delete state.list[id]; toast("Retiré de la liste"); }
+  else { state.list[id] = 1; toast("Ajouté à la liste de courses"); }
+  save(); renderAll();
+}
+
+// Barre jaune + héros
+function renderTop() {
+  const n = listCount();
+  document.getElementById("listcount").textContent = n === 0 ? "0 article choisi" : n === 1 ? "1 article choisi" : n + " articles choisis";
+  document.getElementById("listtotal").textContent = fmt(listTotal());
+  document.getElementById("tilecount").textContent = TILES.filter(([, id]) => inList(id)).length + " choisi";
+  document.getElementById("tilenote").textContent = TILES.some(([, id]) => inList(id)) ? "" : "Aucun aliment choisi pour le moment.";
+  const days = Math.max(0, Math.ceil((PERIOD_END - Date.now()) / 864e5));
+  document.getElementById("daysleft").textContent = `Plus que ${days} jours — les prix se terminent mercredi 25 novembre`;
+  let maxGap = 0;
+  COMPARE.forEach(([, ids]) => { const ps = ids.map(i => byId(i)[2]); maxGap = Math.max(maxGap, Math.max(...ps) - Math.min(...ps)); });
+  document.getElementById("herostats").textContent = `72 aubaines · 6 épiceries comparées · jusqu'à ${fmt(maxGap)} d'écart sur un même produit`;
+}
+
+// Tuiles de sélection
+function renderTiles() {
+  const box = document.getElementById("tiles"); box.innerHTML = "";
+  TILES.forEach(([label, id]) => {
+    const it = byId(id), st = STORES[it[0]];
+    const b = document.createElement("button");
+    b.className = "tile" + (inList(id) ? " sel" : "");
+    b.innerHTML = `<div class="tn">${label}</div><div class="ts">${st.name} · ${priceDisp(it)}</div>`;
+    b.onclick = () => toggleItem(id);
+    box.appendChild(b);
   });
-  $("noresult").style.display = any ? "none" : "block";
 }
 
-function totals() { let c = 0, t = 0; for (const id in state.list) { const q = state.list[id]; c += q; t += byId[id].p * q; } return { c, t }; }
-function updateTop() { const r = totals(); $("listCount").textContent = r.c; $("listTotal").textContent = fmt(r.t); }
-
-function renderList() {
-  const body = $("listBody"); body.innerHTML = "";
-  const ids = Object.keys(state.list);
-  if (!ids.length && !state.bought.length) { body.innerHTML = `<div class="empty">${S.empty}</div>`; return; }
-  if (ids.length) {
-    const h = document.createElement("h2"); h.className = "title"; h.style.marginTop = "14px"; h.textContent = S.tobuy; body.appendChild(h);
-    STORES.forEach((st, si) => {
-      const items = ids.map(id => byId[id]).filter(it => it.s === si);
-      if (!items.length) return;
-      const g = document.createElement("div"); g.className = "group";
-      g.innerHTML = `<div class="group-head"><h3>${st.name}</h3><a class="flyer" href="${st.flyer}" target="_blank" rel="noopener">${S.flyer} →</a></div>`;
-      const box = document.createElement("div"); box.className = "items";
-      items.forEach(it => {
-        const q = state.list[it.id];
-        const row = document.createElement("div"); row.className = "item";
-        row.innerHTML = `<div class="nm">${it.e} ${nm(it)}<span class="pr">${dsp(it)}</span></div>`;
-        const qty = document.createElement("div"); qty.className = "qty";
-        const minus = document.createElement("button"); minus.textContent = "−";
-        minus.onclick = () => { state.list[it.id]--; if (state.list[it.id] <= 0) delete state.list[it.id]; save(); renderList(); renderStores(); updateTop(); };
-        const qv = document.createElement("span"); qv.className = "qv"; qv.textContent = q;
-        const plus = document.createElement("button"); plus.textContent = "+";
-        plus.onclick = () => { state.list[it.id]++; save(); renderList(); updateTop(); };
-        qty.append(minus, qv, plus);
-        const buy = document.createElement("button"); buy.className = "buybtn"; buy.textContent = S.buy;
-        buy.onclick = () => { state.bought.unshift({ id: it.id, price: it.p, qty: q }); delete state.list[it.id]; save(); renderList(); renderStores(); updateTop(); };
-        const del = document.createElement("button"); del.className = "delbtn"; del.textContent = "✕";
-        del.onclick = () => { delete state.list[it.id]; save(); renderList(); renderStores(); updateTop(); };
-        row.append(qty, buy, del); box.appendChild(row);
-      });
-      g.appendChild(box); body.appendChild(g);
+// Comparaison
+function renderCompare() {
+  const box = document.getElementById("cmplist"); box.innerHTML = "";
+  COMPARE.forEach(([name, ids]) => {
+    const items = ids.map(byId).slice().sort((a, b) => a[2] - b[2]);
+    const best = items[0], gap = items[items.length - 1][2] - best[2];
+    const row = document.createElement("div"); row.className = "cmp-row";
+    row.innerHTML = `<div class="cn">${name}</div>`;
+    const pills = document.createElement("div"); pills.className = "cmp-pills";
+    items.forEach((it, i) => {
+      const p = document.createElement("span");
+      p.className = "cmp-pill" + (i === 0 ? " best" : "");
+      p.textContent = `${STORES[it[0]].name} · ${priceDisp(it)}`;
+      pills.appendChild(p);
     });
-    const gt = document.createElement("div"); gt.className = "grandtotal";
-    gt.innerHTML = `<span>${S.total}</span><span>${fmt(totals().t)}</span>`; body.appendChild(gt);
-  }
+    const g = document.createElement("span"); g.className = "cmp-gap"; g.textContent = `Écart de ${fmt(gap)} entre épiceries`;
+    pills.appendChild(g);
+    const add = document.createElement("button");
+    add.className = "cmp-add" + (inList(best[5]) ? " added" : "");
+    add.textContent = inList(best[5]) ? "Ajouté ✓" : "+ Ajouter le meilleur prix";
+    add.onclick = () => toggleItem(best[5]);
+    pills.appendChild(add);
+    row.appendChild(pills); box.appendChild(row);
+  });
+}
+
+// Filtres + grille
+let fCat = "all", fMode = "best", fStore = "all", fCatSel = "all", query = "";
+function renderChips() {
+  const box = document.getElementById("catchips"); box.innerHTML = "";
+  CATS.forEach(([k, label]) => {
+    const b = document.createElement("button");
+    b.className = "chip" + (fCat === k ? " on" : ""); b.textContent = label;
+    b.onclick = () => { fCat = k; renderChips(); renderGrid(); };
+    box.appendChild(b);
+  });
+  const fs = document.getElementById("fstore");
+  fs.innerHTML = `<option value="all">Filtrer par enseigne : Toutes les enseignes</option>` + STORES.map((s, i) => `<option value="${i}">${s.name}</option>`).join("");
+  fs.value = fStore;
+  const fc = document.getElementById("fcat");
+  fc.innerHTML = `<option value="all">Filtrer par catégorie : Toutes les catégories</option>` + CATS.slice(2).map(([k, l]) => `<option value="${k}">${l}</option>`).join("");
+  fc.value = fCatSel;
+  document.querySelectorAll("#mode button").forEach(b => b.classList.toggle("on", b.dataset.m === fMode));
+}
+function visibleItems() {
+  let items = DATA.slice();
+  if (fMode === "best") items = items.filter(it => !GKEY[it[5]] || bestIds.has(it[5]));
+  if (fCat === "petit") items = items.filter(it => it[2] <= 2);
+  else if (fCat !== "all") items = items.filter(it => CAT[it[5]] === fCat);
+  if (fCatSel !== "all") items = items.filter(it => CAT[it[5]] === fCatSel);
+  if (fStore !== "all") items = items.filter(it => it[0] === +fStore);
+  if (query) { const q = query.toLowerCase(); items = items.filter(it => it[1].toLowerCase().includes(q)); }
+  return items;
+}
+function renderGrid() {
+  const items = visibleItems();
+  const grid = document.getElementById("grid"); grid.innerHTML = "";
+  document.getElementById("nores").style.display = items.length ? "none" : "block";
+  items.forEach(it => {
+    const st = STORES[it[0]], id = it[5], added = inList(id);
+    const card = document.createElement("article"); card.className = "card";
+    const photo = PHOTO[id]
+      ? `<img src="${PHOTO[id]}" alt="${it[1]}" loading="lazy">`
+      : `<div class="nophoto"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M21 16l-5-5-9 9"/></svg><span class="np-tx">Photo non disponible</span></div>`;
+    card.innerHTML = `
+      <div class="photo" title="Voir la circulaire ${st.name}">${photo}
+        <span class="storebadge" style="background:${st.color}">${st.name}</span>
+        ${bestIds.has(id) && GKEY[id] ? `<span class="bestbadge">Meilleur prix</span>` : ""}
+      </div>
+      <div class="photoline" style="background:${st.color}"></div>
+      <div class="cbody">
+        <div class="cname">${it[1]}</div>
+        <div class="cunit">${unitLabel(it[3])}</div>
+        ${savingsLine(it) ? `<div class="csave">${savingsLine(it)}</div>` : ""}
+        <div class="cfoot">
+          <div><div class="cprice" style="color:${st.color}">${it[4] === "lb" ? fmt(it[2]) + '<span class="pu">/lb</span>' : fmt(it[2])}</div><div class="cflyer">Prix de circulaire</div></div>
+          <button class="addbtn ${added ? "added" : ""}" style="${added ? `color:${st.color}; border-color:${st.color}` : `background:${st.color}`}">${added ? "Ajouté ✓" : "+ Ajouter"}</button>
+        </div>
+      </div>`;
+    card.querySelector(".photo").onclick = () => window.open(st.flyer, "_blank");
+    card.querySelector(".addbtn").onclick = () => toggleItem(id);
+    grid.appendChild(card);
+  });
+  // Libellé du mode avec le vrai compte « Meilleur prix »
+  const bestBtn = document.querySelector('#mode button[data-m="best"]');
+  if (bestBtn) bestBtn.textContent = `Meilleur prix (${DATA.filter(it => !GKEY[it[5]] || bestIds.has(it[5])).length} aubaines)`;
+}
+
+// Panneau « Ma liste »
+function openDrawer() { document.getElementById("drawer").classList.add("open"); document.getElementById("overlay").classList.add("open"); renderDrawer(); }
+function closeDrawer() { document.getElementById("drawer").classList.remove("open"); document.getElementById("overlay").classList.remove("open"); }
+function renderDrawer() {
+  const body = document.getElementById("dbody"); body.innerHTML = "";
+  const ids = Object.keys(state.list).map(Number);
+  if (!ids.length && !state.bought.length) body.innerHTML = `<p class="empty-list">Votre liste est vide pour le moment.</p>`;
+  STORES.forEach((st, si) => {
+    const mine = ids.filter(id => byId(id)[0] === si);
+    if (!mine.length) return;
+    const gh = document.createElement("div"); gh.className = "ghead";
+    gh.innerHTML = `<span class="dot" style="background:${st.color}"></span><a class="gname" href="${st.flyer}" target="_blank" rel="noopener">${st.name}</a><a class="flyerpill" href="${st.flyer}" target="_blank" rel="noopener">${st.name} 🔗 Circulaire</a>`;
+    body.appendChild(gh);
+    mine.forEach(id => {
+      const it = byId(id), q = state.list[id];
+      const el = document.createElement("div"); el.className = "litem";
+      el.innerHTML = `
+        <div class="lr1"><span class="chosenpill">✓ Choisi</span><span class="ln">${it[1]}</span><span class="lp">${fmt(it[2] * q)}</span></div>
+        <div class="lr2">
+          <span class="qty"><button data-a="-">−</button><span class="qv">${q}</span><button data-a="+">+</button></span>
+          <button class="boughtbtn">🛍 Acheté</button>
+          <button class="rmbtn">Retirer</button>
+        </div>`;
+      el.querySelector('[data-a="-"]').onclick = () => { state.list[id]--; if (state.list[id] <= 0) delete state.list[id]; save(); renderAll(); };
+      el.querySelector('[data-a="+"]').onclick = () => { state.list[id]++; save(); renderAll(); };
+      el.querySelector(".rmbtn").onclick = () => { delete state.list[id]; save(); renderAll(); };
+      el.querySelector(".boughtbtn").onclick = () => {
+        state.bought.push({ id, price: it[2], qty: q });
+        delete state.list[id]; save(); renderAll(); toast("Mis dans vos achats");
+      };
+      body.appendChild(el);
+    });
+  });
   if (state.bought.length) {
-    const h = document.createElement("h2"); h.className = "title"; h.style.marginTop = "20px"; h.textContent = S.bought; body.appendChild(h);
-    const box = document.createElement("div"); box.className = "items";
+    const sec = document.createElement("div"); sec.className = "bought-sec";
+    sec.innerHTML = `<h3>Achetés</h3>`;
     state.bought.forEach((b, bi) => {
-      const it = byId[b.id]; if (!it) return;
-      const row = document.createElement("div"); row.className = "item";
-      row.innerHTML = `<div class="nm">${it.e} ${nm(it)} — ${STORES[it.s].name}${b.qty > 1 ? " ×" + b.qty : ""}<span class="pr">${fmt(b.price * b.qty)}</span></div>`;
-      const back = document.createElement("button"); back.className = "buybtn done"; back.textContent = S.putback;
-      back.onclick = () => { state.bought.splice(bi, 1); state.list[it.id] = (state.list[it.id] || 0) + b.qty; save(); renderList(); renderStores(); updateTop(); };
-      row.appendChild(back); box.appendChild(row);
+      const it = byId(b.id);
+      const el = document.createElement("div"); el.className = "bought-item";
+      el.innerHTML = `<span class="bn">${it[1]} — ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}</span>`;
+      const undo = document.createElement("button"); undo.className = "rmbtn"; undo.textContent = "Remettre";
+      undo.onclick = () => { state.bought.splice(bi, 1); state.list[b.id] = (state.list[b.id] || 0) + b.qty; save(); renderAll(); };
+      el.appendChild(undo); sec.appendChild(el);
     });
-    body.appendChild(box);
-    const sp = document.createElement("div"); sp.className = "spent";
-    const tot = state.bought.reduce((a, b) => a + b.price * b.qty, 0);
-    sp.innerHTML = `<span>${S.spent}</span><span>${fmt(tot)}</span>`; body.appendChild(sp);
+    const spent = state.bought.reduce((a, b) => a + b.price * b.qty, 0);
+    const sp = document.createElement("div"); sp.className = "spent"; sp.textContent = "Total dépensé : " + fmt(spent);
+    sec.appendChild(sp); body.appendChild(sec);
   }
+  document.getElementById("ftotal").textContent = fmt(listTotal());
+  const savedAmt = state.bought.reduce((a, b) => a + groupSaving(byId(b.id)) * b.qty, 0);
+  document.getElementById("fsave").textContent = fmt(savedAmt);
 }
 
-function applyI18n() {
-  S = STR[lang];
-  document.documentElement.lang = lang;
-  document.querySelector(".period").textContent = PERIOD[lang];
-  document.querySelectorAll(".step").forEach((el, i) => { el.innerHTML = `<span class="n">${i + 1}</span><br>${[S.step1, S.step2, S.step3][i]}`; });
-  $("installT").textContent = S.installT; $("installX").textContent = S.installX; $("iosHelp").textContent = S.iosHelp;
-  $("installGo").textContent = S.install; $("installNo").textContent = S.later;
-  $("search").placeholder = S.search;
-  $("mylistLbl").textContent = S.mylist;
-  $("closeList").textContent = S.back;
-  document.querySelector(".listview h2.title").textContent = S.mylist;
-  $("footPeriod").textContent = PERIOD[lang] + " —";
-  $("foot1").textContent = S.foot1; $("foot2").textContent = S.foot2;
-  $("langBtn").textContent = lang === "fr" ? "EN" : "FR";
-  document.querySelectorAll(".kofi").forEach(a => { a.textContent = S.coffee; if (KOFI_URL) { a.href = KOFI_URL; a.classList.add("show"); } });
-  renderChips(); renderStores(); renderList(); updateTop();
-}
+function renderAll() { renderTop(); renderTiles(); renderCompare(); renderGrid(); if (document.getElementById("drawer").classList.contains("open")) renderDrawer(); }
 
-$("search").addEventListener("input", e => { query = e.target.value.trim().toLowerCase(); renderStores(); });
-$("langBtn").onclick = () => { lang = lang === "fr" ? "en" : "fr"; localStorage.setItem("zeluvia-lang", lang); applyI18n(); };
-$("openList").onclick = () => { document.body.classList.add("inlist"); renderList(); window.scrollTo(0, 0); };
-$("closeList").onclick = () => { document.body.classList.remove("inlist"); window.scrollTo(0, 0); };
+// Événements
+document.getElementById("listbar").onclick = openDrawer;
+document.getElementById("btnvoirliste").onclick = openDrawer;
+document.getElementById("btnback").onclick = closeDrawer;
+document.getElementById("overlay").onclick = closeDrawer;
+document.getElementById("q").addEventListener("input", e => { query = e.target.value; renderGrid(); });
+document.getElementById("fstore").addEventListener("change", e => { fStore = e.target.value; renderGrid(); });
+document.getElementById("fcat").addEventListener("change", e => { fCatSel = e.target.value; renderGrid(); });
+document.querySelectorAll("#mode button").forEach(b => b.onclick = () => { fMode = b.dataset.m; renderChips(); renderGrid(); });
+document.getElementById("btncopy").onclick = async () => {
+  const lines = [];
+  STORES.forEach((st, si) => {
+    const mine = Object.keys(state.list).map(Number).filter(id => byId(id)[0] === si);
+    if (!mine.length) return;
+    lines.push(st.name);
+    mine.forEach(id => { const it = byId(id); lines.push(`- ${it[1]} — ${priceDisp(it)}${state.list[id] > 1 ? " ×" + state.list[id] : ""}`); });
+  });
+  const txt = "Ma liste Zeluvia\n" + lines.join("\n");
+  try { await navigator.clipboard.writeText(txt); toast("Liste copiée"); }
+  catch (e) { toast("Copie impossible sur cet appareil"); }
+};
+document.getElementById("btndl").onclick = () => {
+  const lines = ["Ma liste Zeluvia — prix du 19 au 25 novembre 2026", ""];
+  STORES.forEach((st, si) => {
+    const mine = Object.keys(state.list).map(Number).filter(id => byId(id)[0] === si);
+    if (!mine.length) return;
+    lines.push(st.name);
+    mine.forEach(id => { const it = byId(id); lines.push(`- ${it[1]} — ${priceDisp(it)}${state.list[id] > 1 ? " ×" + state.list[id] : ""}`); });
+    lines.push("");
+  });
+  lines.push("Total estimé : " + fmt(listTotal()));
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([lines.join("\n")], { type: "text/plain" }));
+  a.download = "ma-liste-zeluvia.txt"; a.click(); URL.revokeObjectURL(a.href);
+};
 
-/* Installation (PWA) */
-let deferredPrompt = null;
-window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferredPrompt = e; maybeShowInstall(); });
-function isStandalone() { return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true; }
-function maybeShowInstall() {
-  if (isStandalone() || localStorage.getItem("zeluvia-install-dismissed")) return;
-  const isiOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  if (deferredPrompt) { $("installBox").classList.add("show"); $("installGo").style.display = ""; }
-  else if (isiOS) { $("installBox").classList.add("show"); $("iosHelp").style.display = ""; }
-}
-$("installGo").onclick = async () => { if (!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; $("installBox").classList.remove("show"); };
-$("installNo").onclick = () => { localStorage.setItem("zeluvia-install-dismissed", "1"); $("installBox").classList.remove("show"); };
-if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js").catch(() => {}); }
+// Pied de page : circulaires + Ko-fi (quand l'adresse sera branchée)
+document.getElementById("flyerlinks").innerHTML = STORES.map(s => `<a href="${s.flyer}" target="_blank" rel="noopener">${s.name}</a>`).join("");
+if (KOFI_URL) { const k = document.getElementById("kofi"); k.style.display = "inline-block"; k.onclick = () => window.open(KOFI_URL, "_blank"); }
 
-applyI18n();
-maybeShowInstall();
+renderChips();
+renderAll();
+
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 </script>
 </body>
 </html>

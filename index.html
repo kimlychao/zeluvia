@@ -76,6 +76,7 @@
   @media (max-width:360px){ .cards{grid-template-columns:1fr} }
   .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:11px 12px;
     display:flex; flex-direction:column; gap:7px; position:relative}
+  .card .emoji{font-size:36px; line-height:1.1}
   .card .name{font-size:14.5px; font-weight:600; line-height:1.3}
   .card .price{font-size:19px; font-weight:800; color:var(--green-dark)}
   .badge{align-self:flex-start; background:var(--amber); color:#fff; font-size:11px; font-weight:800;
@@ -273,7 +274,13 @@ const DATA = [
  {s:5,n:"Beurre Gay Lea salé ou non salé 454 g (ou fromage Armstrong bloc 400 g)",ne:"Gay Lea salted or unsalted butter 454 g (or Armstrong cheese block 400 g)",p:4.97,d:"4,97 $ chacun",de:"$4.97 each"},
  {s:5,n:"Crevettes blanches du Pacifique cuites Great Value",ne:"Great Value cooked Pacific white shrimp",p:8.97,d:"8,97 $ chacun",de:"$8.97 each"}
 ];
-DATA.forEach((it, i) => it.id = "p" + i);
+const EMOJI = ["🍄","🍊","🥭","🥩","🍖","🍗","🧈","🥬","🍋","🥕","🍝","🧃",
+"🌭","🍎","🌿","🍆","🍅","🍟","🧈","🍖","🐟","🍊","🥬","☕",
+"🍗","🍎","🍆","🥕","🫐","🐟","🥓","🥒","🍕","🥛","🥣","🥤",
+"🍗","🍖","🍬","🍎","🐟","🍖","🥗","🍐","🍒","🍫","🫓","🍼",
+"🍗","🐟","🍖","🫐","🥑","🍎","🥬","🧈","🍕","🍱","🧃","🥤",
+"🍊","🍖","🍇","🥬","🥗","🍪","🍕","🍟","🥤","🥓","🧈","🍤"];
+DATA.forEach((it, i) => { it.id = "p" + i; it.e = EMOJI[i] || "🛒"; });
 
 const STR = {
   fr: { step1:"Choisis tes aubaines", step2:"Ajoute à ta liste", step3:"Magasine par magasin",
@@ -334,7 +341,7 @@ function renderStores() {
     items.forEach(it => {
       const card = document.createElement("div"); card.className = "card";
       const inList = !!state.list[it.id];
-      card.innerHTML = `${bestIds.has(it.id) ? `<span class="badge">${S.best}</span>` : ""}<div class="name">${nm(it)}</div><div class="price">${dsp(it)}</div>`;
+      card.innerHTML = `${bestIds.has(it.id) ? `<span class="badge">${S.best}</span>` : ""}<div class="emoji">${it.e}</div><div class="name">${nm(it)}</div><div class="price">${dsp(it)}</div>`;
       const b = document.createElement("button");
       b.className = "addbtn" + (inList ? " added" : "");
       b.textContent = inList ? S.added : S.add;
@@ -364,7 +371,7 @@ function renderList() {
       items.forEach(it => {
         const q = state.list[it.id];
         const row = document.createElement("div"); row.className = "item";
-        row.innerHTML = `<div class="nm">${nm(it)}<span class="pr">${dsp(it)}</span></div>`;
+        row.innerHTML = `<div class="nm">${it.e} ${nm(it)}<span class="pr">${dsp(it)}</span></div>`;
         const qty = document.createElement("div"); qty.className = "qty";
         const minus = document.createElement("button"); minus.textContent = "−";
         minus.onclick = () => { state.list[it.id]--; if (state.list[it.id] <= 0) delete state.list[it.id]; save(); renderList(); renderStores(); updateTop(); };
@@ -389,7 +396,7 @@ function renderList() {
     state.bought.forEach((b, bi) => {
       const it = byId[b.id]; if (!it) return;
       const row = document.createElement("div"); row.className = "item";
-      row.innerHTML = `<div class="nm">${nm(it)} — ${STORES[it.s].name}${b.qty > 1 ? " ×" + b.qty : ""}<span class="pr">${fmt(b.price * b.qty)}</span></div>`;
+      row.innerHTML = `<div class="nm">${it.e} ${nm(it)} — ${STORES[it.s].name}${b.qty > 1 ? " ×" + b.qty : ""}<span class="pr">${fmt(b.price * b.qty)}</span></div>`;
       const back = document.createElement("button"); back.className = "buybtn done"; back.textContent = S.putback;
       back.onclick = () => { state.bought.splice(bi, 1); state.list[it.id] = (state.list[it.id] || 0) + b.qty; save(); renderList(); renderStores(); updateTop(); };
       row.appendChild(back); box.appendChild(row);

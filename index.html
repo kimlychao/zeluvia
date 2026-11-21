@@ -674,7 +674,7 @@ function renderDrawer() {
       const it = byId(id), q = state.list[id];
       const el = document.createElement("div"); el.className = "litem";
       el.innerHTML = `
-        <div class="lr1"><span class="chosenpill">${t.chosenPill}</span><span class="ln">${nm(it)}</span><span class="lp">${fmt(it[2] * q)}</span></div>
+        <div class="lr1"><span class="ln">${nm(it)}</span><span class="lp">${fmt(it[2] * q)}</span></div>
         <div class="lr2">
           <span class="qty"><button data-a="-">−</button><span class="qv">${q}</span><button data-a="+">+</button></span>
           <button class="boughtbtn">${t.boughtBtn}</button>

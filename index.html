@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://zeluvia.vercel.app/">
 <meta property="og:title" content="Zeluvia : Aubaines d'épicerie de la semaine">
 <meta property="og:description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/HK_food_red_fruit_%E8%8A%92%E6%9E%9C_mango_March_2021_SS2_01.jpg/960px-HK_food_red_fruit_%E8%8A%92%E6%9E%9C_mango_March_2021_SS2_01.jpg">
+<meta property="og:image" content="https://zeluvia.vercel.app/logo.svg">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -47,6 +47,7 @@
   .hero{display:grid; grid-template-columns:1fr; gap:12px; margin-top:12px; align-items:start}
   @media(min-width:900px){ .hero{grid-template-columns:1.15fr .85fr} }
   .herobox{background:#FFFFFF; border:1px solid var(--line); border-radius:22px; padding:18px; color:#16233C; text-align:center}
+  .herologo{display:block; margin:0 auto 10px; border-radius:15px}
   .pill-days{display:inline-flex; align-items:center; gap:8px; background:var(--yellow); color:#14231a; font-weight:700; font-size:12.5px; border-radius:999px; padding:6px 12px}
   .pill-days .dot{width:9px; height:9px; border-radius:50%; background:#D8293B; flex:none}
   .herobox h1{font-size:clamp(25px,6vw,34px); line-height:1.12; margin:12px 0 8px; font-weight:800; letter-spacing:-.5px}
@@ -257,6 +258,7 @@
 
   <div class="hero">
     <div class="herobox">
+      <img class="herologo" src="logo.svg" alt="Zeluvia" width="62" height="62">
       <span class="pill-days"><span class="dot"></span><span id="daysleft"></span></span>
       <h1 id="herotitle">Vos besoins,<br>vos meilleurs prix.</h1>
       <p id="herosub">Les prix de 6 épiceries, comparés pour vous. Touchez les aliments qu'il vous faut : on garde le meilleur prix de la semaine et on prépare votre liste, magasin par magasin.</p>

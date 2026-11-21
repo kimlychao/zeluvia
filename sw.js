@@ -1,9 +1,10 @@
-const CACHE = "zeluvia-v65-2026-11-21";
+const CACHE = "zeluvia-v66-2026-11-21";
 const ASSETS = [
   "./",
   "./index.html",
   "./photos.js",
   "./manifest.webmanifest",
+  "./logo.svg",
   "./icons/icon.svg",
   "./icons/icon-maskable.svg"
 ];

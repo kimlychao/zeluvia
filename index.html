@@ -164,6 +164,8 @@
   .qty button{width:28px; height:28px; border-radius:50%; border:none; background:var(--surface2); color:var(--ink); font-size:16px; font-weight:800}
   .qty .qv{min-width:20px; text-align:center; font-weight:800}
   .boughtbtn{background:transparent; border:1.5px solid var(--focus); color:var(--focus); border-radius:999px; padding:8px 14px; font-weight:700; font-size:13.5px}
+  .bought-trash{background:#D8293B; border:none; border-radius:999px; width:40px; height:36px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; flex:none}
+  .bought-actions{display:flex; align-items:center; gap:8px}
   .rmbtn{background:none; border:none; color:var(--muted); font-size:13px; text-decoration:underline}
   .dfoot{padding:12px 16px calc(14px + env(safe-area-inset-bottom)); border-top:1px solid var(--line)}
   .bar-total{background:var(--hero); color:var(--heroink); border-radius:14px; padding:9px 13px; font-weight:800; font-size:13px; display:flex; justify-content:space-between}
@@ -695,9 +697,14 @@ function renderDrawer() {
     const head = document.createElement("div"); head.className = "bought-head";
     head.innerHTML = `<h3 style="margin:0">${t.boughtTitle}</h3>`;
     if (state.bought.length && !archiving) {
+      const acts = document.createElement("div"); acts.className = "bought-actions";
       const ab = document.createElement("button"); ab.className = "boughtbtn"; ab.textContent = t.archiveBtn;
       ab.onclick = () => { archiving = true; renderDrawer(); };
-      head.appendChild(ab);
+      const tb = document.createElement("button"); tb.className = "bought-trash";
+      tb.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>`;
+      tb.onclick = () => { state.bought = []; save(); renderAll(); };
+      acts.appendChild(ab); acts.appendChild(tb);
+      head.appendChild(acts);
     }
     sec.appendChild(head);
     if (archiving && state.bought.length) {
@@ -720,9 +727,7 @@ function renderDrawer() {
       const it = byId(b.id);
       const el = document.createElement("div"); el.className = "bought-item";
       el.innerHTML = `<span class="bn">${nm(it)} — ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}</span>`;
-      const undo = document.createElement("button"); undo.className = "rmbtn"; undo.textContent = t.putBack;
-      undo.onclick = () => { state.bought.splice(bi, 1); state.list[b.id] = (state.list[b.id] || 0) + b.qty; save(); renderAll(); };
-      el.appendChild(undo); sec.appendChild(el);
+      sec.appendChild(el);
     });
     if (state.bought.length) {
       const spent = state.bought.reduce((a, b) => a + b.price * b.qty, 0);
@@ -761,13 +766,7 @@ function renderDrawer() {
           const it = byId(b.id);
           const el = document.createElement("div"); el.className = "bought-item";
           el.innerHTML = `<span class="bn">${nm(it)} — ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}</span>`;
-          const undo = document.createElement("button"); undo.className = "rmbtn"; undo.textContent = t.putBack;
-          undo.onclick = () => {
-            f.items.splice(bi, 1);
-            if (!f.items.length) { state.folders.splice(fi, 1); openFolders.delete(f.id); checkedFolders.delete(f.id); }
-            state.list[b.id] = (state.list[b.id] || 0) + b.qty; save(); renderAll();
-          };
-          el.appendChild(undo); wrap.appendChild(el);
+          wrap.appendChild(el);
         });
         box.appendChild(wrap);
       }

@@ -493,8 +493,8 @@ function toast(msg) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 1800);
 }
 function toggleItem(id) {
-  if (inList(id)) { delete state.list[id]; toast(T().toastRemove); }
-  else { state.list[id] = 1; toast(T().toastAdd); }
+  if (inList(id)) { delete state.list[id]; }
+  else { state.list[id] = 1; }
   save(); renderAll();
 }
 
@@ -685,7 +685,7 @@ function renderDrawer() {
       el.querySelector(".rmbtn").onclick = () => { delete state.list[id]; save(); renderAll(); };
       el.querySelector(".boughtbtn").onclick = () => {
         state.bought.push({ id, price: it[2], qty: q });
-        delete state.list[id]; save(); renderAll(); toast(t.toastBought);
+        delete state.list[id]; save(); renderAll();
       };
       body.appendChild(el);
     });

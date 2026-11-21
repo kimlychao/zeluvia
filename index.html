@@ -132,7 +132,12 @@
   .seg button.on{background:var(--surface); box-shadow:0 1px 5px rgba(0,0,0,.12)}
 
   /* Cartes produits : format compact demandé le 2026-11-20 : petites photos, prix bien visible, plus d'items à l'écran */
-  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(108px,1fr)); gap:10px; margin-top:16px}
+  .grid{margin-top:6px}
+  .car-sec{margin-top:18px}
+  .car-title{font-size:17px; font-weight:800; margin:0 0 8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .car-row{display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding:2px 2px 10px; scrollbar-width:none}
+  .car-row::-webkit-scrollbar{display:none}
+  .car-row .card{flex:0 0 128px; scroll-snap-align:start}
   .card{background:var(--surface); border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
   .photo{position:relative; background:var(--surface2); height:80px; flex:none}
   .photo img{width:100%; height:100%; object-fit:cover; display:block}
@@ -698,7 +703,7 @@ function renderGrid() {
   const qActive = query.trim().length > 0;
   gr.style.display = qActive ? "block" : "none";
   if (qActive) gr.textContent = items.length ? T().seeResults(items.length) : T().seeNotice;
-  items.forEach(it => {
+  const mkCard = it => {
     const st = STORES[it[0]], id = it[5], added = inList(id);
     const card = document.createElement("article"); card.className = "card";
     const photo = PHOTO[id]
@@ -720,7 +725,17 @@ function renderGrid() {
         </div>
       </div>`;
     card.querySelector(".addbtn").onclick = () => toggleItem(id);
-    grid.appendChild(card);
+    return card;
+  };
+  CATS.filter(c => ["fl", "v", "pl", "gm"].includes(c[0])).forEach(([k, fr, en]) => {
+    const group = items.filter(it => CAT[it[5]] === k);
+    if (!group.length) return;
+    const sec = document.createElement("div"); sec.className = "car-sec";
+    sec.innerHTML = `<h3 class="car-title">${lang === "en" ? en : fr}</h3>`;
+    const row = document.createElement("div"); row.className = "car-row";
+    group.forEach(it => row.appendChild(mkCard(it)));
+    sec.appendChild(row);
+    grid.appendChild(sec);
   });
   const bestBtn = document.querySelector('#mode button[data-m="best"]');
   if (bestBtn) bestBtn.textContent = T().modeBest(DATA.filter(it => !GKEY[it[5]] || bestIds.has(it[5])).length);

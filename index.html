@@ -200,6 +200,10 @@
   footer{margin-top:34px; background:var(--surface); border-radius:20px; padding:20px}
   footer h2{font-size:20px; font-weight:800; margin:0 0 8px}
   footer a{color:var(--focus); font-weight:700}
+  .noresbox{margin-top:16px; background:var(--surface); border:2px solid var(--yellow); border-radius:18px; padding:22px 18px; text-align:center}
+  .nr-title{font-size:21px; font-weight:800; line-height:1.3}
+  .nr-sub{color:var(--muted); font-size:14.5px; margin:8px 0 6px}
+  .nr-links{justify-content:center}
   .flyerlinks{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
   .flyerlinks a{background:var(--surface2); color:var(--ink); border-radius:999px; padding:8px 14px; text-decoration:none; font-size:14px}
   footer .note{color:var(--muted); font-size:13.5px; line-height:1.5}
@@ -238,21 +242,6 @@
     </div>
   </div>
 
-  <section class="steps">
-    <h2 id="stepstitle">Comment ça marche, en 3 étapes</h2>
-    <div class="steps-grid">
-      <div class="step"><span class="num">1</span><div class="st" id="s1t"><b>Choisissez</b> vos aliments</div></div>
-      <div class="step"><span class="num">2</span><div class="st" id="s2t"><b>Ajoutez</b> les aubaines à votre liste</div></div>
-      <div class="step"><span class="num">3</span><div class="st" id="s3t"><b>Magasinez</b> avec votre liste, en magasin</div></div>
-    </div>
-  </section>
-
-  <section class="compare" id="compare">
-    <h2 class="sec-title" id="cmptitle">Le même produit, pas le même prix</h2>
-    <p class="cmp-intro" id="cmpintro">Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.</p>
-    <div id="cmplist"></div>
-  </section>
-
   <section class="filters" id="aubaines">
     <h2 class="sec-title" id="seltitle">Sélection de la semaine</h2>
     <p id="selhint" style="color:var(--muted); font-size:14px; margin:4px 0 14px">Touchez « Ajouter » pour mettre une aubaine dans votre liste.</p>
@@ -273,8 +262,29 @@
       <button data-m="all">Sélection complète</button>
     </div>
     <div class="grid" id="grid"></div>
-    <p id="nores" style="display:none; color:var(--muted); margin-top:14px">Aucune aubaine ne correspond à votre recherche.</p>
+    <div id="nores" class="noresbox" style="display:none">
+      <div class="nr-title" id="nrestitle"></div>
+      <p class="nr-sub" id="nressub"></p>
+      <div class="flyerlinks nr-links" id="noreslinks"></div>
+    </div>
   </section>
+
+  <section class="steps">
+    <h2 id="stepstitle">Comment ça marche, en 3 étapes</h2>
+    <div class="steps-grid">
+      <div class="step"><span class="num">1</span><div class="st" id="s1t"><b>Choisissez</b> vos aliments</div></div>
+      <div class="step"><span class="num">2</span><div class="st" id="s2t"><b>Ajoutez</b> les aubaines à votre liste</div></div>
+      <div class="step"><span class="num">3</span><div class="st" id="s3t"><b>Magasinez</b> avec votre liste, en magasin</div></div>
+    </div>
+  </section>
+
+  <section class="compare" id="compare">
+    <h2 class="sec-title" id="cmptitle">Le même produit, pas le même prix</h2>
+    <p class="cmp-intro" id="cmpintro">Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.</p>
+    <div id="cmplist"></div>
+  </section>
+
+
 
   <footer>
     <h2 id="foottitle">Une circulaire complète à consulter ?</h2>
@@ -374,7 +384,7 @@ const S = {
     searchLabel: "Ou cherchez un aliment par son nom :",
     cmpIntro: "Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.",
     modeBest: n => `Meilleur prix (${n} aubaines)`, modeAll: "Sélection de 72 aubaines",
-    nores: "Aucune aubaine ne correspond à votre recherche.",
+    nores: "Aucune aubaine ne correspond à votre recherche.", noresQ: q => `« ${q} » — pas en rabais cette semaine`, noresSub: "Cet aliment n'est dans aucune circulaire cette semaine. Vérifiez son prix actuel dans les circulaires :",
     chosenPill: "✓ Choisi", boughtBtn: "🛍 Acheté", remove: "Retirer", putBack: "Cancel", boughtTitle: "Achetés", archiveBtn: "📁 Archiver", folderPh: "Nom du dossier…", createFolder: "Créer le dossier", cancelBtn: "Annuler", folderWord: "Épicerie du ", itemsWord: "articles", deleteSel: "Supprimer la sélection",
     totalSpent: "Total dépensé : ", estTotal: "Total estimé", confSave: "Économies confirmées",
     copy: "Copier ma liste", download: "Télécharger", emptyList: "Votre liste est vide pour le moment.",
@@ -413,7 +423,7 @@ const S = {
     searchLabel: "Or search for a food by name:",
     cmpIntro: "The same foods at several stores this week. The first price shown is always the lowest — tap “Add” to put it in your list.",
     modeBest: n => `Best price (${n} deals)`, modeAll: "Full selection of 72 deals",
-    nores: "No deal matches your search.",
+    nores: "No deal matches your search.", noresQ: q => `“${q}” — not on sale this week`, noresSub: "This item isn't in any flyer this week. Check its current price in the flyers:",
     chosenPill: "✓ Selected", boughtBtn: "🛍 Bought", remove: "Remove", putBack: "Cancel", boughtTitle: "Bought", archiveBtn: "📁 Archive", folderPh: "Folder name…", createFolder: "Create folder", cancelBtn: "Cancel", folderWord: "Groceries of ", itemsWord: "items", deleteSel: "Delete selected",
     totalSpent: "Total spent: ", estTotal: "Estimated total", confSave: "Confirmed savings",
     copy: "Copy my list", download: "Download", emptyList: "Your list is empty for now.",
@@ -524,7 +534,6 @@ function applyStatic() {
   document.getElementById("selhint").textContent = t.selHint;
   document.getElementById("flabel").textContent = t.needLabel;
   document.getElementById("q").placeholder = t.searchPh;
-  document.getElementById("nores").textContent = t.nores;
   document.getElementById("foottitle").textContent = t.footTitle;
   document.getElementById("footenote").textContent = t.footNote;
   document.getElementById("srcsummary").textContent = t.srcSummary;
@@ -626,7 +635,15 @@ function visibleItems() {
 function renderGrid() {
   const items = visibleItems();
   const grid = document.getElementById("grid"); grid.innerHTML = "";
-  document.getElementById("nores").style.display = items.length ? "none" : "block";
+  const nr = document.getElementById("nores");
+  if (items.length) { nr.style.display = "none"; }
+  else {
+    nr.style.display = "block";
+    const hasQ = query.trim().length > 0;
+    document.getElementById("nrestitle").textContent = hasQ ? T().noresQ(query.trim()) : T().nores;
+    document.getElementById("nressub").textContent = hasQ ? T().noresSub : "";
+    document.getElementById("noreslinks").innerHTML = hasQ ? STORES.map(s => `<a href="${s.flyer}" target="_blank" rel="noopener">${s.name}</a>`).join("") : "";
+  }
   items.forEach(it => {
     const st = STORES[it[0]], id = it[5], added = inList(id);
     const card = document.createElement("article"); card.className = "card";

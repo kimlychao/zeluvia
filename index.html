@@ -230,7 +230,12 @@
   footer summary{font-weight:700; color:var(--ink); cursor:pointer}
   .kofi{display:none; margin-top:14px; background:#FF5E5B; color:#fff; border:none; border-radius:999px; padding:11px 20px; font-weight:800; font-size:14.5px}
 
-  .toast{position:fixed; left:50%; bottom:26px; transform:translate(-50%,80px); background:var(--ink); color:var(--surface); font-weight:700; font-size:14px; border-radius:999px; padding:11px 20px; z-index:80; transition:transform .3s; box-shadow:0 8px 24px rgba(0,0,0,.3)}
+  .toast{position:fixed; left:50%; bottom:108px; transform:translate(-50%,80px); background:var(--ink); color:var(--surface); font-weight:700; font-size:14px; border-radius:999px; padding:11px 20px; z-index:80; transition:transform .3s; box-shadow:0 8px 24px rgba(0,0,0,.3)}
+  .bottomnav{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(10px + env(safe-area-inset-bottom)); z-index:50; display:flex; gap:4px; background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:6px; box-shadow:0 10px 30px rgba(0,0,0,.28); width:min(430px,94vw)}
+  .bn-btn{flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; background:none; border:none; border-radius:999px; padding:8px 4px; font:inherit; font-size:11px; font-weight:700; color:var(--muted); cursor:pointer}
+  .bn-btn svg{width:22px; height:22px}
+  .bn-btn.active{background:var(--yellow); color:#14231a}
+  body{padding-bottom:104px}
   .toast.show{transform:translate(-50%,0)}
 </style>
 </head>
@@ -338,6 +343,11 @@
   </div>
 </aside>
 
+<nav class="bottomnav" id="bottomnav">
+  <button class="bn-btn active" id="bn-browse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3H4v7l9.59 9.59a2 2 0 0 0 2.82 0l4.18-4.18a2 2 0 0 0 0-2.82z"/><circle cx="7.5" cy="7.5" r="1.2" fill="currentColor"/></svg><span id="navbrowse">Parcourir</span></button>
+  <button class="bn-btn" id="bn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span id="navsearch">Recherche</span></button>
+  <button class="bn-btn" id="bn-list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 14l2 2 4-4"/></svg><span id="navlist">Ma liste</span></button>
+</nav>
 <div class="toast" id="toast">Ajouté à la liste de courses</div>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
@@ -424,7 +434,7 @@ const S = {
     heroTitle: "Vos besoins,<br>vos meilleurs prix.",
     heroSub: "Les prix de 6 épiceries, comparés pour vous. Touchez les aliments qu'il vous faut : on garde le meilleur prix de la semaine et on prépare votre liste, magasin par magasin.",
     heroCta: "Voir les aubaines de la semaine ↓",
-    panelTitle: "Aliments à sélectionner", searchIcon: "Rechercher",
+    panelTitle: "Aliments à sélectionner", searchIcon: "Rechercher", navBrowse: "Parcourir", navSearch: "Recherche", navList: "Ma liste",
     panelHint: "Touchez un aliment pour l'ajouter à votre liste, au meilleur prix. Touchez-le de nouveau pour le retirer.",
     stepsTitle: "Comment ça marche, en 3 étapes",
     s1t: "Choisissez vos aliments", s1d: "Parcourez les aubaines de la semaine dans les 6 épiceries.",
@@ -463,7 +473,7 @@ const S = {
     heroTitle: "Your needs,<br>your best prices.",
     heroSub: "Prices from 6 grocery stores, compared for you. Tap the foods you need: we keep the week's best price and build your list, store by store.",
     heroCta: "See this week's deals ↓",
-    panelTitle: "Foods to select", searchIcon: "Search",
+    panelTitle: "Foods to select", searchIcon: "Search", navBrowse: "Browse", navSearch: "Search", navList: "My list",
     panelHint: "Tap a food to add it to your list at the best price. Tap it again to remove it.",
     stepsTitle: "How it works, in 3 steps",
     s1t: "Choose your foods", s1d: "Browse this week's deals across the 6 stores.",
@@ -557,6 +567,9 @@ function applyStatic() {
   document.getElementById("herocta").textContent = t.heroCta;
   document.getElementById("paneltitle").textContent = t.panelTitle;
   document.getElementById("searchiconlabel").textContent = t.searchIcon;
+  document.getElementById("navbrowse").textContent = t.navBrowse;
+  document.getElementById("navsearch").textContent = t.navSearch;
+  document.getElementById("navlist").textContent = t.navList;
   document.getElementById("panelhint").textContent = t.panelHint;
   document.getElementById("btnvoirliste").textContent = t.seeList;
   document.getElementById("stepstitle").textContent = t.stepsTitle;
@@ -716,8 +729,8 @@ function renderGrid() {
 }
 
 // Panneau « Ma liste »
-function openDrawer() { applyStatic(); document.getElementById("drawer").classList.add("open"); document.getElementById("overlay").classList.add("open"); renderDrawer(); }
-function closeDrawer() { document.getElementById("drawer").classList.remove("open"); document.getElementById("overlay").classList.remove("open"); }
+function openDrawer() { applyStatic(); setNav("bn-list"); document.getElementById("drawer").classList.add("open"); document.getElementById("overlay").classList.add("open"); renderDrawer(); }
+function closeDrawer() { setNav("bn-browse"); document.getElementById("drawer").classList.remove("open"); document.getElementById("overlay").classList.remove("open"); }
 function renderDrawer() {
   const t = T();
   const body = document.getElementById("dbody"); body.innerHTML = "";
@@ -841,6 +854,10 @@ function renderAll() { renderTop(); renderTiles(); renderCompare(); renderGrid()
 
 // Événements
 document.getElementById("listbar").onclick = openDrawer;
+function setNav(id) { document.querySelectorAll(".bn-btn").forEach(b => b.classList.toggle("active", b.id === id)); }
+document.getElementById("bn-browse").onclick = () => { setNav("bn-browse"); document.getElementById("aubaines").scrollIntoView({ behavior: "smooth" }); };
+document.getElementById("bn-search").onclick = () => { setNav("bn-search"); const q = document.getElementById("q"); q.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(() => q.focus({ preventScroll: true }), 450); };
+document.getElementById("bn-list").onclick = () => { openDrawer(); };
 document.getElementById("langbtn").onclick = e => {
   e.stopPropagation();
   lang = lang === "fr" ? "en" : "fr";

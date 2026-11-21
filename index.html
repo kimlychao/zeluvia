@@ -2,6 +2,7 @@
 <html lang="fr-CA">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zeluvia — Aubaines d'épicerie de la semaine</title>
 <meta name="description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
@@ -19,14 +20,26 @@
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <style>
   :root{
-    --yellow:#FFD147; --dark:#153D2B; --dark2:#103122; --bg:#F5F7F2; --card:#FFFFFF;
-    --ink:#16241B; --muted:#68766C; --line:#E3E9E1;
+    --yellow:#FFD147; --dark:#153D2B; --dark2:#103122;
+    --page:#F5F7F2; --surface:#FFFFFF; --surface2:#E9EEE8;
+    --ink:#17221B; --muted:#5B6A60; --line:#D7DFD8;
+    --hero:#153D2B; --heroink:#FFFFFF; --heromuted:#C9D6CC; --focus:#087449;
+    --bg:var(--page); --card:var(--surface);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --yellow:#F0C641;
+      --page:#101713; --surface:#18221C; --surface2:#223028;
+      --ink:#F1F6F1; --muted:#B2C0B6; --line:#34453A;
+      --hero:#D8F3BB; --heroink:#132218; --heromuted:#3D5546; --focus:#82E0AD;
+    }
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
   html{scroll-behavior:smooth}
-  body{margin:0; font-family:ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink)}
+  body{margin:0; font-family:"DM Sans",ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--page); color:var(--ink)}
   button{font-family:inherit; cursor:pointer}
   .wrap{max-width:1180px; margin:0 auto; padding:12px 14px 40px}
+  h1, .sec-title, .steps h2, .panel h2, .cprice, .drawer h2, footer h2{font-family:Manrope,"DM Sans",sans-serif}
 
   /* Barre jaune « Ma liste » */
   .listbar{position:sticky; top:10px; z-index:40; display:flex; align-items:center; gap:10px; background:var(--yellow); border-radius:999px; padding:9px 16px 9px 10px; box-shadow:0 6px 18px rgba(21,61,43,.18); width:100%; text-align:left; cursor:pointer}
@@ -40,27 +53,27 @@
   /* Héros */
   .hero{display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px}
   @media(min-width:900px){ .hero{grid-template-columns:1.15fr .85fr} }
-  .herobox{background:var(--dark); border-radius:28px; padding:26px 24px; color:#fff}
+  .herobox{background:var(--hero); border-radius:28px; padding:26px 24px; color:var(--heroink)}
   .pill-days{display:inline-flex; align-items:center; gap:8px; background:var(--yellow); color:#14231a; font-weight:700; font-size:13.5px; border-radius:999px; padding:7px 14px}
   .pill-days .dot{width:9px; height:9px; border-radius:50%; background:#D8293B; flex:none}
   .herobox h1{font-size:clamp(32px,6vw,46px); line-height:1.08; margin:16px 0 10px; font-weight:800; letter-spacing:-.5px}
-  .herobox p{color:#C9D6CC; font-size:16px; line-height:1.5; margin:0 0 18px}
+  .herobox p{color:var(--heromuted); font-size:16px; line-height:1.5; margin:0 0 18px}
   .cta{display:inline-block; background:var(--yellow); color:#14231a; font-weight:800; font-size:16px; border:none; border-radius:999px; padding:13px 22px; text-decoration:none}
-  .herostats{margin-top:16px; font-size:13.5px; font-weight:700; color:#fff}
+  .herostats{margin-top:16px; font-size:13.5px; font-weight:700; color:var(--heroink)}
 
   /* Panneau « Aliments à sélectionner » */
-  .panel{background:var(--card); border-radius:24px; padding:18px; box-shadow:0 2px 10px rgba(21,61,43,.06)}
+  .panel{background:var(--surface); border-radius:24px; padding:18px; box-shadow:0 2px 10px rgba(21,61,43,.06)}
   .panel .ph{display:flex; align-items:center; justify-content:space-between; gap:8px}
   .panel h2{font-size:19px; margin:0; font-weight:800}
-  .countpill{background:#E9EDE7; color:var(--ink); font-size:12.5px; font-weight:700; border-radius:999px; padding:5px 11px}
+  .countpill{background:var(--surface2); color:var(--ink); font-size:12.5px; font-weight:700; border-radius:999px; padding:5px 11px}
   .panel .hint{color:var(--muted); font-size:13.5px; line-height:1.45; margin:8px 0 12px}
   .tiles{display:grid; grid-template-columns:1fr 1fr; gap:9px}
-  .tile{background:var(--bg); border:2px solid transparent; border-radius:14px; padding:10px 12px; text-align:left; width:100%}
+  .tile{background:var(--surface2); border:2px solid transparent; border-radius:14px; padding:10px 12px; text-align:left; width:100%; color:var(--ink)}
   .tile .tn{font-weight:700; font-size:14px}
   .tile .ts{color:var(--muted); font-size:12.5px; margin-top:2px}
-  .tile.sel{border-color:var(--dark); background:#EDF3EC}
+  .tile.sel{border-color:var(--focus); background:var(--surface)}
   .panel .empty-note{color:var(--muted); font-size:13.5px; margin:12px 0 0}
-  .btn-dark{display:inline-block; background:var(--dark); color:#fff; font-weight:700; font-size:15px; border:none; border-radius:999px; padding:11px 20px; margin-top:12px}
+  .btn-dark{display:inline-block; background:var(--ink); color:var(--surface); font-weight:700; font-size:15px; border:none; border-radius:999px; padding:11px 20px; margin-top:12px}
 
   /* Étapes */
   .steps{margin-top:26px}
@@ -71,108 +84,107 @@
   .step .st{font-weight:400; font-size:16.5px}
   .step .st b{font-weight:800}
 
-  /* Comparaison */
+  /* Comparaison — cartes comme l'originale (fond surface, bordure fine) */
   .compare{margin-top:28px}
-  .compare{background:#123528; border-radius:24px; padding:20px 16px; margin-left:-4px; margin-right:-4px}
-  .compare .sec-title{color:#fff}
-  .cmp-intro{color:#B9CFC2; font-size:14px; line-height:1.5; margin:4px 0 2px}
-  .cmp-row{background:#1B4634; border-radius:18px; padding:12px 14px; margin-top:8px; display:flex; gap:12px; align-items:center}
-  .cmp-thumb{width:92px; height:92px; flex:none; align-self:center; border-radius:12px; object-fit:cover; object-position:center 30%; background:#2E5546}
-  .cmp-thumb.na{display:flex; align-items:center; justify-content:center; text-align:center; color:#B9CFC2; font-size:11.5px; font-weight:600; padding:6px}
+  .cmp-intro{color:var(--muted); font-size:14px; line-height:1.5; margin:4px 0 2px}
+  .cmp-row{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:12px; margin-top:10px; display:flex; gap:14px; align-items:center; box-shadow:0 10px 28px rgba(28,48,36,.09)}
+  .cmp-thumb{width:84px; height:84px; flex:none; align-self:center; border-radius:11px; object-fit:cover; background:var(--surface2)}
+  .cmp-thumb.na{display:flex; align-items:center; justify-content:center; text-align:center; color:var(--muted); font-size:11.5px; font-weight:700; padding:6px}
   .cmp-main{flex:1; min-width:0; display:flex; flex-direction:column}
-  .cmp-row .cn{font-weight:800; font-size:15.5px; margin-bottom:2px; color:#fff}
-  .cmp-gapline{color:#7BD8A4; font-weight:700; font-size:13.5px; margin-bottom:7px}
+  .cmp-row .cn{font-weight:800; font-size:15.5px; margin-bottom:2px; color:var(--ink)}
+  .cmp-gapline{color:var(--focus); font-weight:800; font-size:13.5px; margin-bottom:7px}
   .cmp-pills{display:flex; flex-wrap:wrap; gap:6px; align-items:center}
-  .cmp-pill{border-radius:999px; padding:5px 10px; font-size:12.5px; font-weight:700; background:#2E5546; color:#fff}
-  .cmp-pill.best{background:#1E9E6A; color:#fff}
-  .cmp-add{margin-top:9px; align-self:flex-end; background:#fff; color:#14231a; border:none; border-radius:999px; padding:8px 16px; font-weight:700; font-size:13.5px}
-  .cmp-add.added{background:#fff; color:var(--dark); border:2px solid var(--dark)}
+  .cmp-pill{border-radius:8px; padding:5px 9px; font-size:12.5px; font-weight:700; background:var(--surface2); color:var(--muted)}
+  .cmp-pill.best{background:#0A7A4B; color:#fff}
+  .cmp-add{margin-top:9px; align-self:flex-end; background:var(--ink); color:var(--surface); border:none; border-radius:9px; padding:8px 14px; font-weight:700; font-size:13.5px}
+  .cmp-add.added{background:#0A7A4B; color:#fff}
 
   /* Filtres */
   .filters{margin-top:28px}
-  .filterbox{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:18px; margin-top:14px}
+  .filterbox{background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:18px; margin-top:14px}
   .needrow{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
   .filters .flabel{font-weight:800; font-size:16.5px; margin-right:2px}
   .qlabel{font-weight:700; font-size:15.5px; margin:18px 0 8px}
   .chips{display:flex; flex-wrap:wrap; gap:8px}
-  .chip{background:#fff; border:1.5px solid var(--line); color:var(--ink); border-radius:999px; padding:9px 15px; font-size:14px; font-weight:600}
-  .chip.on{background:var(--dark); color:#fff; border-color:var(--dark)}
+  .chip{background:var(--surface); border:1.5px solid var(--line); color:var(--ink); border-radius:999px; padding:9px 15px; font-size:14px; font-weight:600}
+  .chip.on{background:var(--ink); color:var(--surface); border-color:var(--ink)}
   .searchrow{margin-top:14px; display:grid; grid-template-columns:1fr; gap:9px}
   @media(min-width:760px){ .searchrow{grid-template-columns:2fr 1fr} }
-  .searchrow input, .searchrow select{width:100%; padding:12px 14px; border-radius:14px; border:1.5px solid var(--line); background:#fff; font-size:15px; font-family:inherit; color:var(--ink)}
-  .seg{display:inline-flex; background:#E9EDE7; border-radius:999px; padding:4px; margin-top:14px; gap:4px}
+  .searchrow input, .searchrow select{width:100%; padding:12px 14px; border-radius:14px; border:1.5px solid var(--line); background:var(--page); font-size:15px; font-family:inherit; color:var(--ink)}
+  .seg{display:inline-flex; background:var(--surface2); border-radius:999px; padding:4px; margin-top:14px; gap:4px}
   .seg button{border:none; background:transparent; border-radius:999px; padding:9px 16px; font-weight:700; font-size:14px; color:var(--ink)}
-  .seg button.on{background:#fff; box-shadow:0 1px 5px rgba(0,0,0,.12)}
+  .seg button.on{background:var(--surface); box-shadow:0 1px 5px rgba(0,0,0,.12)}
 
-  /* Cartes produits */
+  /* Cartes produits — comme l'originale : photo pleine largeur 180 px, fond uniforme */
   .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(245px,1fr)); gap:14px; margin-top:16px}
-  .card{background:var(--card); border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
-  .photo{position:relative; background:#E3EDD7; height:112px; flex:none; margin:10px 10px 0; padding:8px; border-radius:14px 14px 0 0}
-  .photo img{width:100%; height:100%; object-fit:cover; display:block; border-radius:9px}
+  .card{background:var(--surface); border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
+  .photo{position:relative; background:var(--surface2); height:180px; flex:none}
+  .photo img{width:100%; height:100%; object-fit:cover; display:block}
   .nophoto{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; color:var(--muted)}
   .nophoto .np-tx{text-decoration:underline; font-size:13.5px}
   .storebadge{position:absolute; top:10px; left:10px; color:#fff; font-weight:800; font-size:12.5px; border-radius:9px; padding:5px 10px}
-  .bestbadge{position:absolute; left:10px; bottom:-11px; background:var(--yellow); color:#14231a; font-weight:800; font-size:12.5px; border-radius:999px; padding:5px 11px; box-shadow:0 2px 6px rgba(0,0,0,.15)}
-  .photoline{height:4px; margin:0 10px; border-radius:0 0 8px 8px}
-  .cbody{padding:20px 14px 14px; display:flex; flex-direction:column; gap:3px; flex:1}
+  .bestbadge{position:absolute; left:10px; bottom:12px; background:var(--yellow); color:#14231a; font-weight:800; font-size:12.5px; border-radius:999px; padding:5px 11px; box-shadow:0 2px 6px rgba(0,0,0,.15)}
+  .photoline{height:5px}
+  .cbody{padding:14px 14px 14px; display:flex; flex-direction:column; gap:3px; flex:1}
   .cname{font-weight:700; font-size:16px; line-height:1.3}
   .cunit{color:var(--muted); font-size:13px}
   .csave{color:#1E7A34; font-size:13px; font-weight:600}
+  @media (prefers-color-scheme: dark){ .csave{color:#82E0AD} .cprice{color:#fff !important} }
   .cfoot{margin-top:auto; padding-top:10px; display:flex; align-items:flex-end; justify-content:space-between; gap:8px}
   .cprice{font-size:29px; font-weight:800; line-height:1}
   .cprice .pu{font-size:14px; font-weight:700}
   .cflyer{color:var(--muted); font-size:12px; margin-top:3px}
   .addbtn{border:none; border-radius:999px; padding:11px 17px; font-weight:800; font-size:14.5px; color:#fff; white-space:nowrap}
-  .addbtn.added{background:#fff !important; border:2px solid; padding:9px 15px}
+  .addbtn.added{background:#0A7A4B !important; color:#fff; border:none; padding:11px 17px}
 
   /* Panneau Ma liste */
   .overlay{position:fixed; inset:0; background:rgba(16,30,20,.45); z-index:60; opacity:0; pointer-events:none; transition:opacity .25s}
   .overlay.open{opacity:1; pointer-events:auto}
-  .drawer{position:fixed; top:0; right:0; height:100dvh; width:min(430px,94vw); background:#fff; z-index:61; transform:translateX(105%); transition:transform .3s; display:flex; flex-direction:column; box-shadow:-8px 0 30px rgba(0,0,0,.2)}
+  .drawer{position:fixed; top:0; right:0; height:100dvh; width:min(430px,94vw); background:var(--surface); color:var(--ink); z-index:61; transform:translateX(105%); transition:transform .3s; display:flex; flex-direction:column; box-shadow:-8px 0 30px rgba(0,0,0,.2)}
   .drawer.open{transform:translateX(0)}
   .drawer .dhead{padding:16px 16px 6px}
   .drawer h2{font-size:27px; font-weight:800; margin:12px 0 4px}
   .drawer .dbody{overflow-y:auto; padding:6px 16px 16px; flex:1}
-  .ghead{display:flex; align-items:center; gap:8px; background:var(--bg); border-radius:14px; padding:10px 12px; margin-top:14px}
+  .ghead{display:flex; align-items:center; gap:8px; background:var(--surface2); border-radius:14px; padding:10px 12px; margin-top:14px}
   .ghead .dot{width:10px; height:10px; border-radius:50%; flex:none}
-  .ghead a.gname{color:var(--dark); font-weight:800; font-size:16px}
-  .ghead .flyerpill{margin-left:auto; background:#fff; border:1.5px solid var(--dark); color:var(--dark); border-radius:999px; padding:6px 11px; font-size:12.5px; font-weight:700; text-decoration:none; white-space:nowrap}
-  .litem{background:var(--bg); border-radius:14px; padding:11px 12px; margin-top:9px}
+  .ghead a.gname{color:var(--ink); font-weight:800; font-size:16px}
+  .ghead .flyerpill{margin-left:auto; background:var(--surface); border:1.5px solid var(--focus); color:var(--focus); border-radius:999px; padding:6px 11px; font-size:12.5px; font-weight:700; text-decoration:none; white-space:nowrap}
+  .litem{background:var(--surface2); border-radius:14px; padding:11px 12px; margin-top:9px}
   .litem .lr1{display:flex; align-items:flex-start; gap:8px}
-  .chosenpill{background:#DFF2DF; color:#1E7A34; font-size:11.5px; font-weight:800; border-radius:999px; padding:4px 9px; flex:none}
+  .chosenpill{background:#0A7A4B; color:#fff; font-size:11.5px; font-weight:800; border-radius:999px; padding:4px 9px; flex:none}
   .litem .ln{font-weight:700; font-size:14.5px; line-height:1.3}
   .litem .lp{margin-left:auto; font-weight:800; font-size:15px; white-space:nowrap}
   .litem .lr2{display:flex; align-items:center; gap:9px; margin-top:9px}
-  .qty{display:inline-flex; align-items:center; gap:2px; background:#fff; border:1.5px solid var(--line); border-radius:999px; padding:3px}
-  .qty button{width:28px; height:28px; border-radius:50%; border:none; background:var(--bg); font-size:16px; font-weight:800}
+  .qty{display:inline-flex; align-items:center; gap:2px; background:var(--surface); border:1.5px solid var(--line); border-radius:999px; padding:3px}
+  .qty button{width:28px; height:28px; border-radius:50%; border:none; background:var(--surface2); color:var(--ink); font-size:16px; font-weight:800}
   .qty .qv{min-width:20px; text-align:center; font-weight:800}
-  .boughtbtn{background:#fff; border:1.5px solid var(--dark); color:var(--dark); border-radius:999px; padding:8px 14px; font-weight:700; font-size:13.5px}
+  .boughtbtn{background:transparent; border:1.5px solid var(--focus); color:var(--focus); border-radius:999px; padding:8px 14px; font-weight:700; font-size:13.5px}
   .rmbtn{background:none; border:none; color:var(--muted); font-size:13px; text-decoration:underline}
   .dfoot{padding:12px 16px calc(14px + env(safe-area-inset-bottom)); border-top:1px solid var(--line)}
-  .bar-total{background:var(--dark); color:#fff; border-radius:14px; padding:13px 16px; font-weight:800; font-size:16px; display:flex; justify-content:space-between}
+  .bar-total{background:var(--hero); color:var(--heroink); border-radius:14px; padding:13px 16px; font-weight:800; font-size:16px; display:flex; justify-content:space-between}
   .bar-save{background:var(--yellow); color:#14231a; border-radius:14px; padding:13px 16px; font-weight:800; font-size:16px; display:flex; justify-content:space-between; margin-top:9px}
   .dfoot .rowbtns{display:flex; gap:9px; margin-top:11px}
-  .btn-black{flex:1; background:#14231a; color:#fff; border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
-  .btn-grey{flex:1; background:#E9EDE7; color:var(--ink); border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
+  .btn-black{flex:1; background:var(--ink); color:var(--surface); border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
+  .btn-grey{flex:1; background:var(--surface2); color:var(--ink); border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
   .bought-sec h3{font-size:19px; font-weight:800; margin:20px 0 2px}
-  .bought-item{display:flex; gap:8px; align-items:center; background:var(--bg); border-radius:12px; padding:9px 12px; margin-top:8px; font-size:14px}
+  .bought-item{display:flex; gap:8px; align-items:center; background:var(--surface2); border-radius:12px; padding:9px 12px; margin-top:8px; font-size:14px}
   .bought-item .bn{font-weight:600}
   .bought-item .bp{margin-left:auto; font-weight:800}
   .spent{font-weight:800; margin-top:10px; font-size:15px}
   .empty-list{color:var(--muted); font-size:15px; margin-top:16px}
 
   /* Pied de page */
-  footer{margin-top:34px; background:var(--card); border-radius:20px; padding:20px}
+  footer{margin-top:34px; background:var(--surface); border-radius:20px; padding:20px}
   footer h2{font-size:20px; font-weight:800; margin:0 0 8px}
-  footer a{color:var(--dark); font-weight:700}
+  footer a{color:var(--focus); font-weight:700}
   .flyerlinks{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
-  .flyerlinks a{background:var(--bg); border-radius:999px; padding:8px 14px; text-decoration:none; font-size:14px}
+  .flyerlinks a{background:var(--surface2); color:var(--ink); border-radius:999px; padding:8px 14px; text-decoration:none; font-size:14px}
   footer .note{color:var(--muted); font-size:13.5px; line-height:1.5}
   footer details{margin-top:10px; color:var(--muted); font-size:13.5px}
   footer summary{font-weight:700; color:var(--ink); cursor:pointer}
   .kofi{display:none; margin-top:14px; background:#FF5E5B; color:#fff; border:none; border-radius:999px; padding:11px 20px; font-weight:800; font-size:14.5px}
 
-  .toast{position:fixed; left:50%; bottom:26px; transform:translate(-50%,80px); background:#14231a; color:#fff; font-weight:700; font-size:14px; border-radius:999px; padding:11px 20px; z-index:80; transition:transform .3s; box-shadow:0 8px 24px rgba(0,0,0,.3)}
+  .toast{position:fixed; left:50%; bottom:26px; transform:translate(-50%,80px); background:var(--ink); color:var(--surface); font-weight:700; font-size:14px; border-radius:999px; padding:11px 20px; z-index:80; transition:transform .3s; box-shadow:0 8px 24px rgba(0,0,0,.3)}
   .toast.show{transform:translate(-50%,0)}
 </style>
 </head>
@@ -272,6 +284,8 @@
 
 <div class="toast" id="toast">Ajouté à la liste de courses</div>
 
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<script src="./photos.js"></script>
 <script>const KOFI_URL = ""; // À remplir avec l'adresse Ko-fi de Kimly : les boutons café apparaîtront.
 
 const STORES = [
@@ -306,12 +320,7 @@ const GKEY = ["","","","","","","beurre","chou","","carottes","","",
 "","saumon","","mures","","grenade","","beurre","","","","",
 "","filetporc","","chou","","","","","coke","","beurre",""];
 
-const PHOTO = ["https://upload.wikimedia.org/wikipedia/commons/3/3e/1_-_button_mushrooms.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg/960px-Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/HK_food_red_fruit_%E8%8A%92%E6%9E%9C_mango_March_2021_SS2_01.jpg/960px-HK_food_red_fruit_%E8%8A%92%E6%9E%9C_mango_March_2021_SS2_01.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Hackfleisch-1.jpg/960px-Hackfleisch-1.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Pork_Shoulder_picnic_roast.jpg/960px-Pork_Shoulder_picnic_roast.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Kycklingfil%C3%A9.jpg/960px-Kycklingfil%C3%A9.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Alles_in_Butter_%2812306620156%29.jpg/960px-Alles_in_Butter_%2812306620156%29.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Fresh_green_cabbage_heads.jpg/960px-Fresh_green_cabbage_heads.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Lime_-_whole_and_halved.jpg/960px-Lime_-_whole_and_halved.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Carrots_at_Ljubljana_Central_Market.JPG/960px-Carrots_at_Ljubljana_Central_Market.JPG","https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Barilla_penne_1.jpg/960px-Barilla_penne_1.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Joe_Tea.jpg/960px-Joe_Tea.jpg",
-"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Sausages_surrounded_by_fresh_vegetables_on_a_dark_countertop_ready_for_preparation.jpg/960px-Sausages_surrounded_by_fresh_vegetables_on_a_dark_countertop_ready_for_preparation.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Pomegranate02_edit.jpg/960px-Pomegranate02_edit.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Parsley_bunches_-_Wellington%2C_New_Zealand.jpg/960px-Parsley_bunches_-_Wellington%2C_New_Zealand.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Solanum_melongena_24_08_2012_%281%29.JPG/960px-Solanum_melongena_24_08_2012_%281%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Tomato_soup_-_Bon_App%C3%A9tit.jpg/960px-Tomato_soup_-_Bon_App%C3%A9tit.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Opened_bag_of_Ruffles_All_Dressed_potato_chips_%28cropped%29.jpg/960px-Opened_bag_of_Ruffles_All_Dressed_potato_chips_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Alles_in_Butter_%2812306620156%29.jpg/960px-Alles_in_Butter_%2812306620156%29.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Schweinefilet-1.jpg/960px-Schweinefilet-1.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Raw_salmon_fillets.jpg/960px-Raw_salmon_fillets.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Clementines_whole%2C_peeled%2C_half_and_sectioned.jpg/960px-Clementines_whole%2C_peeled%2C_half_and_sectioned.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Iceberg_lettuce_%28IJssla_krop%29.jpg/960px-Iceberg_lettuce_%28IJssla_krop%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/A_small_cup_of_coffee.JPG/960px-A_small_cup_of_coffee.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Kycklingfil%C3%A9.jpg/960px-Kycklingfil%C3%A9.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/960px-Red_Apple.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Solanum_melongena_24_08_2012_%281%29.JPG/960px-Solanum_melongena_24_08_2012_%281%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Carrots_at_Ljubljana_Central_Market.JPG/960px-Carrots_at_Ljubljana_Central_Market.JPG","https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Blackberries_%28Rubus_fruticosus%29.jpg/960px-Blackberries_%28Rubus_fruticosus%29.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Raw_salmon_fillets.jpg/960px-Raw_salmon_fillets.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Bacon_strips.jpg/960px-Bacon_strips.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Mini_cucs_for_sale.jpg/960px-Mini_cucs_for_sale.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Whole_Foods_Kitchen_Margherita_Pizza_2_%2815411931231%29.jpg/960px-Whole_Foods_Kitchen_Margherita_Pizza_2_%2815411931231%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Several_Cartons.jpg/960px-Several_Cartons.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Cereal-Fruity-Pebbles.jpg/960px-Cereal-Fruity-Pebbles.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/15-09-26-RalfR-WLC-0098_-_Coca-Cola_glass_bottle_%28Germany%29.jpg/960px-15-09-26-RalfR-WLC-0098_-_Coca-Cola_glass_bottle_%28Germany%29.jpg",
-"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Whole_raw_chicken_-_Japan_Dec_22_2019.jpeg/960px-Whole_raw_chicken_-_Japan_Dec_22_2019.jpeg","https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Sliced_cooked_ham.jpg/960px-Sliced_cooked_ham.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Bowl_of_white_sugar_without_background.jpg/960px-Bowl_of_white_sugar_without_background.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/960px-Red_Apple.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Raw_salmon_fillets.jpg/960px-Raw_salmon_fillets.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Raw_pork_spareribs.jpg/960px-Raw_pork_spareribs.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Liat_Portal_for_Foodie_Disorder_-_Fresh_spinach_leaves.jpg/960px-Liat_Portal_for_Foodie_Disorder_-_Fresh_spinach_leaves.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Four_pears.jpg/960px-Four_pears.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/Cranberrys_beim_Ernten.jpeg/960px-Cranberrys_beim_Ernten.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Toms_Guldbarre_Chocolate_Bar_In_Pieces.jpg/960px-Toms_Guldbarre_Chocolate_Bar_In_Pieces.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Tortillas_de_maiz_blanco_%28M%C3%A9xico%29_01.jpg/960px-Tortillas_de_maiz_blanco_%28M%C3%A9xico%29_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/9/9c/Jarred_Baby_Food_at_Kroger.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-"https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Raw_chicken_drumsticks_%283312851753%29.jpg/960px-Raw_chicken_drumsticks_%283312851753%29.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Raw_salmon_fillets.jpg/960px-Raw_salmon_fillets.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Raw_pork_spareribs.jpg/960px-Raw_pork_spareribs.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Blackberries_%28Rubus_fruticosus%29.jpg/960px-Blackberries_%28Rubus_fruticosus%29.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Avocado_Hass_-_single_and_halved.jpg/960px-Avocado_Hass_-_single_and_halved.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Pomegranate02_edit.jpg/960px-Pomegranate02_edit.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/c/c4/Spruitjes.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Alles_in_Butter_%2812306620156%29.jpg/960px-Alles_in_Butter_%2812306620156%29.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Whole_Foods_Kitchen_Margherita_Pizza_2_%2815411931231%29.jpg/960px-Whole_Foods_Kitchen_Margherita_Pizza_2_%2815411931231%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/FARM_TO_PLATE_%2822%29.jpg/960px-FARM_TO_PLATE_%2822%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Joe_Tea.jpg/960px-Joe_Tea.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Can_of_Diet_Sierra_Mist_lemon-lime_soda%2C_2011.jpg/960px-Can_of_Diet_Sierra_Mist_lemon-lime_soda%2C_2011.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-"https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Oranges_-_whole-halved-segment.jpg/960px-Oranges_-_whole-halved-segment.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Schweinefilet-1.jpg/960px-Schweinefilet-1.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Green_Grape_3.jpg/960px-Green_Grape_3.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Fresh_green_cabbage_heads.jpg/960px-Fresh_green_cabbage_heads.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Potato_salad_3.jpg/960px-Potato_salad_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Oreo-Two-Cookies.jpg/960px-Oreo-Two-Cookies.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Whole_Foods_Kitchen_Margherita_Pizza_2_%2815411931231%29.jpg/960px-Whole_Foods_Kitchen_Margherita_Pizza_2_%2815411931231%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Opened_bag_of_Ruffles_All_Dressed_potato_chips_%28cropped%29.jpg/960px-Opened_bag_of_Ruffles_All_Dressed_potato_chips_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/15-09-26-RalfR-WLC-0098_-_Coca-Cola_glass_bottle_%28Germany%29.jpg/960px-15-09-26-RalfR-WLC-0098_-_Coca-Cola_glass_bottle_%28Germany%29.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Bacon_strips.jpg/960px-Bacon_strips.jpg","https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Alles_in_Butter_%2812306620156%29.jpg/960px-Alles_in_Butter_%2812306620156%29.jpg","https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Raw_shrimp.jpg/960px-Raw_shrimp.jpg"];
+const PHOTO = DATA.map((_, i) => (window.ZPHOTOS || {})[i] || "");
 
 const NAME_EN = ["White or cremini whole mushrooms", "Red grapefruit", "Red mangoes", "Lean ground beef", "Pork shoulder", "Chicken breasts", "Lactantia butter", "Green cabbage", "Limes", "Carrots or onions", "Barilla pasta or Selection pasta sauce", "Iced tea / Oasis juice", "La Fernandière fresh sausages", "Pomegranate or large papaya", "Curly or Italian parsley, mint or celery root", "Eggplants or zucchini", "Aylmer tomato soup", "Selection chips", "Lactantia butter", "Fresh pork tenderloin", "Fresh Atlantic or Coho salmon fillet", "Clementines", "Iceberg lettuce", "Maxwell House instant coffee", "Fresh boneless skinless chicken breasts", "Gala apples (large)", "Green zucchini or eggplants", "Carrots or yellow onions", "Blackberries", "Fresh Norwegian Atlantic salmon portions", "Maple Leaf or Schneiders bacon, or frozen sausage rounds", "Mini cucumbers", "Giuseppe frozen pizza (Dr. Oetker)", "Lactantia PurFiltre milk or cream", "General Mills cereal", "Coca-Cola or Pepsi", "Fresh whole chicken", "Cooked ham", "Granulated white sugar", "Cortland, Spartan or McIntosh apples", "Fresh Coho salmon fillets", "Fresh pork loin back ribs", "Baby spinach, arugula or spring mix", "Bosc, Bartlett, Anjou or red pears", "Fresh cranberries", "Chocolate", "Tortillas", "Baby food", "Chicken drumsticks", "Fresh Atlantic salmon fillets", "Pork side rib portion", "Blackberries or raspberries", "Délices du Marché bag of avocados", "Pomegranate", "Brussels sprouts", "Lactantia butter", "Stromboli pizza, Focaccia pizzas or PC flatbread", "PC or Menu Bleu prepared meals", "Allen's or Del Monte juice 1 L, Oasis juice or Arizona iced tea 960 mL", "Coca-Cola or Pepsi soft drinks", "Seedless oranges (bulk)", "Olymel pork tenderloin, pack of 2", "Seedless red or green grapes", "Green or red cabbage", "Your Fresh Market deli salads", "Christie OREO or Chips Ahoy! cookies", "Dr. Oetker Ristorante or Casa Di Mama frozen pizza", "Lay's or Hardbite chips", "Coca-Cola, pack of 6 x 710 mL", "Great Value bacon", "Gay Lea salted or unsalted butter 454 g (or Armstrong cheese block 400 g)", "Great Value cooked Pacific white shrimp"];
 

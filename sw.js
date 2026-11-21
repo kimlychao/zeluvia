@@ -1,7 +1,8 @@
-const CACHE = "zeluvia-v8-2026-11-20";
+const CACHE = "zeluvia-v9-2026-11-20";
 const ASSETS = [
   "./",
   "./index.html",
+  "./photos.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-maskable.svg"
@@ -25,7 +26,8 @@ self.addEventListener("fetch", e => {
     // Page : réseau d'abord (prix frais chaque semaine), cache en secours hors-ligne
     e.respondWith(
       fetch(e.request)
-        .then(r => { const cp = r.clone(); caches.open(CACHE).then(c => c.put("./index.html", cp)); return r; })
+        .then(r => { const cp = r.clone(); caches.open(CACHE).then(c => c.put("./index.html",
+  "./photos.js", cp)); return r; })
         .catch(() => caches.match("./index.html"))
     );
     return;

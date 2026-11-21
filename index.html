@@ -51,7 +51,7 @@
   .listbar .langbtn{background:#fff; color:#14231a; font-weight:800; font-size:13px; border-radius:999px; padding:7px 12px; flex:none; box-shadow:inset 0 0 0 1.5px rgba(20,35,26,.25)}
 
   /* Héros */
-  .hero{display:grid; grid-template-columns:1fr; gap:12px; margin-top:12px}
+  .hero{display:grid; grid-template-columns:1fr; gap:12px; margin-top:12px; align-items:start}
   @media(min-width:900px){ .hero{grid-template-columns:1.15fr .85fr} }
   .herobox{background:#FFFFFF; border:1px solid var(--line); border-radius:22px; padding:18px; color:#14231A}
   .pill-days{display:inline-flex; align-items:center; gap:8px; background:var(--yellow); color:#14231a; font-weight:700; font-size:12.5px; border-radius:999px; padding:6px 12px}
@@ -123,7 +123,7 @@
   .photo{position:relative; background:var(--surface2); height:80px; flex:none}
   .photo img{width:100%; height:100%; object-fit:cover; display:block}
   .nophoto{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; color:var(--muted)}
-  .nophoto .np-tx{font-size:12px}
+  .nophoto .np-tx{font-size:12px; text-align:center; padding:0 6px}
   .storebadge{position:absolute; top:10px; left:10px; color:#fff; font-weight:800; font-size:12.5px; border-radius:9px; padding:5px 10px}
   .bestbadge{position:absolute; left:10px; bottom:12px; background:var(--yellow); color:#14231a; font-weight:800; font-size:12.5px; border-radius:999px; padding:5px 11px; box-shadow:0 2px 6px rgba(0,0,0,.15)}
   .photoline{height:5px}

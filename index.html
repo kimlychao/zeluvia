@@ -124,6 +124,9 @@
   .qmi:last-child{border-bottom:none}
   .qmi .qm-t{flex:1}
   .qmi .qm-x{color:var(--muted); padding:2px 6px}
+  .goresults{display:block; width:100%; margin:12px 0 0; background:var(--yellow); color:#14231A; border:none; border-radius:999px; padding:12px; font-weight:800; font-size:15.5px; font-family:inherit; cursor:pointer}
+  #grid{scroll-margin-top:150px}
+  .noresbox{scroll-margin-top:150px}
   .seg{display:inline-flex; background:var(--surface2); border-radius:999px; padding:4px; margin-top:14px; gap:4px}
   .seg button{border:none; background:transparent; border-radius:999px; padding:9px 16px; font-weight:700; font-size:14px; color:var(--ink)}
   .seg button.on{background:var(--surface); box-shadow:0 1px 5px rgba(0,0,0,.12)}
@@ -270,6 +273,7 @@
         <select id="fcat" aria-label="Filtrer par catégorie"></select>
       </div>
     </div>
+    <button id="goresults" class="goresults" style="display:none" type="button"></button>
     <div class="seg" id="mode">
       <button data-m="best" class="on">Meilleur prix</button>
       <button data-m="all">Sélection complète</button>
@@ -393,7 +397,7 @@ const S = {
     best: "Meilleur prix", flyerPrice: "Prix de circulaire", add: "+ Ajouter", added: "Ajouté ✓", photoNA: "Photo non disponible",
     saveVs: (amt, store, price) => `Économisez ${amt} vs ${store} (${price})`,
     gap: g => `Écart de ${g} entre épiceries`, addBest: "+ Ajouter le meilleur prix",
-    searchPh: "🔍 Fraises, poulet, fromage…", recentLabel: "Recherches récentes", storeAll: "Toutes les enseignes", catAll: "Toutes les catégories",
+    searchPh: "🔍 Fraises, poulet, fromage…", recentLabel: "Recherches récentes", seeResults: n => `▼ Voir les ${n} résultat${n > 1 ? "s" : ""}`, seeNotice: "▼ Voir le résultat", storeAll: "Toutes les enseignes", catAll: "Toutes les catégories",
     searchLabel: "Ou cherchez un aliment par son nom :",
     cmpIntro: "Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.",
     modeBest: n => `Meilleur prix (${n} aubaines)`, modeAll: "Sélection de 72 aubaines",
@@ -432,7 +436,7 @@ const S = {
     best: "Best price", flyerPrice: "Flyer price", add: "+ Add", added: "Added ✓", photoNA: "Photo not available",
     saveVs: (amt, store, price) => `Save ${amt} vs ${store} (${price})`,
     gap: g => `${g} difference between stores`, addBest: "+ Add the best price",
-    searchPh: "🔍 Strawberries, chicken, cheese…", recentLabel: "Recent searches", storeAll: "All stores", catAll: "All categories",
+    searchPh: "🔍 Strawberries, chicken, cheese…", recentLabel: "Recent searches", seeResults: n => `▼ See the ${n} result${n > 1 ? "s" : ""}`, seeNotice: "▼ See the result", storeAll: "All stores", catAll: "All categories",
     searchLabel: "Or search for a food by name:",
     cmpIntro: "The same foods at several stores this week. The first price shown is always the lowest — tap “Add” to put it in your list.",
     modeBest: n => `Best price (${n} deals)`, modeAll: "Full selection of 72 deals",
@@ -658,6 +662,10 @@ function renderGrid() {
     document.getElementById("nressub").textContent = hasQ ? T().noresSub : "";
     document.getElementById("noreslinks").innerHTML = hasQ ? STORES.map(s => `<a href="${s.flyer}" target="_blank" rel="noopener">${s.name}</a>`).join("") : "";
   }
+  const gr = document.getElementById("goresults");
+  const qActive = query.trim().length > 0;
+  gr.style.display = qActive ? "block" : "none";
+  if (qActive) gr.textContent = items.length ? T().seeResults(items.length) : T().seeNotice;
   items.forEach(it => {
     const st = STORES[it[0]], id = it[5], added = inList(id);
     const card = document.createElement("article"); card.className = "card";
@@ -862,6 +870,11 @@ qInput.addEventListener("input", e => {
 });
 qInput.addEventListener("focus", renderQMenu);
 document.addEventListener("pointerdown", e => { if (!e.target.closest(".qwrap")) qMenu.style.display = "none"; });
+document.getElementById("goresults").addEventListener("click", () => {
+  const nrEl = document.getElementById("nores");
+  const target = nrEl.style.display !== "none" ? nrEl : document.getElementById("grid");
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+});
 document.getElementById("fstore").addEventListener("change", e => { fStore = e.target.value; renderGrid(); });
 document.getElementById("fcat").addEventListener("change", e => { fCat = e.target.value; renderChips(); renderGrid(); });
 document.querySelectorAll("#mode button").forEach(b => b.onclick = () => { fMode = b.dataset.m; renderChips(); renderGrid(); });

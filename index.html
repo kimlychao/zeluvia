@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light dark">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Zeluvia — Aubaines d'épicerie de la semaine</title>
+<title>Zeluvia : Aubaines d'épicerie de la semaine</title>
 <meta name="description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
 <meta name="theme-color" content="#153D2B">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://zeluvia.vercel.app/">
-<meta property="og:title" content="Zeluvia — Aubaines d'épicerie de la semaine">
+<meta property="og:title" content="Zeluvia : Aubaines d'épicerie de la semaine">
 <meta property="og:description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/HK_food_red_fruit_%E8%8A%92%E6%9E%9C_mango_March_2021_SS2_01.jpg/960px-HK_food_red_fruit_%E8%8A%92%E6%9E%9C_mango_March_2021_SS2_01.jpg">
 <meta name="mobile-web-app-capable" content="yes">
@@ -90,7 +90,7 @@
   .step .st{font-weight:400; font-size:16.5px}
   .step .st b{font-weight:800}
 
-  /* Comparaison — cartes comme l'originale (fond surface, bordure fine) */
+  /* Comparaison : cartes comme l'originale (fond surface, bordure fine) */
   .compare{margin-top:28px}
   .cmp-intro{color:var(--muted); font-size:14px; line-height:1.5; margin:4px 0 2px}
   .cmp-row{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:12px; margin-top:10px; display:flex; gap:14px; align-items:center; box-shadow:0 10px 28px rgba(28,48,36,.09)}
@@ -131,7 +131,7 @@
   .seg button{border:none; background:transparent; border-radius:999px; padding:9px 16px; font-weight:700; font-size:14px; color:var(--ink)}
   .seg button.on{background:var(--surface); box-shadow:0 1px 5px rgba(0,0,0,.12)}
 
-  /* Cartes produits — format compact demandé le 2026-11-20 : petites photos, prix bien visible, plus d'items à l'écran */
+  /* Cartes produits : format compact demandé le 2026-11-20 : petites photos, prix bien visible, plus d'items à l'écran */
   .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(108px,1fr)); gap:10px; margin-top:16px}
   .card{background:var(--surface); border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
   .photo{position:relative; background:var(--surface2); height:80px; flex:none}
@@ -297,7 +297,7 @@
 
   <section class="compare" id="compare">
     <h2 class="sec-title" id="cmptitle">Le même produit, pas le même prix</h2>
-    <p class="cmp-intro" id="cmpintro">Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.</p>
+    <p class="cmp-intro" id="cmpintro">Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher. Touchez « Ajouter » pour le mettre dans votre liste.</p>
     <div id="cmplist"></div>
   </section>
 
@@ -311,7 +311,7 @@
       <summary id="srcsummary">Sources des prix et des photos</summary>
       <p id="srcp">Prix : circulaires hebdomadaires officielles de Maxi, Super C, Metro, IGA, Provigo et Walmart (semaine du 19 au 25 novembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.</p>
     </details>
-    <button class="kofi" id="kofi">☕ Offrir un café — 3 $</button>
+    <button class="kofi" id="kofi">☕ Offrir un café : 3 $</button>
   </footer>
 </div>
 
@@ -392,23 +392,23 @@ const S = {
   fr: {
     mylist: "Ma liste", chosen0: "0 article choisi", chosen1: "1 article choisi", chosenN: n => n + " articles choisis",
     tileChosen: n => n + " choisi", tileNone: "Aucun aliment choisi pour le moment.", seeList: "Voir ma liste",
-    days: d => `Plus que ${d} jours — les prix se terminent mercredi 25 novembre`,
+    days: d => `Plus que ${d} jours. Les prix se terminent mercredi 25 novembre`,
     heroStats: g => `72 aubaines · 6 épiceries comparées · jusqu'à ${g} d'écart sur un même produit`,
     best: "Meilleur prix", flyerPrice: "Prix de circulaire", add: "+ Ajouter", added: "Ajouté ✓", photoNA: "Photo non disponible",
     saveVs: (amt, store, price) => `Économisez ${amt} vs ${store} (${price})`,
     gap: g => `Écart de ${g} entre épiceries`, addBest: "+ Ajouter le meilleur prix",
     searchPh: "🔍 Fraises, poulet, fromage…", recentLabel: "Recherches récentes", seeResults: n => `▼ Voir les ${n} résultat${n > 1 ? "s" : ""}`, seeNotice: "▼ Voir le résultat", storeAll: "Toutes les enseignes", catAll: "Toutes les catégories",
     searchLabel: "Ou cherchez un aliment par son nom :",
-    cmpIntro: "Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.",
+    cmpIntro: "Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher. Touchez « Ajouter » pour le mettre dans votre liste.",
     modeBest: n => `Meilleur prix (${n} aubaines)`, modeAll: "Sélection de 72 aubaines",
-    nores: "Aucune aubaine ne correspond à votre recherche.", noresQ: q => `« ${q} » — pas en rabais cette semaine`, noresSub: "Cet aliment n'est dans aucune circulaire cette semaine. Vérifiez son prix actuel dans les circulaires :",
+    nores: "Aucune aubaine ne correspond à votre recherche.", noresQ: q => `« ${q} » : pas en rabais cette semaine`, noresSub: "Cet aliment n'est dans aucune circulaire cette semaine. Vérifiez son prix actuel dans les circulaires :",
     chosenPill: "✓ Choisi", boughtBtn: "🛍 Acheté", remove: "Retirer", putBack: "Cancel", boughtTitle: "Achetés", archiveBtn: "📁 Archiver", folderPh: "Nom du dossier…", createFolder: "Créer le dossier", cancelBtn: "Annuler", folderWord: "Épicerie du ", itemsWord: "articles", deleteSel: "Supprimer la sélection",
     totalSpent: "Total dépensé : ", estTotal: "Total estimé", confSave: "Économies confirmées",
     copy: "Copier ma liste", download: "Télécharger", emptyList: "Votre liste est vide pour le moment.",
     flyerWord: "Circulaire", drawerTitle: "Ma liste de courses", back: "← Continuer de magasiner", clearBtn: "Vider", clearSure: "Sûr ?",
     toastAdd: "Ajouté à la liste de courses", toastRemove: "Retiré de la liste", toastBought: "Mis dans vos achats",
     copyOk: "Liste copiée", copyFail: "Copie impossible sur cet appareil",
-    listHead: "Ma liste Zeluvia", dlHead: "Ma liste Zeluvia — prix du 19 au 25 novembre 2026",
+    listHead: "Ma liste Zeluvia", dlHead: "Ma liste Zeluvia : prix du 19 au 25 novembre 2026",
     heroTitle: "Vos besoins,<br>vos meilleurs prix.",
     heroSub: "Les prix de 6 épiceries, comparés pour vous. Touchez les aliments qu'il vous faut : on garde le meilleur prix de la semaine et on prépare votre liste, magasin par magasin.",
     heroCta: "Voir les aubaines de la semaine ↓",
@@ -425,29 +425,29 @@ const S = {
     footNote: "Prix valides du 19 au 25 novembre 2026. Prix relevés dans les circulaires de la semaine des 6 épiceries. Les prix en magasin peuvent varier.",
     srcSummary: "Sources des prix et des photos",
     srcP: "Prix : circulaires hebdomadaires officielles de Maxi, Super C, Metro, IGA, Provigo et Walmart (semaine du 19 au 25 novembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.",
-    kofi: "☕ Offrir un café — 3 $",
+    kofi: "☕ Offrir un café : 3 $",
     seeFlyer: name => "Voir la circulaire " + name
   },
   en: {
     mylist: "My list", chosen0: "0 items selected", chosen1: "1 item selected", chosenN: n => n + " items selected",
     tileChosen: n => n + " selected", tileNone: "No food selected yet.", seeList: "See my list",
-    days: d => `Only ${d} days left — prices end Wednesday, November 25`,
+    days: d => `Only ${d} days left. Prices end Wednesday, November 25`,
     heroStats: g => `72 deals · 6 stores compared · up to ${g} difference on the same product`,
     best: "Best price", flyerPrice: "Flyer price", add: "+ Add", added: "Added ✓", photoNA: "Photo not available",
     saveVs: (amt, store, price) => `Save ${amt} vs ${store} (${price})`,
     gap: g => `${g} difference between stores`, addBest: "+ Add the best price",
     searchPh: "🔍 Strawberries, chicken, cheese…", recentLabel: "Recent searches", seeResults: n => `▼ See the ${n} result${n > 1 ? "s" : ""}`, seeNotice: "▼ See the result", storeAll: "All stores", catAll: "All categories",
     searchLabel: "Or search for a food by name:",
-    cmpIntro: "The same foods at several stores this week. The first price shown is always the lowest — tap “Add” to put it in your list.",
+    cmpIntro: "The same foods at several stores this week. The first price shown is always the lowest. Tap “Add” to put it in your list.",
     modeBest: n => `Best price (${n} deals)`, modeAll: "Full selection of 72 deals",
-    nores: "No deal matches your search.", noresQ: q => `“${q}” — not on sale this week`, noresSub: "This item isn't in any flyer this week. Check its current price in the flyers:",
+    nores: "No deal matches your search.", noresQ: q => `“${q}”: not on sale this week`, noresSub: "This item isn't in any flyer this week. Check its current price in the flyers:",
     chosenPill: "✓ Selected", boughtBtn: "🛍 Bought", remove: "Remove", putBack: "Cancel", boughtTitle: "Bought", archiveBtn: "📁 Archive", folderPh: "Folder name…", createFolder: "Create folder", cancelBtn: "Cancel", folderWord: "Groceries of ", itemsWord: "items", deleteSel: "Delete selected",
     totalSpent: "Total spent: ", estTotal: "Estimated total", confSave: "Confirmed savings",
     copy: "Copy my list", download: "Download", emptyList: "Your list is empty for now.",
     flyerWord: "Flyer", drawerTitle: "My grocery list", back: "← Continue shopping", clearBtn: "Clear", clearSure: "Sure?",
     toastAdd: "Added to your grocery list", toastRemove: "Removed from the list", toastBought: "Moved to your purchases",
     copyOk: "List copied", copyFail: "Copy isn't available on this device",
-    listHead: "My Zeluvia list", dlHead: "My Zeluvia list — prices for November 19–25, 2026",
+    listHead: "My Zeluvia list", dlHead: "My Zeluvia list: prices for November 19 to 25, 2026",
     heroTitle: "Your needs,<br>your best prices.",
     heroSub: "Prices from 6 grocery stores, compared for you. Tap the foods you need: we keep the week's best price and build your list, store by store.",
     heroCta: "See this week's deals ↓",
@@ -461,10 +461,10 @@ const S = {
     selHint: "Tap “Add” to put a deal in your list.",
     needLabel: "I need",
     footTitle: "Want to browse a full flyer?",
-    footNote: "Prices valid November 19–25, 2026. Prices taken from this week's flyers at the 6 stores. In-store prices may vary.",
+    footNote: "Prices valid November 19 to 25, 2026. Prices taken from this week's flyers at the 6 stores. In-store prices may vary.",
     srcSummary: "Price and photo sources",
-    srcP: "Prices: official weekly flyers from Maxi, Super C, Metro, IGA, Provigo and Walmart (week of November 19–25, 2026). Photos: product photos when available; otherwise “Photo not available” is shown.",
-    kofi: "☕ Buy me a coffee — $3",
+    srcP: "Prices: official weekly flyers from Maxi, Super C, Metro, IGA, Provigo and Walmart (week of November 19 to 25, 2026). Photos: product photos when available; otherwise “Photo not available” is shown.",
+    kofi: "☕ Buy me a coffee: $3",
     seeFlyer: name => "See the " + name + " flyer"
   }
 };
@@ -765,7 +765,7 @@ function renderDrawer() {
     state.bought.forEach((b, bi) => {
       const it = byId(b.id);
       const el = document.createElement("div"); el.className = "bought-item";
-      el.innerHTML = `<span class="bn">${nm(it)} — ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}</span>`;
+      el.innerHTML = `<span class="bn">${nm(it)} · ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}</span>`;
       sec.appendChild(el);
     });
     if (state.bought.length) {
@@ -804,7 +804,7 @@ function renderDrawer() {
         f.items.forEach((b, bi) => {
           const it = byId(b.id);
           const el = document.createElement("div"); el.className = "bought-item";
-          el.innerHTML = `<span class="bn">${nm(it)} — ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}</span>`;
+          el.innerHTML = `<span class="bn">${nm(it)} · ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}</span>`;
           wrap.appendChild(el);
         });
         box.appendChild(wrap);
@@ -884,7 +884,7 @@ document.getElementById("btncopy").onclick = async () => {
     const mine = Object.keys(state.list).map(Number).filter(id => byId(id)[0] === si);
     if (!mine.length) return;
     lines.push(st.name);
-    mine.forEach(id => { const it = byId(id); lines.push(`- ${nm(it)} — ${priceDisp(it)}${state.list[id] > 1 ? " ×" + state.list[id] : ""}`); });
+    mine.forEach(id => { const it = byId(id); lines.push(`• ${nm(it)} · ${priceDisp(it)}${state.list[id] > 1 ? " ×" + state.list[id] : ""}`); });
   });
   const txt = T().listHead + "\n" + lines.join("\n");
   try { await navigator.clipboard.writeText(txt); toast(T().copyOk); }
@@ -896,7 +896,7 @@ document.getElementById("btndl").onclick = () => {
     const mine = Object.keys(state.list).map(Number).filter(id => byId(id)[0] === si);
     if (!mine.length) return;
     lines.push(st.name);
-    mine.forEach(id => { const it = byId(id); lines.push(`- ${nm(it)} — ${priceDisp(it)}${state.list[id] > 1 ? " ×" + state.list[id] : ""}`); });
+    mine.forEach(id => { const it = byId(id); lines.push(`• ${nm(it)} · ${priceDisp(it)}${state.list[id] > 1 ? " ×" + state.list[id] : ""}`); });
     lines.push("");
   });
   lines.push(T().estTotal + " : " + fmt(listTotal()));

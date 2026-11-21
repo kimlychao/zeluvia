@@ -733,11 +733,6 @@ function renderDrawer() {
       const bd = document.createElement("button"); bd.className = "bulkdel";
       bd.textContent = `🗑 ${t.deleteSel} (${checkedFolders.size})`;
       bd.onclick = () => {
-        if (!bd.classList.contains("armed")) {
-          bd.classList.add("armed"); bd.textContent = t.clearSure;
-          setTimeout(() => { bd.classList.remove("armed"); bd.textContent = `🗑 ${t.deleteSel} (${checkedFolders.size})`; }, 6000);
-          return;
-        }
         state.folders = state.folders.filter(f => !checkedFolders.has(f.id));
         checkedFolders.clear(); save(); renderAll();
       };
@@ -756,11 +751,6 @@ function renderDrawer() {
       const del = document.createElement("button"); del.className = "folder-trash";
       del.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>`;
       del.onclick = () => {
-        if (!del.classList.contains("armed")) {
-          del.classList.add("armed"); del.textContent = t.clearSure;
-          setTimeout(() => { del.classList.remove("armed"); del.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>`; }, 6000);
-          return;
-        }
         state.folders.splice(fi, 1); checkedFolders.delete(f.id); openFolders.delete(f.id); save(); renderAll();
       };
       headRow.appendChild(cb); headRow.appendChild(fh); headRow.appendChild(del);
@@ -802,17 +792,8 @@ document.getElementById("langbtn").onclick = e => {
 };
 document.getElementById("btnvoirliste").onclick = openDrawer;
 document.getElementById("btnback").onclick = closeDrawer;
-let clearTimer = null;
 document.getElementById("btnclear").onclick = () => {
   if (!Object.keys(state.list).length) return;
-  const btn = document.getElementById("btnclear"), lbl = document.getElementById("clearlabel");
-  if (!btn.classList.contains("armed")) {
-    btn.classList.add("armed"); lbl.textContent = T().clearSure;
-    clearTimeout(clearTimer);
-    clearTimer = setTimeout(() => { btn.classList.remove("armed"); lbl.textContent = T().clearBtn; }, 6000);
-    return;
-  }
-  clearTimeout(clearTimer); btn.classList.remove("armed"); lbl.textContent = T().clearBtn;
   state.list = {}; save(); renderAll();
 };
 document.getElementById("overlay").onclick = closeDrawer;

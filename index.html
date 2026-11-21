@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zeluvia : Aubaines d'épicerie de la semaine</title>
 <meta name="description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
-<meta name="theme-color" content="#153D2B">
+<meta name="theme-color" content="#F5F7F2">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://zeluvia.vercel.app/">
 <meta property="og:title" content="Zeluvia : Aubaines d'épicerie de la semaine">
@@ -26,14 +26,7 @@
     --hero:#153D2B; --heroink:#FFFFFF; --heromuted:#C9D6CC; --focus:#087449;
     --bg:var(--page); --card:var(--surface);
   }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --yellow:#F0C641;
-      --page:#101713; --surface:#18221C; --surface2:#223028;
-      --ink:#F1F6F1; --muted:#B2C0B6; --line:#34453A;
-      --hero:#D8F3BB; --heroink:#132218; --heromuted:#3D5546; --focus:#82E0AD;
-    }
-  }
+
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
   html{scroll-behavior:smooth}
   body{margin:0; font-family:"DM Sans",ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--page); color:var(--ink)}
@@ -135,7 +128,7 @@
   .grid{margin-top:6px}
   .car-sec{margin-top:18px}
   .car-title{font-size:17px; font-weight:800; margin:0 0 8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .car-row{display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding:2px 2px 10px; scrollbar-width:none}
+  .car-row{display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding:2px 2px 10px; scrollbar-width:none; align-items:flex-start}
   .car-row::-webkit-scrollbar{display:none}
   .car-row .card{flex:0 0 128px; scroll-snap-align:start}
   .card{background:var(--surface); border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
@@ -152,7 +145,7 @@
   .cname{font-weight:700; font-size:13.5px; line-height:1.25}
   .cunit{color:var(--muted); font-size:12px}
   .csave{color:#1E7A34; font-size:11.5px; font-weight:600}
-  @media (prefers-color-scheme: dark){ .csave{color:#82E0AD} .cprice{color:#fff !important} }
+
   .cfoot{margin-top:auto; padding-top:9px; display:flex; flex-direction:column; align-items:flex-start; gap:8px}
   .cprice{font-size:21px; font-weight:800; line-height:1; white-space:nowrap}
   .cprice .pu{font-size:12px; font-weight:700}

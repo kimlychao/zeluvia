@@ -190,7 +190,7 @@
   .folder-items{padding:2px 8px 8px}
   .bought-item{display:flex; gap:8px; align-items:center; background:var(--surface2); border-radius:12px; padding:9px 12px; margin-top:8px; font-size:14px}
   .bought-item .bn{font-weight:600}
-  .bought-item .bp{margin-left:auto; font-weight:800}
+  .bought-item .bp{margin-left:auto; font-weight:800; white-space:nowrap; flex:none}
   .spent{font-weight:800; margin-top:10px; font-size:15px}
   .empty-list{color:var(--muted); font-size:15px; margin-top:16px}
 
@@ -373,7 +373,7 @@ const S = {
     cmpIntro: "Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.",
     modeBest: n => `Meilleur prix (${n} aubaines)`, modeAll: "Sélection de 72 aubaines",
     nores: "Aucune aubaine ne correspond à votre recherche.",
-    chosenPill: "✓ Choisi", boughtBtn: "🛍 Acheté", remove: "Retirer", putBack: "Remettre", boughtTitle: "Achetés", archiveBtn: "📁 Archiver", folderPh: "Nom du dossier…", createFolder: "Créer le dossier", cancelBtn: "Annuler", folderWord: "Épicerie du ", itemsWord: "articles", deleteSel: "Supprimer la sélection",
+    chosenPill: "✓ Choisi", boughtBtn: "🛍 Acheté", remove: "Retirer", putBack: "Cancel", boughtTitle: "Achetés", archiveBtn: "📁 Archiver", folderPh: "Nom du dossier…", createFolder: "Créer le dossier", cancelBtn: "Annuler", folderWord: "Épicerie du ", itemsWord: "articles", deleteSel: "Supprimer la sélection",
     totalSpent: "Total dépensé : ", estTotal: "Total estimé", confSave: "Économies confirmées",
     copy: "Copier ma liste", download: "Télécharger", emptyList: "Votre liste est vide pour le moment.",
     flyerWord: "Circulaire", drawerTitle: "Ma liste de courses", back: "← Continuer de magasiner", clearBtn: "Vider", clearSure: "Sûr ?",
@@ -412,7 +412,7 @@ const S = {
     cmpIntro: "The same foods at several stores this week. The first price shown is always the lowest — tap “Add” to put it in your list.",
     modeBest: n => `Best price (${n} deals)`, modeAll: "Full selection of 72 deals",
     nores: "No deal matches your search.",
-    chosenPill: "✓ Selected", boughtBtn: "🛍 Bought", remove: "Remove", putBack: "Put back", boughtTitle: "Bought", archiveBtn: "📁 Archive", folderPh: "Folder name…", createFolder: "Create folder", cancelBtn: "Cancel", folderWord: "Groceries of ", itemsWord: "items", deleteSel: "Delete selected",
+    chosenPill: "✓ Selected", boughtBtn: "🛍 Bought", remove: "Remove", putBack: "Cancel", boughtTitle: "Bought", archiveBtn: "📁 Archive", folderPh: "Folder name…", createFolder: "Create folder", cancelBtn: "Cancel", folderWord: "Groceries of ", itemsWord: "items", deleteSel: "Delete selected",
     totalSpent: "Total spent: ", estTotal: "Estimated total", confSave: "Confirmed savings",
     copy: "Copy my list", download: "Download", emptyList: "Your list is empty for now.",
     flyerWord: "Flyer", drawerTitle: "My grocery list", back: "← Continue shopping", clearBtn: "Clear", clearSure: "Sure?",

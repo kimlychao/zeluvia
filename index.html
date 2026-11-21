@@ -167,7 +167,8 @@
   .dfoot{padding:12px 16px calc(14px + env(safe-area-inset-bottom)); border-top:1px solid var(--line)}
   .bar-total{background:var(--hero); color:var(--heroink); border-radius:14px; padding:13px 16px; font-weight:800; font-size:16px; display:flex; justify-content:space-between}
   .bar-save{background:var(--yellow); color:#14231a; border-radius:14px; padding:13px 16px; font-weight:800; font-size:16px; display:flex; justify-content:space-between; margin-top:9px}
-  .dfoot .rowbtns{display:flex; gap:9px; margin-top:11px}
+  .dfoot .rowbtns{display:flex; gap:8px; margin-top:9px}
+  .dfoot .rowbtns button{padding:8px 10px; font-size:13px; display:inline-flex; align-items:center; justify-content:center; gap:6px}
   .btn-black{flex:1; background:var(--ink); color:var(--surface); border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
   .btn-grey{flex:1; background:var(--surface2); color:var(--ink); border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
   .bought-sec h3{font-size:19px; font-weight:800; margin:20px 0 2px}
@@ -283,8 +284,8 @@
     <div class="bar-total"><span>Total estimé</span><span id="ftotal">0,00 $</span></div>
     <div class="bar-save"><span>Économies confirmées</span><span id="fsave">0,00 $</span></div>
     <div class="rowbtns">
-      <button class="btn-black" id="btncopy">Copier ma liste</button>
-      <button class="btn-grey" id="btndl">Télécharger</button>
+      <button class="btn-black" id="btncopy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span id="copylabel">Copier ma liste</span></button>
+      <button class="btn-grey" id="btndl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 21h16"/></svg><span id="dllabel">Télécharger</span></button>
     </div>
   </div>
 </aside>
@@ -508,8 +509,8 @@ function applyStatic() {
   document.getElementById("drawertitle").textContent = t.drawerTitle;
   document.getElementById("btnback").textContent = t.back;
   document.getElementById("clearlabel").textContent = t.clearBtn;
-  document.getElementById("btncopy").textContent = t.copy;
-  document.getElementById("btndl").textContent = t.download;
+  document.getElementById("copylabel").textContent = t.copy;
+  document.getElementById("dllabel").textContent = t.download;
   document.getElementById("kofi").textContent = t.kofi;
   document.querySelector(".bar-total span").textContent = t.estTotal;
   document.querySelector(".bar-save span").textContent = t.confSave;

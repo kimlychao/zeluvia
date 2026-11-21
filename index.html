@@ -702,16 +702,17 @@ document.getElementById("langbtn").onclick = e => {
 };
 document.getElementById("btnvoirliste").onclick = openDrawer;
 document.getElementById("btnback").onclick = closeDrawer;
-let clearArmed = false, clearTimer = null;
+let clearTimer = null;
 document.getElementById("btnclear").onclick = () => {
   if (!Object.keys(state.list).length) return;
   const btn = document.getElementById("btnclear"), lbl = document.getElementById("clearlabel");
-  if (!clearArmed) {
-    clearArmed = true; btn.classList.add("armed"); lbl.textContent = T().clearSure;
-    clearTimer = setTimeout(() => { clearArmed = false; btn.classList.remove("armed"); lbl.textContent = T().clearBtn; }, 3500);
+  if (!btn.classList.contains("armed")) {
+    btn.classList.add("armed"); lbl.textContent = T().clearSure;
+    clearTimeout(clearTimer);
+    clearTimer = setTimeout(() => { btn.classList.remove("armed"); lbl.textContent = T().clearBtn; }, 6000);
     return;
   }
-  clearTimeout(clearTimer); clearArmed = false; btn.classList.remove("armed"); lbl.textContent = T().clearBtn;
+  clearTimeout(clearTimer); btn.classList.remove("armed"); lbl.textContent = T().clearBtn;
   state.list = {}; save(); renderAll();
 };
 document.getElementById("overlay").onclick = closeDrawer;

@@ -157,8 +157,12 @@
   .cprice{font-size:21px; font-weight:800; line-height:1; white-space:nowrap}
   .cprice .pu{font-size:12px; font-weight:700}
   .cflyer{color:var(--muted); font-size:11px; margin-top:3px; white-space:nowrap}
-  .addbtn{border:none; border-radius:999px; padding:9px 10px; font-weight:800; font-size:13.5px; color:#fff; white-space:nowrap; width:100%}
-  .addbtn.added{background:#0A7A4B !important; color:#fff !important; border:none; padding:9px 10px}
+  .addbtn{border:none; border-radius:0; padding:10px; font-weight:800; font-size:13.5px; color:#fff; white-space:nowrap; width:100%; flex:none}
+  .addbtn.added{background:#0A7A4B !important; color:#fff !important; border:none; padding:10px}
+  .cstore{display:flex; align-items:center; gap:6px; margin-top:9px; padding-top:8px; border-top:1px solid var(--line)}
+  .slogochip{background:#fff; border-radius:5px; padding:1px 4px; display:inline-flex; align-items:center; flex:none}
+  .slogochip img{height:15px; width:auto; display:block}
+  .sname{font-size:12.5px; font-weight:700; color:var(--muted)}
 
   /* Panneau Ma liste */
   .overlay{position:fixed; inset:0; background:rgba(16,30,20,.45); z-index:60; opacity:0; pointer-events:none; transition:opacity .25s}
@@ -715,8 +719,8 @@ function renderGrid() {
       ? `<img src="${PHOTO[id]}" alt="${nm(it)}" loading="lazy">`
       : `<div class="nophoto"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M21 16l-5-5-9 9"/></svg><span class="np-tx">${T().photoNA}</span></div>`;
     card.innerHTML = `
+      <button class="addbtn ${added ? "added" : ""}" style="${added ? "" : `background:${st.color}`}">${added ? T().added : T().add}</button>
       <div class="photo">${photo}
-        <span class="storechip"><img src="${LOGOS[it[0]]}" alt="${st.name}"></span>
         ${bestIds.has(id) && GKEY[id] ? `<span class="bestbadge">${T().best}</span>` : ""}
       </div>
       <div class="photoline" style="background:${st.color}"></div>
@@ -726,8 +730,8 @@ function renderGrid() {
         ${savingsLine(it) ? `<div class="csave">${savingsLine(it)}</div>` : ""}
         <div class="cfoot">
           <div><div class="cprice" style="color:${st.color}">${it[4] === "lb" ? fmt(it[2]) + '<span class="pu">/lb</span>' : fmt(it[2])}</div><div class="cflyer">${T().flyerPrice}</div></div>
-          <button class="addbtn ${added ? "added" : ""}" style="${added ? "" : `background:${st.color}`}">${added ? T().added : T().add}</button>
         </div>
+        <div class="cstore"><span class="slogochip"><img src="${LOGOS[it[0]]}" alt=""></span><span class="sname">${st.name}</span></div>
       </div>`;
     card.querySelector(".addbtn").onclick = () => toggleItem(id);
     return card;

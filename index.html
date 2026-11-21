@@ -76,8 +76,8 @@
   .compare{background:#123528; border-radius:24px; padding:20px 16px; margin-left:-4px; margin-right:-4px}
   .compare .sec-title{color:#fff}
   .cmp-intro{color:#B9CFC2; font-size:14px; line-height:1.5; margin:4px 0 2px}
-  .cmp-row{background:#1B4634; border-radius:18px; padding:11px 13px; margin-top:8px; display:flex; gap:12px; align-items:flex-start}
-  .cmp-thumb{width:68px; height:68px; flex:none; border-radius:12px; object-fit:cover; object-position:center 30%; background:#2E5546}
+  .cmp-row{background:#1B4634; border-radius:18px; padding:12px 14px; margin-top:8px; display:flex; gap:12px; align-items:center}
+  .cmp-thumb{width:92px; height:92px; flex:none; align-self:center; border-radius:12px; object-fit:cover; object-position:center 30%; background:#2E5546}
   .cmp-thumb.na{display:flex; align-items:center; justify-content:center; text-align:center; color:#B9CFC2; font-size:11.5px; font-weight:600; padding:6px}
   .cmp-main{flex:1; min-width:0; display:flex; flex-direction:column}
   .cmp-row .cn{font-weight:800; font-size:15.5px; margin-bottom:2px; color:#fff}
@@ -319,7 +319,7 @@ const NAME_EN = ["White or cremini whole mushrooms", "Red grapefruit", "Red mang
 const TILES = [["Limes","Limes",8],["Soupe aux tomates","Tomato soup",16],["Chou vert","Green cabbage",7],["Grenade","Pomegranate",13],["Pommes Gala","Gala apples",25],["Épaule de porc","Pork shoulder",4],["Pilons de poulet","Chicken drumsticks",48],["Poulet entier","Whole chicken",36],["Filet de porc","Pork tenderloin",19],["Beurre","Butter",18],["Poitrines de poulet","Chicken breasts",24],["Saumon coho","Coho salmon",40]];
 
 // Section « Le même produit, pas le même prix » : [nom FR, nom EN, ids à comparer]
-const COMPARE = [["Beurre Lactantia","Lactantia butter",[18,6,70,55]],["Filet de porc","Pork tenderloin",[19,61]],["Poitrines de poulet","Chicken breasts",[24,5]],["Chou vert","Green cabbage",[7,63]]];
+const COMPARE = [["Poitrines de poulet","Chicken breasts",[24,5]],["Chou vert","Green cabbage",[7,63]],["Grenade ou papaye","Pomegranate or papaya",[13,53]],["Beurre Lactantia","Lactantia butter",[18,6,70,55]],["Aubergines ou courgettes","Eggplants or zucchini",[15,26]],["Filet de porc","Pork tenderloin",[19,61]],["Filet de saumon","Salmon fillet",[20,40,49]]];
 
 // Catégories : [clé, FR, EN]
 const CATS = [["all","Tout voir","View all"],["petit","Petit budget","Small budget"],["fl","Fruits et légumes","Fruits & vegetables"],["v","Viandes","Meats"],["pl","Produits laitiers","Dairy"],["gm","Garde-manger","Pantry"]];
@@ -537,7 +537,7 @@ function renderCompare() {
       ? `<img class="cmp-thumb" src="${PHOTO[best[5]]}" alt="" loading="lazy">`
       : `<div class="cmp-thumb na">${T().photoNA}</div>`;
     const main = document.createElement("div"); main.className = "cmp-main";
-    main.innerHTML = `<div class="cn">${lang === "en" ? en : fr}</div><div class="cmp-gapline">${T().gap(fmt(gap))}</div>`;
+    main.innerHTML = `<div class="cn">${nm(best)}</div><div class="cmp-gapline">${T().gap(fmt(gap))}</div>`;
     const pills = document.createElement("div"); pills.className = "cmp-pills";
     items.forEach((it, i) => {
       const p = document.createElement("span");
@@ -548,7 +548,7 @@ function renderCompare() {
     main.appendChild(pills);
     const add = document.createElement("button");
     add.className = "cmp-add" + (inList(best[5]) ? " added" : "");
-    add.textContent = inList(best[5]) ? T().added : T().addBest;
+    add.textContent = inList(best[5]) ? T().added : T().add;
     add.onclick = () => toggleItem(best[5]);
     main.appendChild(add);
     row.appendChild(main); box.appendChild(row);

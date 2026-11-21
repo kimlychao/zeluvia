@@ -506,6 +506,13 @@ function groupSaving(it) {
 let state = { list: {}, bought: [], folders: [] };
 try { const s = JSON.parse(localStorage.getItem("zeluvia-pwa-v1")); if (s && s.list) state = s; } catch (e) {}
 if (!Array.isArray(state.folders)) state.folders = [];
+/* Nouvelle visite = sélection repartie à zéro (demandé le 2026-11-20 : les items restaient cochés quand la personne revenait dans l'appli). Les Achetés et les dossiers restent sauvegardés. */
+try {
+  if (!sessionStorage.getItem("zeluvia-session")) {
+    sessionStorage.setItem("zeluvia-session", "1");
+    if (state.list && Object.keys(state.list).length) { state.list = {}; save(); }
+  }
+} catch (e) {}
 let foldersDirty = false;
 state.folders.forEach((f, i) => { if (!f.id) { f.id = "fold" + i + "x" + (f.items ? f.items.length : 0); foldersDirty = true; } });
 let archiving = false; const openFolders = new Set(); const checkedFolders = new Set();

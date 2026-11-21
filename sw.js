@@ -1,4 +1,4 @@
-const CACHE = "zeluvia-v60-2026-11-21";
+const CACHE = "zeluvia-v61-2026-11-21";
 const ASSETS = [
   "./",
   "./index.html",

@@ -99,8 +99,9 @@
   /* Cartes produits */
   .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(245px,1fr)); gap:14px; margin-top:16px}
   .card{background:var(--card); border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
-  .photo{position:relative; background:#EDF0E7; height:112px; flex:none; cursor:pointer; margin:10px 10px 0; border:1.5px solid #7E9070; border-bottom:none; border-radius:14px 14px 0 0}
+  .photo{position:relative; background:#EDF0E7; height:112px; flex:none; cursor:pointer; margin:10px 10px 0; border:2px solid #5F7263; border-bottom:none; border-radius:14px 14px 0 0}
   .photo img{width:100%; height:100%; object-fit:cover; display:block}
+  .photo::after{content:""; position:absolute; inset:0; border:2px solid #5F7263; border-bottom:none; border-radius:14px 14px 0 0; pointer-events:none}
   .nophoto{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; color:var(--muted)}
   .nophoto .np-tx{text-decoration:underline; font-size:13.5px}
   .storebadge{position:absolute; top:10px; left:10px; color:#fff; font-weight:800; font-size:12.5px; border-radius:9px; padding:5px 10px}

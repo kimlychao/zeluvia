@@ -147,6 +147,7 @@
   .drawer .dhead{padding:16px 16px 6px}
   .dheadrow{display:flex; align-items:center; gap:9px}
   .trashbtn{margin-left:auto; flex:none; display:inline-flex; align-items:center; gap:6px; background:transparent; border:1.5px solid #D8293B; color:#D8293B; border-radius:999px; padding:9px 13px; font-weight:700; font-size:13.5px}
+  .trashbtn.armed{background:#D8293B; color:#fff}
   .drawer h2{font-size:27px; font-weight:800; margin:12px 0 4px}
   .drawer .dbody{overflow-y:auto; padding:6px 16px 16px; flex:1}
   .ghead{display:flex; align-items:center; gap:8px; background:var(--surface2); border-radius:14px; padding:10px 12px; margin-top:14px}
@@ -360,7 +361,7 @@ const S = {
     chosenPill: "✓ Choisi", boughtBtn: "🛍 Acheté", remove: "Retirer", putBack: "Remettre", boughtTitle: "Achetés",
     totalSpent: "Total dépensé : ", estTotal: "Total estimé", confSave: "Économies confirmées",
     copy: "Copier ma liste", download: "Télécharger", emptyList: "Votre liste est vide pour le moment.",
-    flyerWord: "Circulaire", drawerTitle: "Ma liste de courses", back: "← Continuer de magasiner", clearBtn: "Vider", clearConfirm: "Vider la liste et recommencer ?",
+    flyerWord: "Circulaire", drawerTitle: "Ma liste de courses", back: "← Continuer de magasiner", clearBtn: "Vider", clearSure: "Sûr ?",
     toastAdd: "Ajouté à la liste de courses", toastRemove: "Retiré de la liste", toastBought: "Mis dans vos achats",
     copyOk: "Liste copiée", copyFail: "Copie impossible sur cet appareil",
     listHead: "Ma liste Zeluvia", dlHead: "Ma liste Zeluvia — prix du 19 au 25 novembre 2026",
@@ -399,7 +400,7 @@ const S = {
     chosenPill: "✓ Selected", boughtBtn: "🛍 Bought", remove: "Remove", putBack: "Put back", boughtTitle: "Bought",
     totalSpent: "Total spent: ", estTotal: "Estimated total", confSave: "Confirmed savings",
     copy: "Copy my list", download: "Download", emptyList: "Your list is empty for now.",
-    flyerWord: "Flyer", drawerTitle: "My grocery list", back: "← Continue shopping", clearBtn: "Clear", clearConfirm: "Clear the list and start over?",
+    flyerWord: "Flyer", drawerTitle: "My grocery list", back: "← Continue shopping", clearBtn: "Clear", clearSure: "Sure?",
     toastAdd: "Added to your grocery list", toastRemove: "Removed from the list", toastBought: "Moved to your purchases",
     copyOk: "List copied", copyFail: "Copy isn't available on this device",
     listHead: "My Zeluvia list", dlHead: "My Zeluvia list — prices for November 19–25, 2026",
@@ -701,9 +702,17 @@ document.getElementById("langbtn").onclick = e => {
 };
 document.getElementById("btnvoirliste").onclick = openDrawer;
 document.getElementById("btnback").onclick = closeDrawer;
+let clearArmed = false, clearTimer = null;
 document.getElementById("btnclear").onclick = () => {
   if (!Object.keys(state.list).length) return;
-  if (confirm(T().clearConfirm)) { state.list = {}; save(); renderAll(); }
+  const btn = document.getElementById("btnclear"), lbl = document.getElementById("clearlabel");
+  if (!clearArmed) {
+    clearArmed = true; btn.classList.add("armed"); lbl.textContent = T().clearSure;
+    clearTimer = setTimeout(() => { clearArmed = false; btn.classList.remove("armed"); lbl.textContent = T().clearBtn; }, 3500);
+    return;
+  }
+  clearTimeout(clearTimer); clearArmed = false; btn.classList.remove("armed"); lbl.textContent = T().clearBtn;
+  state.list = {}; save(); renderAll();
 };
 document.getElementById("overlay").onclick = closeDrawer;
 document.getElementById("q").addEventListener("input", e => { query = e.target.value; renderGrid(); });

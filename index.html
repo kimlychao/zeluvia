@@ -166,8 +166,8 @@
   .boughtbtn{background:transparent; border:1.5px solid var(--focus); color:var(--focus); border-radius:999px; padding:8px 14px; font-weight:700; font-size:13.5px}
   .rmbtn{background:none; border:none; color:var(--muted); font-size:13px; text-decoration:underline}
   .dfoot{padding:12px 16px calc(14px + env(safe-area-inset-bottom)); border-top:1px solid var(--line)}
-  .bar-total{background:var(--hero); color:var(--heroink); border-radius:14px; padding:10px 14px; font-weight:800; font-size:13.5px; display:flex; justify-content:space-between}
-  .bar-save{background:var(--yellow); color:#14231a; border-radius:14px; padding:10px 14px; font-weight:800; font-size:13.5px; display:flex; justify-content:space-between; margin-top:9px}
+  .bar-total{background:var(--hero); color:var(--heroink); border-radius:14px; padding:9px 13px; font-weight:800; font-size:13px; display:flex; justify-content:space-between}
+  .bar-save{background:var(--yellow); color:#14231a; border-radius:14px; padding:9px 13px; font-weight:800; font-size:13px; display:flex; justify-content:space-between; margin-top:9px}
   .dfoot .rowbtns{display:flex; gap:8px; margin-top:9px}
   .dfoot .rowbtns button{padding:8px 10px; font-size:13px; display:inline-flex; align-items:center; justify-content:center; gap:6px}
   .btn-black{flex:1; background:var(--ink); color:var(--surface); border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
@@ -179,8 +179,14 @@
   .archive-form .afrow{display:flex; gap:8px; margin-top:10px}
   .archive-form .afrow button{flex:1}
   .folder{margin-top:10px; border:1px solid var(--line); border-radius:14px; overflow:hidden}
-  .folder-head{width:100%; display:flex; gap:8px; align-items:center; background:var(--surface2); padding:12px; font-weight:700; font-size:14.5px; text-align:left; color:var(--ink)}
-  .folder-head .fm{margin-left:auto; color:var(--muted); font-size:12.5px; font-weight:600; white-space:nowrap}
+  .folder-head{display:flex; gap:9px; align-items:center; background:var(--surface2); padding:10px 12px}
+  .folder-toggle{flex:1; min-width:0; display:flex; gap:8px; align-items:center; background:none; border:0; padding:0; font-weight:700; font-size:14.5px; text-align:left; color:var(--ink)}
+  .folder-toggle .fm{margin-left:auto; color:var(--muted); font-size:12.5px; font-weight:600; white-space:nowrap}
+  .fcheck{width:20px; height:20px; accent-color:#0A7A4B; flex:none; margin:0}
+  .folder-trash{flex:none; background:transparent; border:1.5px solid #D8293B; color:#D8293B; border-radius:999px; padding:6px 9px; font-size:12.5px; font-weight:700; display:inline-flex; align-items:center; gap:4px}
+  .folder-trash.armed{background:#D8293B; color:#fff}
+  .bulkdel{width:100%; margin-top:10px; background:transparent; border:1.5px solid #D8293B; color:#D8293B; border-radius:999px; padding:10px; font-weight:700; font-size:13.5px}
+  .bulkdel.armed{background:#D8293B; color:#fff}
   .folder-items{padding:2px 8px 8px}
   .bought-item{display:flex; gap:8px; align-items:center; background:var(--surface2); border-radius:12px; padding:9px 12px; margin-top:8px; font-size:14px}
   .bought-item .bn{font-weight:600}
@@ -367,7 +373,7 @@ const S = {
     cmpIntro: "Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.",
     modeBest: n => `Meilleur prix (${n} aubaines)`, modeAll: "Sélection de 72 aubaines",
     nores: "Aucune aubaine ne correspond à votre recherche.",
-    chosenPill: "✓ Choisi", boughtBtn: "🛍 Acheté", remove: "Retirer", putBack: "Remettre", boughtTitle: "Achetés", archiveBtn: "📁 Archiver", folderPh: "Nom du dossier…", createFolder: "Créer le dossier", cancelBtn: "Annuler", folderWord: "Épicerie du ", itemsWord: "articles",
+    chosenPill: "✓ Choisi", boughtBtn: "🛍 Acheté", remove: "Retirer", putBack: "Remettre", boughtTitle: "Achetés", archiveBtn: "📁 Archiver", folderPh: "Nom du dossier…", createFolder: "Créer le dossier", cancelBtn: "Annuler", folderWord: "Épicerie du ", itemsWord: "articles", deleteSel: "Supprimer la sélection",
     totalSpent: "Total dépensé : ", estTotal: "Total estimé", confSave: "Économies confirmées",
     copy: "Copier ma liste", download: "Télécharger", emptyList: "Votre liste est vide pour le moment.",
     flyerWord: "Circulaire", drawerTitle: "Ma liste de courses", back: "← Continuer de magasiner", clearBtn: "Vider", clearSure: "Sûr ?",
@@ -406,7 +412,7 @@ const S = {
     cmpIntro: "The same foods at several stores this week. The first price shown is always the lowest — tap “Add” to put it in your list.",
     modeBest: n => `Best price (${n} deals)`, modeAll: "Full selection of 72 deals",
     nores: "No deal matches your search.",
-    chosenPill: "✓ Selected", boughtBtn: "🛍 Bought", remove: "Remove", putBack: "Put back", boughtTitle: "Bought", archiveBtn: "📁 Archive", folderPh: "Folder name…", createFolder: "Create folder", cancelBtn: "Cancel", folderWord: "Groceries of ", itemsWord: "items",
+    chosenPill: "✓ Selected", boughtBtn: "🛍 Bought", remove: "Remove", putBack: "Put back", boughtTitle: "Bought", archiveBtn: "📁 Archive", folderPh: "Folder name…", createFolder: "Create folder", cancelBtn: "Cancel", folderWord: "Groceries of ", itemsWord: "items", deleteSel: "Delete selected",
     totalSpent: "Total spent: ", estTotal: "Estimated total", confSave: "Confirmed savings",
     copy: "Copy my list", download: "Download", emptyList: "Your list is empty for now.",
     flyerWord: "Flyer", drawerTitle: "My grocery list", back: "← Continue shopping", clearBtn: "Clear", clearSure: "Sure?",
@@ -471,7 +477,10 @@ function groupSaving(it) {
 let state = { list: {}, bought: [], folders: [] };
 try { const s = JSON.parse(localStorage.getItem("zeluvia-pwa-v1")); if (s && s.list) state = s; } catch (e) {}
 if (!Array.isArray(state.folders)) state.folders = [];
-let archiving = false; const openFolders = new Set();
+let foldersDirty = false;
+state.folders.forEach((f, i) => { if (!f.id) { f.id = "fold" + i + "x" + (f.items ? f.items.length : 0); foldersDirty = true; } });
+let archiving = false; const openFolders = new Set(); const checkedFolders = new Set();
+if (foldersDirty) save();
 function save() { localStorage.setItem("zeluvia-pwa-v1", JSON.stringify(state)); }
 const inList = id => (state.list[id] || 0) > 0;
 const listCount = () => Object.values(state.list).reduce((a, b) => a + b, 0);
@@ -700,8 +709,9 @@ function renderDrawer() {
       form.querySelector("#foldercreate").onclick = () => {
         const inp = document.getElementById("foldername");
         const name = (inp && inp.value.trim()) || defName;
-        state.folders.unshift({ name, items: state.bought });
-        state.bought = []; archiving = false; openFolders.add(0);
+        const nf = { id: "f" + Date.now(), name, items: state.bought };
+        state.folders.unshift(nf);
+        state.bought = []; archiving = false; openFolders.add(nf.id);
         save(); renderAll();
       };
       form.querySelector("#foldercancel").onclick = () => { archiving = false; renderDrawer(); };
@@ -719,15 +729,43 @@ function renderDrawer() {
       const sp = document.createElement("div"); sp.className = "spent"; sp.textContent = t.totalSpent + fmt(spent);
       sec.appendChild(sp);
     }
+    if (checkedFolders.size) {
+      const bd = document.createElement("button"); bd.className = "bulkdel";
+      bd.textContent = `🗑 ${t.deleteSel} (${checkedFolders.size})`;
+      bd.onclick = () => {
+        if (!bd.classList.contains("armed")) {
+          bd.classList.add("armed"); bd.textContent = t.clearSure;
+          setTimeout(() => { bd.classList.remove("armed"); bd.textContent = `🗑 ${t.deleteSel} (${checkedFolders.size})`; }, 6000);
+          return;
+        }
+        state.folders = state.folders.filter(f => !checkedFolders.has(f.id));
+        checkedFolders.clear(); save(); renderAll();
+      };
+      sec.appendChild(bd);
+    }
     state.folders.forEach((f, fi) => {
       const total = f.items.reduce((a, b) => a + b.price * b.qty, 0);
       const count = f.items.reduce((a, b) => a + b.qty, 0);
       const box = document.createElement("div"); box.className = "folder";
-      const fh = document.createElement("button"); fh.className = "folder-head";
-      fh.innerHTML = `<span>${openFolders.has(fi) ? "📂" : "📁"} ${f.name}</span><span class="fm">${count} ${t.itemsWord} · ${fmt(total)} ${openFolders.has(fi) ? "▾" : "▸"}</span>`;
-      fh.onclick = () => { openFolders.has(fi) ? openFolders.delete(fi) : openFolders.add(fi); renderDrawer(); };
-      box.appendChild(fh);
-      if (openFolders.has(fi)) {
+      const headRow = document.createElement("div"); headRow.className = "folder-head";
+      const cb = document.createElement("input"); cb.type = "checkbox"; cb.className = "fcheck"; cb.checked = checkedFolders.has(f.id);
+      cb.onchange = () => { cb.checked ? checkedFolders.add(f.id) : checkedFolders.delete(f.id); renderDrawer(); };
+      const fh = document.createElement("button"); fh.className = "folder-toggle";
+      fh.innerHTML = `<span>${openFolders.has(f.id) ? "📂" : "📁"} ${f.name}</span><span class="fm">${count} ${t.itemsWord} · ${fmt(total)} ${openFolders.has(f.id) ? "▾" : "▸"}</span>`;
+      fh.onclick = () => { openFolders.has(f.id) ? openFolders.delete(f.id) : openFolders.add(f.id); renderDrawer(); };
+      const del = document.createElement("button"); del.className = "folder-trash";
+      del.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>`;
+      del.onclick = () => {
+        if (!del.classList.contains("armed")) {
+          del.classList.add("armed"); del.textContent = t.clearSure;
+          setTimeout(() => { del.classList.remove("armed"); del.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>`; }, 6000);
+          return;
+        }
+        state.folders.splice(fi, 1); checkedFolders.delete(f.id); openFolders.delete(f.id); save(); renderAll();
+      };
+      headRow.appendChild(cb); headRow.appendChild(fh); headRow.appendChild(del);
+      box.appendChild(headRow);
+      if (openFolders.has(f.id)) {
         const wrap = document.createElement("div"); wrap.className = "folder-items";
         f.items.forEach((b, bi) => {
           const it = byId(b.id);
@@ -736,7 +774,7 @@ function renderDrawer() {
           const undo = document.createElement("button"); undo.className = "rmbtn"; undo.textContent = t.putBack;
           undo.onclick = () => {
             f.items.splice(bi, 1);
-            if (!f.items.length) { state.folders.splice(fi, 1); openFolders.delete(fi); }
+            if (!f.items.length) { state.folders.splice(fi, 1); openFolders.delete(f.id); checkedFolders.delete(f.id); }
             state.list[b.id] = (state.list[b.id] || 0) + b.qty; save(); renderAll();
           };
           el.appendChild(undo); wrap.appendChild(el);

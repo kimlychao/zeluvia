@@ -135,7 +135,7 @@
   .cprice .pu{font-size:14px; font-weight:700}
   .cflyer{color:var(--muted); font-size:12px; margin-top:3px}
   .addbtn{border:none; border-radius:999px; padding:11px 17px; font-weight:800; font-size:14.5px; color:#fff; white-space:nowrap}
-  .addbtn.added{background:#0A7A4B !important; color:#fff; border:none; padding:11px 17px}
+  .addbtn.added{background:#0A7A4B !important; color:#fff !important; border:none; padding:11px 17px}
 
   /* Panneau Ma liste */
   .overlay{position:fixed; inset:0; background:rgba(16,30,20,.45); z-index:60; opacity:0; pointer-events:none; transition:opacity .25s}
@@ -613,7 +613,7 @@ function renderGrid() {
         ${savingsLine(it) ? `<div class="csave">${savingsLine(it)}</div>` : ""}
         <div class="cfoot">
           <div><div class="cprice" style="color:${st.color}">${it[4] === "lb" ? fmt(it[2]) + '<span class="pu">/lb</span>' : fmt(it[2])}</div><div class="cflyer">${T().flyerPrice}</div></div>
-          <button class="addbtn ${added ? "added" : ""}" style="${added ? `color:${st.color}; border-color:${st.color}` : `background:${st.color}`}">${added ? T().added : T().add}</button>
+          <button class="addbtn ${added ? "added" : ""}" style="${added ? "" : `background:${st.color}`}">${added ? T().added : T().add}</button>
         </div>
       </div>`;
     card.querySelector(".addbtn").onclick = () => toggleItem(id);

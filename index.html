@@ -77,7 +77,7 @@
   .tile{position:relative; background:var(--surface2); border:2px solid transparent; border-radius:14px; padding:10px 12px; text-align:left; width:100%; color:var(--ink)}
   .tile .tn{font-weight:700; font-size:15.5px}
   .tile .ts{color:var(--muted); font-size:13.5px; margin-top:2px}
-  .tile.sel{border-color:var(--focus); background:var(--surface)}
+  .tile.sel{border-color:#D8293B; background:var(--surface)}
   .tile.sel .tn{padding-right:30px}
   .tile.sel::after{content:"✓"; position:absolute; top:8px; right:8px; width:24px; height:24px; border-radius:50%; background:#D8293B; color:#fff; font-size:14px; font-weight:800; display:grid; place-items:center}
   .panel .empty-note{color:var(--muted); font-size:13.5px; margin:12px 0 0}
@@ -774,7 +774,7 @@ function renderDrawer() {
       const it = byId(id), q = state.list[id];
       const el = document.createElement("div"); el.className = "litem";
       el.innerHTML = `
-        <div class="lr1"><span class="ln">${nm(it)}</span><span class="lp">${fmt(it[2] * q)}</span></div>
+        <div class="lr1"><span class="ln">${nm(it)}</span><span class="lp">${fmt(it[2] * q)}${it[4] === "lb" ? it[3] : ""}</span></div>
         <div class="lr2">
           <span class="qty"><button data-a="-">−</button><span class="qv">${q}</span><button data-a="+">+</button></span>
           <button class="boughtbtn">${t.boughtBtn}</button>
@@ -824,7 +824,7 @@ function renderDrawer() {
     state.bought.forEach((b, bi) => {
       const it = byId(b.id);
       const el = document.createElement("div"); el.className = "bought-item";
-      el.innerHTML = `<span class="bn">${nm(it)} · ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}</span>`;
+      el.innerHTML = `<span class="bn">${nm(it)} · ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}${it[4] === "lb" ? it[3] : ""}</span>`;
       sec.appendChild(el);
     });
     if (state.bought.length) {
@@ -863,7 +863,7 @@ function renderDrawer() {
         f.items.forEach((b, bi) => {
           const it = byId(b.id);
           const el = document.createElement("div"); el.className = "bought-item";
-          el.innerHTML = `<span class="bn">${nm(it)} · ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}</span>`;
+          el.innerHTML = `<span class="bn">${nm(it)} · ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}${it[4] === "lb" ? it[3] : ""}</span>`;
           wrap.appendChild(el);
         });
         box.appendChild(wrap);
@@ -932,6 +932,7 @@ qInput.addEventListener("input", e => {
   clearTimeout(saveTimer); saveTimer = setTimeout(() => rememberSearch(query), 900);
 });
 qInput.addEventListener("focus", renderQMenu);
+qInput.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); qMenu.style.display = "none"; qInput.blur(); } });
 document.addEventListener("pointerdown", e => { if (!e.target.closest(".qwrap")) qMenu.style.display = "none"; });
 document.getElementById("goresults").addEventListener("click", () => {
   const nrEl = document.getElementById("nores");

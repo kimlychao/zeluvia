@@ -2,12 +2,11 @@
 <html lang="fr-CA">
 <head>
 <meta charset="UTF-8">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="dark">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zeluvia : Aubaines d'épicerie de la semaine</title>
 <meta name="description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
-<meta name="theme-color" content="#153D2B">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0C1424">
+<meta name="theme-color" content="#0C1424">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://zeluvia.vercel.app/">
 <meta property="og:title" content="Zeluvia : Aubaines d'épicerie de la semaine">
@@ -21,19 +20,11 @@
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <style>
   :root{
-    --yellow:#FFD147; --dark:#153D2B; --dark2:#103122;
-    --page:#F5F7F2; --surface:#FFFFFF; --surface2:#E9EEE8;
-    --ink:#17221B; --muted:#5B6A60; --line:#D7DFD8;
-    --hero:#153D2B; --heroink:#FFFFFF; --heromuted:#C9D6CC; --focus:#087449;
+    --yellow:#F0C641; --dark:#12294D; --dark2:#0C1424;
+    --page:#0C1424; --surface:#16233C; --surface2:#1F3050;
+    --ink:#EEF3FB; --muted:#A9BAD2; --line:#2C4066;
+    --hero:#CFE2FF; --heroink:#10233F; --heromuted:#47648C; --focus:#8FB8FF;
     --bg:var(--page); --card:var(--surface);
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --yellow:#F0C641; --dark:#12294D; --dark2:#0C1424;
-      --page:#0C1424; --surface:#16233C; --surface2:#1F3050;
-      --ink:#EEF3FB; --muted:#A9BAD2; --line:#2C4066;
-      --hero:#CFE2FF; --heroink:#10233F; --heromuted:#47648C; --focus:#8FB8FF;
-    }
   }
 
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
@@ -154,7 +145,7 @@
   .cname{font-weight:700; font-size:13.5px; line-height:1.25; height:51px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
   .cunit{color:var(--muted); font-size:12px; min-height:34px}
   .csave{color:#1E7A34; font-size:11.5px; font-weight:600; min-height:16px}
-  @media (prefers-color-scheme: dark){ .csave{color:#82E0AD} .cprice{color:#fff !important} .step .num{background:#CFE2FF} }
+  .csave{color:#82E0AD} .cprice{color:#fff !important} .step .num{background:#CFE2FF}
 
   .cfoot{margin-top:auto; padding-top:9px; display:flex; flex-direction:column; align-items:flex-start; gap:8px}
   .cprice{font-size:21px; font-weight:800; line-height:1; white-space:nowrap}

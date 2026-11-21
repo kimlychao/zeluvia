@@ -139,6 +139,8 @@
   .nophoto{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; color:var(--muted)}
   .nophoto .np-tx{font-size:12px; text-align:center; padding:0 6px}
   .storebadge{position:absolute; top:10px; left:10px; color:#fff; font-weight:800; font-size:12.5px; border-radius:9px; padding:5px 10px}
+  .storechip{position:absolute; top:8px; left:8px; background:#fff; border-radius:9px; padding:4px 7px; display:inline-flex; align-items:center; box-shadow:0 2px 8px rgba(0,0,0,.20)}
+  .storechip img{height:18px; width:auto; display:block}
   .bestbadge{position:absolute; left:10px; bottom:12px; background:var(--yellow); color:#14231a; font-weight:800; font-size:12.5px; border-radius:999px; padding:5px 11px; box-shadow:0 2px 6px rgba(0,0,0,.15)}
   .photoline{height:5px}
   .cbody{padding:9px 10px 10px; display:flex; flex-direction:column; gap:3px; flex:1}
@@ -166,10 +168,10 @@
   .drawer .dbody{overflow-y:auto; padding:6px 16px 16px; flex:1}
   .ghead{display:flex; align-items:center; gap:8px; background:var(--surface2); border-radius:14px; padding:10px 12px; margin-top:14px}
   .ghead .dot{width:10px; height:10px; border-radius:50%; flex:none}
-  .ghead a.gname{color:var(--ink); font-weight:800; font-size:16px}
+  .ghead .gname{color:var(--ink); font-weight:800; font-size:16px}
   .ghead .flyerpill{margin-left:auto; background:var(--surface); border:1.5px solid var(--focus); color:var(--focus); border-radius:999px; padding:6px 11px; font-size:12.5px; font-weight:700; text-decoration:none; white-space:nowrap; display:inline-flex; align-items:center; gap:6px}
   .flyerpill .logochip{background:#fff; border-radius:5px; padding:1px 3px; display:inline-flex; align-items:center}
-  .flyerpill .slogo{height:15px; width:auto; display:block}
+  .flyerpill .slogo{height:17px; width:auto; display:block}
   .litem{background:var(--surface2); border-radius:14px; padding:11px 12px; margin-top:9px}
   .litem .lr1{display:flex; align-items:flex-start; gap:8px}
   .chosenpill{background:#0A7A4B; color:#fff; font-size:11.5px; font-weight:800; border-radius:999px; padding:4px 9px; flex:none}
@@ -692,7 +694,7 @@ function renderGrid() {
       : `<div class="nophoto"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M21 16l-5-5-9 9"/></svg><span class="np-tx">${T().photoNA}</span></div>`;
     card.innerHTML = `
       <div class="photo">${photo}
-        <span class="storebadge" style="background:${st.color}">${st.name}</span>
+        <span class="storechip"><img src="${LOGOS[it[0]]}" alt="${st.name}"></span>
         ${bestIds.has(id) && GKEY[id] ? `<span class="bestbadge">${T().best}</span>` : ""}
       </div>
       <div class="photoline" style="background:${st.color}"></div>
@@ -727,7 +729,7 @@ function renderDrawer() {
     const mine = ids.filter(id => byId(id)[0] === si);
     if (!mine.length) return;
     const gh = document.createElement("div"); gh.className = "ghead";
-    gh.innerHTML = `<span class="dot" style="background:${st.color}"></span><a class="gname" href="${st.flyer}" target="_blank" rel="noopener">${st.name}</a><a class="flyerpill" href="${st.flyer}" target="_blank" rel="noopener">${st.name} <span class="logochip"><img class="slogo" src="${LOGOS[si]}" alt=""></span> ${t.flyerWord}</a>`;
+    gh.innerHTML = `<span class="dot" style="background:${st.color}"></span><span class="gname">${st.name}</span><a class="flyerpill" href="${st.flyer}" target="_blank" rel="noopener">${st.name} <span class="logochip"><img class="slogo" src="${LOGOS[si]}" alt=""></span> ${t.flyerWord}</a>`;
     body.appendChild(gh);
     mine.forEach(id => {
       const it = byId(id), q = state.list[id];

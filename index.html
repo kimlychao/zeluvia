@@ -65,27 +65,33 @@
   /* Étapes */
   .steps{margin-top:26px}
   .steps h2, .sec-title{font-size:24px; font-weight:800; margin:0 0 6px}
-  .steps-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:12px}
-  @media(min-width:760px){ .steps-grid{grid-template-columns:repeat(3,1fr)} }
-  .step{background:var(--card); border-radius:18px; padding:16px; display:flex; gap:12px; align-items:flex-start}
-  .step .num{width:34px; height:34px; flex:none; border-radius:50%; background:var(--dark); color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center}
-  .step .st{font-weight:800; font-size:15.5px}
-  .step .sd{color:var(--muted); font-size:13.5px; margin-top:2px; line-height:1.4}
+  .steps-grid{display:grid; grid-template-columns:1fr; gap:13px; margin-top:14px}
+  .step{display:flex; gap:12px; align-items:center}
+  .step .num{width:34px; height:34px; flex:none; border-radius:50%; background:#A9DFC0; color:#14231a; font-weight:800; display:flex; align-items:center; justify-content:center}
+  .step .st{font-weight:400; font-size:16.5px}
+  .step .st b{font-weight:800}
 
   /* Comparaison */
   .compare{margin-top:28px}
-  .cmp-row{background:var(--card); border-radius:18px; padding:14px 16px; margin-top:10px}
-  .cmp-row .cn{font-weight:800; font-size:16px; margin-bottom:9px}
-  .cmp-pills{display:flex; flex-wrap:wrap; gap:7px; align-items:center}
+  .cmp-intro{color:var(--muted); font-size:14px; line-height:1.5; margin:4px 0 2px}
+  .cmp-row{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:14px 16px; margin-top:10px; display:flex; gap:14px}
+  .cmp-thumb{width:86px; height:86px; flex:none; border-radius:12px; object-fit:cover; background:#E3EDD7}
+  .cmp-thumb.na{display:flex; align-items:center; justify-content:center; text-align:center; color:var(--muted); font-size:11.5px; font-weight:600; padding:6px}
+  .cmp-main{flex:1; min-width:0; display:flex; flex-direction:column}
+  .cmp-row .cn{font-weight:800; font-size:16px; margin-bottom:2px}
+  .cmp-gapline{color:#1E7A34; font-weight:700; font-size:14px; margin-bottom:9px}
+  .cmp-pills{display:flex; flex-wrap:wrap; gap:7px; align-items:center; margin-bottom:10px}
   .cmp-pill{border-radius:999px; padding:7px 13px; font-size:13.5px; font-weight:700; background:#E9EDE7; color:var(--ink)}
-  .cmp-pill.best{background:var(--dark); color:#fff}
-  .cmp-gap{color:var(--muted); font-size:13px; margin-left:2px}
-  .cmp-add{margin-left:auto; background:var(--dark2); color:#fff; border:none; border-radius:999px; padding:8px 16px; font-weight:700; font-size:13.5px}
+  .cmp-pill.best{background:#1E9E6A; color:#fff}
+  .cmp-add{margin-top:auto; align-self:flex-end; background:#fff; color:var(--ink); border:1.5px solid var(--line); border-radius:999px; padding:9px 18px; font-weight:700; font-size:14px}
   .cmp-add.added{background:#fff; color:var(--dark); border:2px solid var(--dark)}
 
   /* Filtres */
   .filters{margin-top:28px}
-  .filters .flabel{font-weight:800; font-size:16px; margin-bottom:9px}
+  .filterbox{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:18px; margin-top:14px}
+  .needrow{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+  .filters .flabel{font-weight:800; font-size:16.5px; margin-right:2px}
+  .qlabel{font-weight:700; font-size:15.5px; margin:18px 0 8px}
   .chips{display:flex; flex-wrap:wrap; gap:8px}
   .chip{background:#fff; border:1.5px solid var(--line); color:var(--ink); border-radius:999px; padding:9px 15px; font-size:14px; font-weight:600}
   .chip.on{background:var(--dark); color:#fff; border-color:var(--dark)}
@@ -99,7 +105,7 @@
   /* Cartes produits */
   .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(245px,1fr)); gap:14px; margin-top:16px}
   .card{background:var(--card); border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
-  .photo{position:relative; background:#E3EDD7; height:112px; flex:none; cursor:pointer; margin:10px 10px 0; padding:8px; border-radius:14px 14px 0 0}
+  .photo{position:relative; background:#E3EDD7; height:112px; flex:none; margin:10px 10px 0; padding:8px; border-radius:14px 14px 0 0}
   .photo img{width:100%; height:100%; object-fit:cover; display:block; border-radius:9px}
   .nophoto{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; color:var(--muted)}
   .nophoto .np-tx{text-decoration:underline; font-size:13.5px}
@@ -198,25 +204,32 @@
   <section class="steps">
     <h2 id="stepstitle">Comment ça marche, en 3 étapes</h2>
     <div class="steps-grid">
-      <div class="step"><span class="num">1</span><div><div class="st" id="s1t">Choisissez vos aliments</div><div class="sd" id="s1d">Parcourez les aubaines de la semaine dans les 6 épiceries.</div></div></div>
-      <div class="step"><span class="num">2</span><div><div class="st" id="s2t">Ajoutez les aubaines à votre liste</div><div class="sd" id="s2d">Chaque aliment est gardé au meilleur prix trouvé.</div></div></div>
-      <div class="step"><span class="num">3</span><div><div class="st" id="s3t">Magasinez avec votre liste, en magasin</div><div class="sd" id="s3d">Votre liste est rangée magasin par magasin, prête pour vos courses.</div></div></div>
+      <div class="step"><span class="num">1</span><div class="st" id="s1t"><b>Choisissez</b> vos aliments</div></div>
+      <div class="step"><span class="num">2</span><div class="st" id="s2t"><b>Ajoutez</b> les aubaines à votre liste</div></div>
+      <div class="step"><span class="num">3</span><div class="st" id="s3t"><b>Magasinez</b> avec votre liste, en magasin</div></div>
     </div>
   </section>
 
   <section class="compare" id="compare">
     <h2 class="sec-title" id="cmptitle">Le même produit, pas le même prix</h2>
+    <p class="cmp-intro" id="cmpintro">Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.</p>
     <div id="cmplist"></div>
   </section>
 
   <section class="filters" id="aubaines">
     <h2 class="sec-title" id="seltitle">Sélection de la semaine</h2>
-    <p id="selhint" style="color:var(--muted); font-size:14px; margin:4px 0 14px">Touchez « Ajouter » pour mettre une aubaine dans votre liste. Touchez la photo d'un aliment pour voir la circulaire.</p>
-    <div class="flabel" id="flabel">J'ai besoin de</div>
-    <div class="chips" id="catchips"></div>
-    <div class="searchrow">
-      <input type="search" id="q" placeholder="🔍 Ou cherchez un aliment par son nom…">
-      <select id="fstore" aria-label="Filtrer par enseigne"></select>
+    <p id="selhint" style="color:var(--muted); font-size:14px; margin:4px 0 14px">Touchez « Ajouter » pour mettre une aubaine dans votre liste.</p>
+    <div class="filterbox">
+      <div class="needrow">
+        <span class="flabel" id="flabel">J'ai besoin de</span>
+        <div class="chips" id="catchips"></div>
+      </div>
+      <div class="qlabel" id="qlabel">Ou cherchez un aliment par son nom :</div>
+      <div class="searchrow">
+        <input type="search" id="q" placeholder="🔍 Fraises, poulet, fromage…">
+        <select id="fstore" aria-label="Filtrer par enseigne"></select>
+        <select id="fcat" aria-label="Filtrer par catégorie"></select>
+      </div>
     </div>
     <div class="seg" id="mode">
       <button data-m="best" class="on">Meilleur prix</button>
@@ -320,7 +333,9 @@ const S = {
     best: "Meilleur prix", flyerPrice: "Prix de circulaire", add: "+ Ajouter", added: "Ajouté ✓", photoNA: "Photo non disponible",
     saveVs: (amt, store, price) => `Économisez ${amt} vs ${store} (${price})`,
     gap: g => `Écart de ${g} entre épiceries`, addBest: "+ Ajouter le meilleur prix",
-    searchPh: "🔍 Ou cherchez un aliment par son nom…", storeAll: "Filtrer par enseigne : Toutes les enseignes", catAll: "Filtrer par catégorie : Toutes les catégories",
+    searchPh: "🔍 Fraises, poulet, fromage…", storeAll: "Toutes les enseignes", catAll: "Toutes les catégories",
+    searchLabel: "Ou cherchez un aliment par son nom :",
+    cmpIntro: "Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.",
     modeBest: n => `Meilleur prix (${n} aubaines)`, modeAll: "Sélection de 72 aubaines",
     nores: "Aucune aubaine ne correspond à votre recherche.",
     chosenPill: "✓ Choisi", boughtBtn: "🛍 Acheté", remove: "Retirer", putBack: "Remettre", boughtTitle: "Achetés",
@@ -340,7 +355,7 @@ const S = {
     s2t: "Ajoutez les aubaines à votre liste", s2d: "Chaque aliment est gardé au meilleur prix trouvé.",
     s3t: "Magasinez avec votre liste, en magasin", s3d: "Votre liste est rangée magasin par magasin, prête pour vos courses.",
     cmpTitle: "Le même produit, pas le même prix", selTitle: "Sélection de la semaine",
-    selHint: "Touchez « Ajouter » pour mettre une aubaine dans votre liste. Touchez la photo d'un aliment pour voir la circulaire.",
+    selHint: "Touchez « Ajouter » pour mettre une aubaine dans votre liste.",
     needLabel: "J'ai besoin de",
     footTitle: "Une circulaire complète à consulter ?",
     footNote: "Prix valides du 19 au 25 novembre 2026. Prix relevés dans les circulaires de la semaine des 6 épiceries. Les prix en magasin peuvent varier.",
@@ -357,7 +372,9 @@ const S = {
     best: "Best price", flyerPrice: "Flyer price", add: "+ Add", added: "Added ✓", photoNA: "Photo not available",
     saveVs: (amt, store, price) => `Save ${amt} vs ${store} (${price})`,
     gap: g => `${g} difference between stores`, addBest: "+ Add the best price",
-    searchPh: "🔍 Or search for a food by name…", storeAll: "Filter by store: All stores", catAll: "Filter by category: All categories",
+    searchPh: "🔍 Strawberries, chicken, cheese…", storeAll: "All stores", catAll: "All categories",
+    searchLabel: "Or search for a food by name:",
+    cmpIntro: "The same foods at several stores this week. The first price shown is always the lowest — tap “Add” to put it in your list.",
     modeBest: n => `Best price (${n} deals)`, modeAll: "Full selection of 72 deals",
     nores: "No deal matches your search.",
     chosenPill: "✓ Selected", boughtBtn: "🛍 Bought", remove: "Remove", putBack: "Put back", boughtTitle: "Bought",
@@ -377,7 +394,7 @@ const S = {
     s2t: "Add deals to your list", s2d: "Every food is kept at the best price found.",
     s3t: "Shop in store with your list", s3d: "Your list is sorted store by store, ready for your groceries.",
     cmpTitle: "Same product, different price", selTitle: "This week's selection",
-    selHint: "Tap “Add” to put a deal in your list. Tap a food's photo to see the flyer.",
+    selHint: "Tap “Add” to put a deal in your list.",
     needLabel: "I need",
     footTitle: "Want to browse a full flyer?",
     footNote: "Prices valid November 19–25, 2026. Prices taken from this week's flyers at the 6 stores. In-store prices may vary.",
@@ -454,9 +471,12 @@ function applyStatic() {
   document.getElementById("panelhint").textContent = t.panelHint;
   document.getElementById("btnvoirliste").textContent = t.seeList;
   document.getElementById("stepstitle").textContent = t.stepsTitle;
-  document.getElementById("s1t").textContent = t.s1t; document.getElementById("s1d").textContent = t.s1d;
-  document.getElementById("s2t").textContent = t.s2t; document.getElementById("s2d").textContent = t.s2d;
-  document.getElementById("s3t").textContent = t.s3t; document.getElementById("s3d").textContent = t.s3d;
+  const boldFirst = s => s.replace(/^(\S+)/, "<b>$1</b>");
+  document.getElementById("s1t").innerHTML = boldFirst(t.s1t);
+  document.getElementById("s2t").innerHTML = boldFirst(t.s2t);
+  document.getElementById("s3t").innerHTML = boldFirst(t.s3t);
+  document.getElementById("cmpintro").textContent = t.cmpIntro;
+  document.getElementById("qlabel").textContent = t.searchLabel;
   document.getElementById("cmptitle").textContent = t.cmpTitle;
   document.getElementById("seltitle").textContent = t.selTitle;
   document.getElementById("selhint").textContent = t.selHint;
@@ -511,7 +531,11 @@ function renderCompare() {
     const items = ids.map(byId).slice().sort((a, b) => a[2] - b[2]);
     const best = items[0], gap = items[items.length - 1][2] - best[2];
     const row = document.createElement("div"); row.className = "cmp-row";
-    row.innerHTML = `<div class="cn">${lang === "en" ? en : fr}</div>`;
+    row.innerHTML = PHOTO[best[5]]
+      ? `<img class="cmp-thumb" src="${PHOTO[best[5]]}" alt="" loading="lazy">`
+      : `<div class="cmp-thumb na">${T().photoNA}</div>`;
+    const main = document.createElement("div"); main.className = "cmp-main";
+    main.innerHTML = `<div class="cn">${lang === "en" ? en : fr}</div><div class="cmp-gapline">${T().gap(fmt(gap))}</div>`;
     const pills = document.createElement("div"); pills.className = "cmp-pills";
     items.forEach((it, i) => {
       const p = document.createElement("span");
@@ -519,14 +543,13 @@ function renderCompare() {
       p.textContent = `${STORES[it[0]].name} · ${priceDisp(it)}`;
       pills.appendChild(p);
     });
-    const g = document.createElement("span"); g.className = "cmp-gap"; g.textContent = T().gap(fmt(gap));
-    pills.appendChild(g);
+    main.appendChild(pills);
     const add = document.createElement("button");
     add.className = "cmp-add" + (inList(best[5]) ? " added" : "");
     add.textContent = inList(best[5]) ? T().added : T().addBest;
     add.onclick = () => toggleItem(best[5]);
-    pills.appendChild(add);
-    row.appendChild(pills); box.appendChild(row);
+    main.appendChild(add);
+    row.appendChild(main); box.appendChild(row);
   });
 }
 
@@ -542,6 +565,9 @@ function renderChips() {
   });
   const fs = document.getElementById("fstore");
   fs.innerHTML = `<option value="all">${T().storeAll}</option>` + STORES.map((s, i) => `<option value="${i}">${s.name}</option>`).join("");
+  const fc = document.getElementById("fcat");
+  fc.innerHTML = `<option value="all">${T().catAll}</option>` + CATS.filter(c => c[0] !== "all").map(c => `<option value="${c[0]}">${lang === "en" ? c[2] : c[1]}</option>`).join("");
+  fc.value = fCat;
   fs.value = fStore;
   document.querySelectorAll("#mode button").forEach(b => b.classList.toggle("on", b.dataset.m === fMode));
 }
@@ -565,7 +591,7 @@ function renderGrid() {
       ? `<img src="${PHOTO[id]}" alt="${nm(it)}" loading="lazy">`
       : `<div class="nophoto"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M21 16l-5-5-9 9"/></svg><span class="np-tx">${T().photoNA}</span></div>`;
     card.innerHTML = `
-      <div class="photo" title="${T().seeFlyer(st.name)}">${photo}
+      <div class="photo">${photo}
         <span class="storebadge" style="background:${st.color}">${st.name}</span>
         ${bestIds.has(id) && GKEY[id] ? `<span class="bestbadge">${T().best}</span>` : ""}
       </div>
@@ -579,7 +605,6 @@ function renderGrid() {
           <button class="addbtn ${added ? "added" : ""}" style="${added ? `color:${st.color}; border-color:${st.color}` : `background:${st.color}`}">${added ? T().added : T().add}</button>
         </div>
       </div>`;
-    card.querySelector(".photo").onclick = () => window.open(st.flyer, "_blank");
     card.querySelector(".addbtn").onclick = () => toggleItem(id);
     grid.appendChild(card);
   });
@@ -658,6 +683,7 @@ document.getElementById("btnback").onclick = closeDrawer;
 document.getElementById("overlay").onclick = closeDrawer;
 document.getElementById("q").addEventListener("input", e => { query = e.target.value; renderGrid(); });
 document.getElementById("fstore").addEventListener("change", e => { fStore = e.target.value; renderGrid(); });
+document.getElementById("fcat").addEventListener("change", e => { fCat = e.target.value; renderChips(); renderGrid(); });
 document.querySelectorAll("#mode button").forEach(b => b.onclick = () => { fMode = b.dataset.m; renderChips(); renderGrid(); });
 document.getElementById("btncopy").onclick = async () => {
   const lines = [];

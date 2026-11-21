@@ -63,7 +63,10 @@
 
   /* Panneau « Aliments à sélectionner » */
   .panel{background:var(--surface); border-radius:24px; padding:18px; box-shadow:0 2px 10px rgba(21,61,43,.06)}
-  .panel .ph{display:flex; align-items:center; justify-content:space-between; gap:8px}
+  .panel .ph{display:flex; align-items:center; gap:8px}
+  .panel .ph .countpill{margin-left:auto}
+  .searchicon{display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:var(--surface2); color:var(--ink); flex:none; text-decoration:none}
+  #aubaines{scroll-margin-top:96px}
   .panel h2{font-size:19px; margin:0; font-weight:800}
   .countpill{background:var(--surface2); color:var(--ink); font-size:12.5px; font-weight:700; border-radius:999px; padding:5px 11px}
   .panel .hint{color:var(--muted); font-size:13.5px; line-height:1.45; margin:8px 0 12px}
@@ -236,7 +239,7 @@
       <div class="herostats" id="herostats"></div>
     </div>
     <div class="panel">
-      <div class="ph"><h2 id="paneltitle">Aliments à sélectionner</h2><span class="countpill" id="tilecount">0 choisi</span></div>
+      <div class="ph"><a class="searchicon" href="#aubaines" aria-label="Rechercher"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></a><h2 id="paneltitle">Aliments à sélectionner</h2><span class="countpill" id="tilecount">0 choisi</span></div>
       <p class="hint" id="panelhint">Touchez un aliment pour l'ajouter à votre liste, au meilleur prix. Touchez-le de nouveau pour le retirer.</p>
       <div class="tiles" id="tiles"></div>
       <p class="empty-note" id="tilenote">Aucun aliment choisi pour le moment.</p>

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zeluvia : Aubaines d'épicerie de la semaine</title>
 <meta name="description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
-<meta name="theme-color" content="#F5F7F2">
+<meta name="theme-color" content="#153D2B">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://zeluvia.vercel.app/">
 <meta property="og:title" content="Zeluvia : Aubaines d'épicerie de la semaine">
@@ -25,6 +25,14 @@
     --ink:#17221B; --muted:#5B6A60; --line:#D7DFD8;
     --hero:#153D2B; --heroink:#FFFFFF; --heromuted:#C9D6CC; --focus:#087449;
     --bg:var(--page); --card:var(--surface);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --yellow:#F0C641;
+      --page:#101713; --surface:#18221C; --surface2:#223028;
+      --ink:#F1F6F1; --muted:#B2C0B6; --line:#34453A;
+      --hero:#D8F3BB; --heroink:#132218; --heromuted:#3D5546; --focus:#82E0AD;
+    }
   }
 
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
@@ -145,6 +153,7 @@
   .cname{font-weight:700; font-size:13.5px; line-height:1.25}
   .cunit{color:var(--muted); font-size:12px}
   .csave{color:#1E7A34; font-size:11.5px; font-weight:600}
+  @media (prefers-color-scheme: dark){ .csave{color:#82E0AD} .cprice{color:#fff !important} }
 
   .cfoot{margin-top:auto; padding-top:9px; display:flex; flex-direction:column; align-items:flex-start; gap:8px}
   .cprice{font-size:21px; font-weight:800; line-height:1; white-space:nowrap}

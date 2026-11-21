@@ -1,4 +1,4 @@
-const CACHE = "zeluvia-v51-2026-11-21";
+const CACHE = "zeluvia-v52-2026-11-21";
 const ASSETS = [
   "./",
   "./index.html",
@@ -26,8 +26,7 @@ self.addEventListener("fetch", e => {
     // Page : réseau d'abord (prix frais chaque semaine), cache en secours hors-ligne
     e.respondWith(
       fetch(e.request)
-        .then(r => { const cp = r.clone(); caches.open(CACHE).then(c => c.put("./index.html",
-  "./photos.js", cp)); return r; })
+        .then(r => { const cp = r.clone(); caches.open(CACHE).then(c => c.put("./index.html", cp)); return r; })
         .catch(() => caches.match("./index.html"))
     );
     return;

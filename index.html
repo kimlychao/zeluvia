@@ -120,22 +120,22 @@
   /* Cartes produits — format compact demandé le 2026-11-20 : petites photos, prix bien visible, plus d'items à l'écran */
   .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(108px,1fr)); gap:10px; margin-top:16px}
   .card{background:var(--surface); border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
-  .photo{position:relative; background:var(--surface2); height:92px; flex:none}
+  .photo{position:relative; background:var(--surface2); height:80px; flex:none}
   .photo img{width:100%; height:100%; object-fit:cover; display:block}
   .nophoto{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; color:var(--muted)}
   .nophoto .np-tx{text-decoration:underline; font-size:13.5px}
   .storebadge{position:absolute; top:10px; left:10px; color:#fff; font-weight:800; font-size:12.5px; border-radius:9px; padding:5px 10px}
   .bestbadge{position:absolute; left:10px; bottom:12px; background:var(--yellow); color:#14231a; font-weight:800; font-size:12.5px; border-radius:999px; padding:5px 11px; box-shadow:0 2px 6px rgba(0,0,0,.15)}
   .photoline{height:5px}
-  .cbody{padding:10px 11px 12px; display:flex; flex-direction:column; gap:3px; flex:1}
-  .cname{font-weight:700; font-size:14.5px; line-height:1.25}
-  .cunit{color:var(--muted); font-size:13px}
-  .csave{color:#1E7A34; font-size:13px; font-weight:600}
+  .cbody{padding:9px 10px 10px; display:flex; flex-direction:column; gap:3px; flex:1}
+  .cname{font-weight:700; font-size:13.5px; line-height:1.25}
+  .cunit{color:var(--muted); font-size:12px}
+  .csave{color:#1E7A34; font-size:11.5px; font-weight:600}
   @media (prefers-color-scheme: dark){ .csave{color:#82E0AD} .cprice{color:#fff !important} }
   .cfoot{margin-top:auto; padding-top:9px; display:flex; flex-direction:column; align-items:flex-start; gap:8px}
-  .cprice{font-size:29px; font-weight:800; line-height:1}
-  .cprice .pu{font-size:14px; font-weight:700}
-  .cflyer{color:var(--muted); font-size:12px; margin-top:3px}
+  .cprice{font-size:21px; font-weight:800; line-height:1; white-space:nowrap}
+  .cprice .pu{font-size:12px; font-weight:700}
+  .cflyer{color:var(--muted); font-size:11px; margin-top:3px; white-space:nowrap}
   .addbtn{border:none; border-radius:999px; padding:9px 10px; font-weight:800; font-size:13.5px; color:#fff; white-space:nowrap; width:100%}
   .addbtn.added{background:#0A7A4B !important; color:#fff !important; border:none; padding:9px 10px}
 

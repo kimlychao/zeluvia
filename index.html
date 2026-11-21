@@ -173,6 +173,15 @@
   .btn-black{flex:1; background:var(--ink); color:var(--surface); border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
   .btn-grey{flex:1; background:var(--surface2); color:var(--ink); border:none; border-radius:999px; padding:12px; font-weight:800; font-size:14.5px}
   .bought-sec h3{font-size:19px; font-weight:800; margin:20px 0 2px}
+  .bought-head{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:20px}
+  .archive-form{margin-top:10px; background:var(--surface2); border-radius:14px; padding:12px}
+  .archive-form input{width:100%; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:11px 12px; font-size:15px; color:var(--ink)}
+  .archive-form .afrow{display:flex; gap:8px; margin-top:10px}
+  .archive-form .afrow button{flex:1}
+  .folder{margin-top:10px; border:1px solid var(--line); border-radius:14px; overflow:hidden}
+  .folder-head{width:100%; display:flex; gap:8px; align-items:center; background:var(--surface2); padding:12px; font-weight:700; font-size:14.5px; text-align:left; color:var(--ink)}
+  .folder-head .fm{margin-left:auto; color:var(--muted); font-size:12.5px; font-weight:600; white-space:nowrap}
+  .folder-items{padding:2px 8px 8px}
   .bought-item{display:flex; gap:8px; align-items:center; background:var(--surface2); border-radius:12px; padding:9px 12px; margin-top:8px; font-size:14px}
   .bought-item .bn{font-weight:600}
   .bought-item .bp{margin-left:auto; font-weight:800}
@@ -358,7 +367,7 @@ const S = {
     cmpIntro: "Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.",
     modeBest: n => `Meilleur prix (${n} aubaines)`, modeAll: "Sélection de 72 aubaines",
     nores: "Aucune aubaine ne correspond à votre recherche.",
-    chosenPill: "✓ Choisi", boughtBtn: "🛍 Acheté", remove: "Retirer", putBack: "Remettre", boughtTitle: "Achetés",
+    chosenPill: "✓ Choisi", boughtBtn: "🛍 Acheté", remove: "Retirer", putBack: "Remettre", boughtTitle: "Achetés", archiveBtn: "📁 Archiver", folderPh: "Nom du dossier…", createFolder: "Créer le dossier", cancelBtn: "Annuler", folderWord: "Épicerie du ", itemsWord: "articles",
     totalSpent: "Total dépensé : ", estTotal: "Total estimé", confSave: "Économies confirmées",
     copy: "Copier ma liste", download: "Télécharger", emptyList: "Votre liste est vide pour le moment.",
     flyerWord: "Circulaire", drawerTitle: "Ma liste de courses", back: "← Continuer de magasiner", clearBtn: "Vider", clearSure: "Sûr ?",
@@ -397,7 +406,7 @@ const S = {
     cmpIntro: "The same foods at several stores this week. The first price shown is always the lowest — tap “Add” to put it in your list.",
     modeBest: n => `Best price (${n} deals)`, modeAll: "Full selection of 72 deals",
     nores: "No deal matches your search.",
-    chosenPill: "✓ Selected", boughtBtn: "🛍 Bought", remove: "Remove", putBack: "Put back", boughtTitle: "Bought",
+    chosenPill: "✓ Selected", boughtBtn: "🛍 Bought", remove: "Remove", putBack: "Put back", boughtTitle: "Bought", archiveBtn: "📁 Archive", folderPh: "Folder name…", createFolder: "Create folder", cancelBtn: "Cancel", folderWord: "Groceries of ", itemsWord: "items",
     totalSpent: "Total spent: ", estTotal: "Estimated total", confSave: "Confirmed savings",
     copy: "Copy my list", download: "Download", emptyList: "Your list is empty for now.",
     flyerWord: "Flyer", drawerTitle: "My grocery list", back: "← Continue shopping", clearBtn: "Clear", clearSure: "Sure?",
@@ -459,8 +468,10 @@ function groupSaving(it) {
 }
 
 // État (liste + achats), gardé sur l'appareil
-let state = { list: {}, bought: [] };
+let state = { list: {}, bought: [], folders: [] };
 try { const s = JSON.parse(localStorage.getItem("zeluvia-pwa-v1")); if (s && s.list) state = s; } catch (e) {}
+if (!Array.isArray(state.folders)) state.folders = [];
+let archiving = false; const openFolders = new Set();
 function save() { localStorage.setItem("zeluvia-pwa-v1", JSON.stringify(state)); }
 const inList = id => (state.list[id] || 0) > 0;
 const listCount = () => Object.values(state.list).reduce((a, b) => a + b, 0);
@@ -643,7 +654,7 @@ function renderDrawer() {
   const body = document.getElementById("dbody"); body.innerHTML = "";
   const ids = Object.keys(state.list).map(Number);
   document.getElementById("btnclear").style.display = ids.length ? "" : "none";
-  if (!ids.length && !state.bought.length) body.innerHTML = `<p class="empty-list">${t.emptyList}</p>`;
+  if (!ids.length && !state.bought.length && !state.folders.length) body.innerHTML = `<p class="empty-list">${t.emptyList}</p>`;
   STORES.forEach((st, si) => {
     const mine = ids.filter(id => byId(id)[0] === si);
     if (!mine.length) return;
@@ -670,9 +681,31 @@ function renderDrawer() {
       body.appendChild(el);
     });
   });
-  if (state.bought.length) {
+  if (state.bought.length || state.folders.length) {
     const sec = document.createElement("div"); sec.className = "bought-sec";
-    sec.innerHTML = `<h3>${t.boughtTitle}</h3>`;
+    const head = document.createElement("div"); head.className = "bought-head";
+    head.innerHTML = `<h3 style="margin:0">${t.boughtTitle}</h3>`;
+    if (state.bought.length && !archiving) {
+      const ab = document.createElement("button"); ab.className = "boughtbtn"; ab.textContent = t.archiveBtn;
+      ab.onclick = () => { archiving = true; renderDrawer(); };
+      head.appendChild(ab);
+    }
+    sec.appendChild(head);
+    if (archiving && state.bought.length) {
+      const form = document.createElement("div"); form.className = "archive-form";
+      const defName = t.folderWord + new Date().toLocaleDateString(lang === "fr" ? "fr-CA" : "en-CA", { day: "numeric", month: "short" });
+      form.innerHTML = `<input id="foldername" type="text" placeholder="${t.folderPh}"><div class="afrow"><button class="btn-yellow" id="foldercreate">${t.createFolder}</button><button class="btn-grey" id="foldercancel">${t.cancelBtn}</button></div>`;
+      sec.appendChild(form);
+      setTimeout(() => { const inp = document.getElementById("foldername"); if (inp) { inp.value = defName; inp.focus(); inp.select(); } }, 30);
+      form.querySelector("#foldercreate").onclick = () => {
+        const inp = document.getElementById("foldername");
+        const name = (inp && inp.value.trim()) || defName;
+        state.folders.unshift({ name, items: state.bought });
+        state.bought = []; archiving = false; openFolders.add(0);
+        save(); renderAll();
+      };
+      form.querySelector("#foldercancel").onclick = () => { archiving = false; renderDrawer(); };
+    }
     state.bought.forEach((b, bi) => {
       const it = byId(b.id);
       const el = document.createElement("div"); el.className = "bought-item";
@@ -681,9 +714,38 @@ function renderDrawer() {
       undo.onclick = () => { state.bought.splice(bi, 1); state.list[b.id] = (state.list[b.id] || 0) + b.qty; save(); renderAll(); };
       el.appendChild(undo); sec.appendChild(el);
     });
-    const spent = state.bought.reduce((a, b) => a + b.price * b.qty, 0);
-    const sp = document.createElement("div"); sp.className = "spent"; sp.textContent = t.totalSpent + fmt(spent);
-    sec.appendChild(sp); body.appendChild(sec);
+    if (state.bought.length) {
+      const spent = state.bought.reduce((a, b) => a + b.price * b.qty, 0);
+      const sp = document.createElement("div"); sp.className = "spent"; sp.textContent = t.totalSpent + fmt(spent);
+      sec.appendChild(sp);
+    }
+    state.folders.forEach((f, fi) => {
+      const total = f.items.reduce((a, b) => a + b.price * b.qty, 0);
+      const count = f.items.reduce((a, b) => a + b.qty, 0);
+      const box = document.createElement("div"); box.className = "folder";
+      const fh = document.createElement("button"); fh.className = "folder-head";
+      fh.innerHTML = `<span>📁 ${f.name}</span><span class="fm">${count} ${t.itemsWord} · ${fmt(total)} ${openFolders.has(fi) ? "▾" : "▸"}</span>`;
+      fh.onclick = () => { openFolders.has(fi) ? openFolders.delete(fi) : openFolders.add(fi); renderDrawer(); };
+      box.appendChild(fh);
+      if (openFolders.has(fi)) {
+        const wrap = document.createElement("div"); wrap.className = "folder-items";
+        f.items.forEach((b, bi) => {
+          const it = byId(b.id);
+          const el = document.createElement("div"); el.className = "bought-item";
+          el.innerHTML = `<span class="bn">${nm(it)} — ${STORES[it[0]].name}${b.qty > 1 ? " ×" + b.qty : ""}</span><span class="bp">${fmt(b.price * b.qty)}</span>`;
+          const undo = document.createElement("button"); undo.className = "rmbtn"; undo.textContent = t.putBack;
+          undo.onclick = () => {
+            f.items.splice(bi, 1);
+            if (!f.items.length) { state.folders.splice(fi, 1); openFolders.delete(fi); }
+            state.list[b.id] = (state.list[b.id] || 0) + b.qty; save(); renderAll();
+          };
+          el.appendChild(undo); wrap.appendChild(el);
+        });
+        box.appendChild(wrap);
+      }
+      sec.appendChild(box);
+    });
+    body.appendChild(sec);
   }
   document.getElementById("ftotal").textContent = fmt(listTotal());
   const savedAmt = state.bought.reduce((a, b) => a + groupSaving(byId(b.id)) * b.qty, 0);

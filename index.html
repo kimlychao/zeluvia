@@ -117,6 +117,13 @@
   .searchrow{margin-top:14px; display:grid; grid-template-columns:1fr; gap:9px}
   @media(min-width:760px){ .searchrow{grid-template-columns:2fr 1fr} }
   .searchrow input, .searchrow select{width:100%; padding:12px 14px; border-radius:14px; border:1.5px solid var(--line); background:var(--page); font-size:15px; font-family:inherit; color:var(--ink)}
+  .qwrap{position:relative}
+  .qmenu{position:absolute; top:calc(100% + 6px); left:0; right:0; background:var(--surface); border:1.5px solid var(--line); border-radius:14px; overflow:hidden; z-index:60; box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  .qm-label{padding:9px 14px 3px; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.4px}
+  .qmi{display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:none; border:none; border-bottom:1px solid var(--line); padding:12px 14px; font-size:15px; color:var(--ink); cursor:pointer; font-family:inherit}
+  .qmi:last-child{border-bottom:none}
+  .qmi .qm-t{flex:1}
+  .qmi .qm-x{color:var(--muted); padding:2px 6px}
   .seg{display:inline-flex; background:var(--surface2); border-radius:999px; padding:4px; margin-top:14px; gap:4px}
   .seg button{border:none; background:transparent; border-radius:999px; padding:9px 16px; font-weight:700; font-size:14px; color:var(--ink)}
   .seg button.on{background:var(--surface); box-shadow:0 1px 5px rgba(0,0,0,.12)}
@@ -258,7 +265,7 @@
       </div>
       <div class="qlabel" id="qlabel">Ou cherchez un aliment par son nom :</div>
       <div class="searchrow">
-        <input type="search" id="q" placeholder="🔍 Fraises, poulet, fromage…">
+        <div class="qwrap"><input type="search" id="q" placeholder="🔍 Fraises, poulet, fromage…"><div class="qmenu" id="qmenu" style="display:none"></div></div>
         <select id="fstore" aria-label="Filtrer par enseigne"></select>
         <select id="fcat" aria-label="Filtrer par catégorie"></select>
       </div>
@@ -386,7 +393,7 @@ const S = {
     best: "Meilleur prix", flyerPrice: "Prix de circulaire", add: "+ Ajouter", added: "Ajouté ✓", photoNA: "Photo non disponible",
     saveVs: (amt, store, price) => `Économisez ${amt} vs ${store} (${price})`,
     gap: g => `Écart de ${g} entre épiceries`, addBest: "+ Ajouter le meilleur prix",
-    searchPh: "🔍 Fraises, poulet, fromage…", storeAll: "Toutes les enseignes", catAll: "Toutes les catégories",
+    searchPh: "🔍 Fraises, poulet, fromage…", recentLabel: "Recherches récentes", storeAll: "Toutes les enseignes", catAll: "Toutes les catégories",
     searchLabel: "Ou cherchez un aliment par son nom :",
     cmpIntro: "Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher — touchez « Ajouter » pour le mettre dans votre liste.",
     modeBest: n => `Meilleur prix (${n} aubaines)`, modeAll: "Sélection de 72 aubaines",
@@ -425,7 +432,7 @@ const S = {
     best: "Best price", flyerPrice: "Flyer price", add: "+ Add", added: "Added ✓", photoNA: "Photo not available",
     saveVs: (amt, store, price) => `Save ${amt} vs ${store} (${price})`,
     gap: g => `${g} difference between stores`, addBest: "+ Add the best price",
-    searchPh: "🔍 Strawberries, chicken, cheese…", storeAll: "All stores", catAll: "All categories",
+    searchPh: "🔍 Strawberries, chicken, cheese…", recentLabel: "Recent searches", storeAll: "All stores", catAll: "All categories",
     searchLabel: "Or search for a food by name:",
     cmpIntro: "The same foods at several stores this week. The first price shown is always the lowest — tap “Add” to put it in your list.",
     modeBest: n => `Best price (${n} deals)`, modeAll: "Full selection of 72 deals",
@@ -820,7 +827,41 @@ document.getElementById("btnclear").onclick = () => {
   state.list = {}; save(); renderAll();
 };
 document.getElementById("overlay").onclick = closeDrawer;
-document.getElementById("q").addEventListener("input", e => { query = e.target.value; renderGrid(); });
+const qInput = document.getElementById("q"), qMenu = document.getElementById("qmenu");
+let searches = [];
+try { searches = JSON.parse(localStorage.getItem("zeluvia-searches") || "[]"); } catch (e) { searches = []; }
+let saveTimer;
+function saveSearches() { try { localStorage.setItem("zeluvia-searches", JSON.stringify(searches.slice(0, 8))); } catch (e) {} }
+function rememberSearch(v) {
+  const s = (v || "").trim(); if (s.length < 2) return;
+  searches = [s, ...searches.filter(x => x.toLowerCase() !== s.toLowerCase())].slice(0, 8);
+  saveSearches();
+}
+function renderQMenu() {
+  const cur = qInput.value.trim().toLowerCase();
+  const items = searches.filter(s => !cur || s.toLowerCase().includes(cur));
+  if (!items.length) { qMenu.style.display = "none"; return; }
+  qMenu.innerHTML = "";
+  const lab = document.createElement("div"); lab.className = "qm-label"; lab.textContent = T().recentLabel; qMenu.appendChild(lab);
+  items.forEach(s => {
+    const b = document.createElement("button"); b.type = "button"; b.className = "qmi";
+    b.innerHTML = `<span>🕘</span><span class="qm-t"></span><span class="qm-x">✕</span>`;
+    b.querySelector(".qm-t").textContent = s;
+    b.addEventListener("pointerdown", e => {
+      e.preventDefault();
+      if (e.target.closest(".qm-x")) { searches = searches.filter(x => x !== s); saveSearches(); renderQMenu(); return; }
+      qInput.value = s; query = s; rememberSearch(s); renderGrid(); qMenu.style.display = "none"; qInput.blur();
+    });
+    qMenu.appendChild(b);
+  });
+  qMenu.style.display = "block";
+}
+qInput.addEventListener("input", e => {
+  query = e.target.value; renderGrid(); renderQMenu();
+  clearTimeout(saveTimer); saveTimer = setTimeout(() => rememberSearch(query), 900);
+});
+qInput.addEventListener("focus", renderQMenu);
+document.addEventListener("pointerdown", e => { if (!e.target.closest(".qwrap")) qMenu.style.display = "none"; });
 document.getElementById("fstore").addEventListener("change", e => { fStore = e.target.value; renderGrid(); });
 document.getElementById("fcat").addEventListener("change", e => { fCat = e.target.value; renderChips(); renderGrid(); });
 document.querySelectorAll("#mode button").forEach(b => b.onclick = () => { fMode = b.dataset.m; renderChips(); renderGrid(); });

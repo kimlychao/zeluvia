@@ -106,13 +106,13 @@
   .filters{margin-top:28px}
   .filterbox{background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:18px; margin-top:14px}
   .storelabel{font-weight:800; font-size:15.5px; margin-bottom:10px}
-  .storelogos{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px}
-  .slogo-btn{position:relative; background:#fff; border:2.5px solid #fff; border-radius:14px; padding:9px 5px; display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1 1 21%; min-height:58px}
+  .storelogos{display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-bottom:16px}
+  .slogo-btn{position:relative; background:#fff; border:2.5px solid #fff; border-radius:14px; padding:9px 5px; display:flex; flex-direction:column; align-items:center; justify-content:center; height:58px}
   .slogo-btn img{height:34px; width:auto; max-width:96px; display:block}
-  .slogo-btn .sn{font-size:17.5px; font-weight:800; text-align:center; line-height:1.15}
+  .slogo-btn .sn{font-size:16px; font-weight:800; text-align:center; line-height:1.15; white-space:nowrap}
   .slogo-btn.on{border-color:#D8293B}
   .slogo-btn.on::after{content:"✓"; position:absolute; top:-9px; right:-7px; width:21px; height:21px; border-radius:50%; background:#D8293B; color:#fff; font-size:12.5px; font-weight:900; display:flex; align-items:center; justify-content:center}
-  .slogo-btn.allb{font-weight:800; font-size:14.5px; color:#14231A}
+  .slogo-btn.allb{font-weight:800; font-size:14.5px; color:#14231A; grid-column:span 2}
   .needrow{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
   .filters .flabel{font-weight:800; font-size:16.5px; margin-right:2px}
   .qlabel{font-weight:700; font-size:15.5px; margin:18px 0 8px}

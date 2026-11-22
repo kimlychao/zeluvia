@@ -104,8 +104,8 @@
   .filterbox{background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:18px; margin-top:14px}
   .storelabel{font-weight:800; font-size:15.5px; margin-bottom:10px}
   .storelogos{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px}
-  .slogo-btn{position:relative; background:#fff; border:2.5px solid #fff; border-radius:14px; padding:8px 6px 6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; flex:1 1 29%; min-height:64px}
-  .slogo-btn img{height:24px; width:auto; max-width:96px; display:block}
+  .slogo-btn{position:relative; background:#fff; border:2.5px solid #fff; border-radius:14px; padding:7px 5px 5px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; flex:1 1 21%; min-height:58px}
+  .slogo-btn img{height:20px; width:auto; max-width:84px; display:block}
   .slogo-btn .sn{font-size:12px; font-weight:700; color:#14231A}
   .slogo-btn.on{border-color:#D8293B}
   .slogo-btn.on::after{content:"✓"; position:absolute; top:-9px; right:-7px; width:21px; height:21px; border-radius:50%; background:#D8293B; color:#fff; font-size:12.5px; font-weight:900; display:flex; align-items:center; justify-content:center}
@@ -116,7 +116,7 @@
   .chips{display:flex; flex-wrap:wrap; gap:8px}
   .chip{background:var(--surface); border:1.5px solid var(--line); color:var(--ink); border-radius:999px; padding:9px 15px; font-size:14px; font-weight:600}
   .chip.on{background:var(--ink); color:var(--surface); border-color:var(--ink)}
-  .searchrow{margin-top:14px; display:grid; grid-template-columns:1fr; gap:9px}
+  .searchrow{margin-top:10px; display:grid; grid-template-columns:1.2fr 1fr; gap:8px}
   @media(min-width:760px){ .searchrow{grid-template-columns:2fr 1fr} }
   .searchrow input, .searchrow select{width:100%; padding:12px 14px; border-radius:14px; border:1.5px solid var(--line); background:var(--page); font-size:15px; font-family:inherit; color:var(--ink)}
   .qwrap{position:relative}
@@ -289,14 +289,9 @@
     <div class="filterbox">
       <div class="storelabel" id="storelabel">Choisissez votre épicerie</div>
       <div class="storelogos" id="storelogos"></div>
-      <div class="needrow">
-        <span class="flabel" id="flabel">J'ai besoin de</span>
-        <div class="chips" id="catchips"></div>
-      </div>
       <div class="qlabel" id="qlabel">Ou cherchez un aliment par son nom :</div>
       <div class="searchrow">
         <div class="qwrap"><input type="search" id="q" placeholder="🔍 Fraises, poulet, fromage…"><div class="qmenu" id="qmenu" style="display:none"></div></div>
-        <select id="fstore" aria-label="Filtrer par enseigne"></select>
         <select id="fcat" aria-label="Filtrer par catégorie"></select>
       </div>
     </div>
@@ -603,7 +598,6 @@ function applyStatic() {
   document.getElementById("cmptitle").textContent = t.cmpTitle;
   document.getElementById("seltitle").textContent = t.selTitle;
   document.getElementById("selhint").textContent = t.selHint;
-  document.getElementById("flabel").textContent = t.needLabel;
   document.getElementById("q").placeholder = t.searchPh;
   document.getElementById("foottitle").textContent = t.footTitle;
   document.getElementById("footenote").textContent = t.footNote;
@@ -703,19 +697,9 @@ function setStore(v) {
   renderStoreLogos(); renderGrid(); renderTiles();
 }
 function renderChips() {
-  const box = document.getElementById("catchips"); box.innerHTML = "";
-  CATS.forEach(([k, fr, en]) => {
-    const b = document.createElement("button");
-    b.className = "chip" + (fCat === k ? " on" : ""); b.textContent = lang === "en" ? en : fr;
-    b.onclick = () => { fCat = k; renderChips(); renderGrid(); };
-    box.appendChild(b);
-  });
-  const fs = document.getElementById("fstore");
-  fs.innerHTML = `<option value="all">${T().storeAll}</option>` + STORES.map((s, i) => `<option value="${i}">${s.name}</option>`).join("");
   const fc = document.getElementById("fcat");
   fc.innerHTML = `<option value="all">${T().catAll}</option>` + CATS.filter(c => c[0] !== "all").map(c => `<option value="${c[0]}">${lang === "en" ? c[2] : c[1]}</option>`).join("");
   fc.value = fCat;
-  fs.value = fStore;
   document.querySelectorAll("#mode button").forEach(b => b.classList.toggle("on", b.dataset.m === fMode));
 }
 function visibleItems() {
@@ -967,7 +951,6 @@ document.getElementById("goresults").addEventListener("click", () => {
   const target = nrEl.style.display !== "none" ? nrEl : document.getElementById("grid");
   target.scrollIntoView({ behavior: "smooth", block: "start" });
 });
-document.getElementById("fstore").addEventListener("change", e => { setStore(e.target.value); });
 document.getElementById("fcat").addEventListener("change", e => { fCat = e.target.value; renderChips(); renderGrid(); });
 document.querySelectorAll("#mode button").forEach(b => b.onclick = () => { fMode = b.dataset.m; renderChips(); renderGrid(); });
 document.getElementById("btncopy").onclick = async () => {

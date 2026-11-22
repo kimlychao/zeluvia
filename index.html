@@ -5,12 +5,12 @@
 <meta name="color-scheme" content="dark">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zeluvia : Aubaines d'épicerie de la semaine</title>
-<meta name="description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
+<meta name="description" content="Les meilleurs prix de la semaine chez IGA, Maxi, Metro, Provigo, Super C et Walmart. Fais ta liste par magasin et économise.">
 <meta name="theme-color" content="#0C1424">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://zeluvia.vercel.app/">
 <meta property="og:title" content="Zeluvia : Aubaines d'épicerie de la semaine">
-<meta property="og:description" content="Les meilleurs prix de la semaine chez Maxi, Super C, Metro, IGA, Provigo et Walmart. Fais ta liste par magasin et économise.">
+<meta property="og:description" content="Les meilleurs prix de la semaine chez IGA, Maxi, Metro, Provigo, Super C et Walmart. Fais ta liste par magasin et économise.">
 <meta property="og:image" content="https://zeluvia.vercel.app/logo.svg">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -329,7 +329,7 @@
     <p class="note" id="footenote">Prix valides du 19 au 25 novembre 2026. Prix relevés dans les circulaires de la semaine des 6 épiceries. Les prix en magasin peuvent varier.</p>
     <details>
       <summary id="srcsummary">Sources des prix et des photos</summary>
-      <p id="srcp">Prix : circulaires hebdomadaires officielles de Maxi, Super C, Metro, IGA, Provigo et Walmart (semaine du 19 au 25 novembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.</p>
+      <p id="srcp">Prix : circulaires hebdomadaires officielles de IGA, Maxi, Metro, Provigo, Super C et Walmart (semaine du 19 au 25 novembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.</p>
     </details>
     <button class="kofi" id="kofi">☕ Offrir un café : 3 $</button>
   </footer>
@@ -377,6 +377,8 @@ const STORES = [
   { name: "Walmart", color: "#0071CE", flyer: "https://www.walmart.ca/fr/circulaire" }
 ];
 
+
+const STORE_ALPHA = STORES.map((s, i) => i).sort((a, b) => STORES[a].name.localeCompare(STORES[b].name, "fr"));
 
 const DATA = [
 [0,"Champignons blancs ou crémini",2.49,"170 g","fixe"],[0,"Pamplemousse rouge",0.88,"ch.","fixe"],[0,"Mangues rouges",1.88,"ch.","fixe"],[0,"Bœuf haché maigre",5.44,"/lb","lb"],[0,"Épaule de porc fraîche désossée",1.99,"/lb","lb"],[0,"Poitrines de poulet avec dos",5.49,"/lb","lb"],[0,"Beurre Lactantia",4.97,"ch.","fixe"],[0,"Chou vert",0.75,"/lb","lb"],[0,"Limes",0.68,"ch.","fixe"],[0,"Carottes ou oignons jaunes",2.00,"sac 2 lb","fixe"],[0,"Pâtes Barilla ou sauce pour pâtes",1.69,"ch.","fixe"],[0,"Thé glacé ou jus Oasis",2.97,"ch.","fixe"],
@@ -453,7 +455,7 @@ const S = {
     footNote: "Prix valides du 19 au 25 novembre 2026. Prix relevés dans les circulaires de la semaine des 6 épiceries. Les prix en magasin peuvent varier.",
     legalNote: "Zeluvia est indépendant et n'est affilié à aucune des épiceries nommées. Les noms des enseignes appartiennent à leurs propriétaires respectifs.",
     srcSummary: "Sources des prix et des photos",
-    srcP: "Prix : circulaires hebdomadaires officielles de Maxi, Super C, Metro, IGA, Provigo et Walmart (semaine du 19 au 25 novembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.",
+    srcP: "Prix : circulaires hebdomadaires officielles de IGA, Maxi, Metro, Provigo, Super C et Walmart (semaine du 19 au 25 novembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.",
     kofi: "☕ Offrir un café : 3 $",
     seeFlyer: name => "Voir la circulaire " + name
   },
@@ -493,7 +495,7 @@ const S = {
     footNote: "Prices valid November 19 to 25, 2026. Prices taken from this week's flyers at the 6 stores. In-store prices may vary.",
     legalNote: "Zeluvia is independent and is not affiliated with any of the stores named. Store names belong to their respective owners.",
     srcSummary: "Price and photo sources",
-    srcP: "Prices: official weekly flyers from Maxi, Super C, Metro, IGA, Provigo and Walmart (week of November 19 to 25, 2026). Photos: product photos when available; otherwise “Photo not available” is shown.",
+    srcP: "Prices: official weekly flyers from IGA, Maxi, Metro, Provigo, Super C and Walmart (week of November 19 to 25, 2026). Photos: product photos when available; otherwise “Photo not available” is shown.",
     kofi: "☕ Buy me a coffee: $3",
     seeFlyer: name => "See the " + name + " flyer"
   }
@@ -670,7 +672,7 @@ function renderStoreLogos() {
   all.textContent = T().storeAll;
   all.onclick = () => setStore("all");
   box.appendChild(all);
-  STORES.forEach((s, i) => {
+  STORE_ALPHA.forEach(i => { const s = STORES[i];
     const b = document.createElement("button");
     b.className = "slogo-btn" + (fStore === String(i) ? " on" : "");
     b.innerHTML = `<span class="sn" style="color:${s.color}">${s.name}</span>`;
@@ -709,7 +711,7 @@ function renderGrid() {
     const hasQ = query.trim().length > 0;
     document.getElementById("nrestitle").textContent = hasQ ? T().noresQ(query.trim()) : T().nores;
     document.getElementById("nressub").textContent = hasQ ? T().noresSub : "";
-    document.getElementById("noreslinks").innerHTML = hasQ ? STORES.map(s => `<a href="${s.flyer}" target="_blank" rel="noopener">${s.name}</a>`).join("") : "";
+    document.getElementById("noreslinks").innerHTML = hasQ ? STORE_ALPHA.map(i => STORES[i]).map(s => `<a href="${s.flyer}" target="_blank" rel="noopener">${s.name}</a>`).join("") : "";
   }
   const gr = document.getElementById("goresults");
   const qActive = query.trim().length > 0;
@@ -764,7 +766,7 @@ function renderDrawer() {
   const ids = Object.keys(state.list).map(Number);
   document.getElementById("btnclear").style.display = ids.length ? "" : "none";
   if (!ids.length && !state.bought.length && !state.folders.length) body.innerHTML = `<p class="empty-list">${t.emptyList}</p>`;
-  STORES.forEach((st, si) => {
+  STORE_ALPHA.forEach(si => { const st = STORES[si];
     const mine = ids.filter(id => byId(id)[0] === si);
     if (!mine.length) return;
     const gh = document.createElement("div"); gh.className = "ghead";
@@ -942,7 +944,7 @@ document.getElementById("fcat").addEventListener("change", e => { fCat = e.targe
 document.querySelectorAll("#mode button").forEach(b => b.onclick = () => { fMode = b.dataset.m; renderChips(); renderGrid(); });
 document.getElementById("btncopy").onclick = async () => {
   const lines = [];
-  STORES.forEach((st, si) => {
+  STORE_ALPHA.forEach(si => { const st = STORES[si];
     const mine = Object.keys(state.list).map(Number).filter(id => byId(id)[0] === si);
     if (!mine.length) return;
     lines.push(st.name);
@@ -958,7 +960,7 @@ document.getElementById("btncopy").onclick = async () => {
 };
 document.getElementById("btndl").onclick = () => {
   const lines = [T().dlHead, ""];
-  STORES.forEach((st, si) => {
+  STORE_ALPHA.forEach(si => { const st = STORES[si];
     const mine = Object.keys(state.list).map(Number).filter(id => byId(id)[0] === si);
     if (!mine.length) return;
     lines.push(st.name);
@@ -972,7 +974,7 @@ document.getElementById("btndl").onclick = () => {
 };
 
 // Pied de page : circulaires + Ko-fi (quand l'adresse sera branchée)
-document.getElementById("flyerlinks").innerHTML = STORES.map(s => `<a href="${s.flyer}" target="_blank" rel="noopener">${s.name}</a>`).join("");
+document.getElementById("flyerlinks").innerHTML = STORE_ALPHA.map(i => STORES[i]).map(s => `<a href="${s.flyer}" target="_blank" rel="noopener">${s.name}</a>`).join("");
 if (KOFI_URL) { const k = document.getElementById("kofi"); k.style.display = "inline-block"; k.onclick = () => window.open(KOFI_URL, "_blank"); }
 
 applyStatic();

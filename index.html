@@ -66,10 +66,10 @@
   .countpill{background:var(--surface2); color:var(--ink); font-size:12.5px; font-weight:700; border-radius:999px; padding:5px 11px; white-space:nowrap}
   .panel .hint{color:var(--muted); font-size:13.5px; line-height:1.45; margin:8px 0 12px}
   .tiles{display:grid; grid-template-columns:1fr 1fr; gap:9px}
-  .tile{position:relative; background:var(--surface2); border:2px solid transparent; border-radius:14px; padding:10px 12px; text-align:left; width:100%; color:var(--ink)}
+  .tile{position:relative; background:#DCE9FB; border:2px solid transparent; border-radius:14px; padding:10px 12px; text-align:left; width:100%; color:#14231A}
   .tile .tn{font-weight:700; font-size:15.5px}
-  .tile .ts{color:var(--muted); font-size:13.5px; margin-top:2px}
-  .tile.sel{border-color:#D8293B; background:var(--surface)}
+  .tile .ts{color:#46536A; font-size:13.5px; margin-top:2px}
+  .tile.sel{border-color:#D8293B; background:#FFFFFF}
   .tile.sel .tn{padding-right:30px}
   .tile.sel::after{content:"✓"; position:absolute; top:8px; right:8px; width:24px; height:24px; border-radius:50%; background:#D8293B; color:#fff; font-size:14px; font-weight:800; display:grid; place-items:center}
   .panel .empty-note{color:var(--muted); font-size:13.5px; margin:12px 0 0}
@@ -87,14 +87,14 @@
   /* Comparaison : cartes comme l'originale (fond surface, bordure fine) */
   .compare{margin-top:28px}
   .cmp-intro{color:var(--muted); font-size:14px; line-height:1.5; margin:4px 0 2px}
-  .cmp-row{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:12px; margin-top:10px; display:flex; gap:14px; align-items:center; box-shadow:0 10px 28px rgba(28,48,36,.09)}
-  .cmp-thumb{width:84px; height:84px; flex:none; align-self:center; border-radius:11px; object-fit:cover; background:var(--surface2)}
-  .cmp-thumb.na{display:flex; align-items:center; justify-content:center; text-align:center; color:var(--muted); font-size:11.5px; font-weight:700; padding:6px}
+  .cmp-row{background:#DCE9FB; border:1px solid #B9CFEF; border-radius:16px; padding:12px; margin-top:10px; display:flex; gap:14px; align-items:center; box-shadow:0 10px 28px rgba(28,48,36,.09)}
+  .cmp-thumb{width:84px; height:84px; flex:none; align-self:center; border-radius:11px; object-fit:cover; background:#EDF3FD}
+  .cmp-thumb.na{display:flex; align-items:center; justify-content:center; text-align:center; color:#46536A; font-size:11.5px; font-weight:700; padding:6px}
   .cmp-main{flex:1; min-width:0; display:flex; flex-direction:column}
-  .cmp-row .cn{font-weight:800; font-size:15.5px; margin-bottom:2px; color:var(--ink)}
-  .cmp-gapline{color:var(--focus); font-weight:800; font-size:13.5px; margin-bottom:7px}
+  .cmp-row .cn{font-weight:800; font-size:15.5px; margin-bottom:2px; color:#14231A}
+  .cmp-gapline{color:#163E75; font-weight:800; font-size:13.5px; margin-bottom:7px}
   .cmp-pills{display:flex; flex-wrap:wrap; gap:6px; align-items:center}
-  .cmp-pill{border-radius:8px; padding:5px 9px; font-size:12.5px; font-weight:700; background:var(--surface2); color:var(--muted)}
+  .cmp-pill{border-radius:8px; padding:5px 9px; font-size:12.5px; font-weight:700; background:#FFFFFF; color:#46536A}
   .cmp-pill.best{background:var(--yellow); color:#14231A}
   .cmp-add{margin-top:9px; align-self:flex-end; background:#1E52A1; color:#fff; border:none; border-radius:9px; padding:8px 14px; font-weight:700; font-size:13.5px}
   .cmp-add.added{background:#D8293B; color:#fff}
@@ -132,10 +132,10 @@
   .car-row{display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding:2px 2px 10px; scrollbar-width:none}
   .car-row::-webkit-scrollbar{display:none}
   .car-row .card{flex:0 0 128px; scroll-snap-align:start}
-  .card{background:var(--surface); border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
-  .photo{position:relative; background:var(--surface2); height:80px; flex:none}
+  .card{background:#DCE9FB; border-radius:18px; overflow:hidden; border:1px solid #B9CFEF; box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
+  .photo{position:relative; background:#EDF3FD; height:80px; flex:none}
   .photo img{width:100%; height:100%; object-fit:cover; display:block}
-  .nophoto{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; color:var(--muted)}
+  .nophoto{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; color:#46536A}
   .nophoto .np-tx{font-size:12px; text-align:center; padding:0 6px}
   .storebadge{position:absolute; top:10px; left:10px; color:#fff; font-weight:800; font-size:12.5px; border-radius:9px; padding:5px 10px}
   .storechip{position:absolute; top:8px; left:8px; background:#fff; border-radius:9px; padding:4px 7px; display:inline-flex; align-items:center; box-shadow:0 2px 8px rgba(0,0,0,.20)}
@@ -143,21 +143,21 @@
   .bestbadge{position:absolute; left:10px; bottom:12px; background:var(--yellow); color:#14231a; font-weight:800; font-size:12.5px; border-radius:999px; padding:5px 11px; box-shadow:0 2px 6px rgba(0,0,0,.15)}
   .photoline{height:5px}
   .cbody{padding:9px 10px 10px; display:flex; flex-direction:column; gap:3px; flex:1}
-  .cname{font-weight:700; font-size:13.5px; line-height:1.25; height:51px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
-  .cunit{color:var(--muted); font-size:12px; min-height:34px}
+  .cname{color:#14231A; font-weight:700; font-size:13.5px; line-height:1.25; height:51px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+  .cunit{color:#46536A; font-size:12px; min-height:34px}
   .csave{color:#1E7A34; font-size:11.5px; font-weight:600; min-height:16px}
-  .csave{color:#82E0AD} .cprice{color:#fff !important} .step .num{background:#CFE2FF}
+  .step .num{background:#CFE2FF}
 
   .cfoot{margin-top:auto; padding-top:9px; display:flex; flex-direction:column; align-items:flex-start; gap:8px}
   .cprice{font-size:21px; font-weight:800; line-height:1; white-space:nowrap}
   .cprice .pu{font-size:12px; font-weight:700}
-  .cflyer{color:var(--muted); font-size:11px; margin-top:3px; white-space:nowrap}
+  .cflyer{color:#46536A; font-size:11px; margin-top:3px; white-space:nowrap}
   .addbtn{border:none; border-radius:0; padding:10px; font-weight:800; font-size:13.5px; color:#fff; white-space:nowrap; width:100%; flex:none; background:#1E52A1}
   .addbtn.added{background:#D8293B !important; color:#fff !important; border:none; padding:10px}
-  .cstore{display:flex; align-items:center; gap:6px; margin-top:9px; padding-top:8px; border-top:1px solid var(--line)}
+  .cstore{display:flex; align-items:center; gap:6px; margin-top:9px; padding-top:8px; border-top:1px solid #B9CFEF}
   .slogochip{background:#fff; border-radius:5px; padding:1px 4px; display:inline-flex; align-items:center; flex:none}
   .slogochip img{height:15px; width:auto; display:block}
-  .sname{font-size:12.5px; font-weight:700; color:var(--muted)}
+  .sname{font-size:12.5px; font-weight:700; color:#46536A}
 
   /* Panneau Ma liste */
   .overlay{position:fixed; inset:0; background:rgba(16,30,20,.45); z-index:60; opacity:0; pointer-events:none; transition:opacity .25s}

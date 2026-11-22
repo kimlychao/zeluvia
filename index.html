@@ -56,7 +56,7 @@
   .herostats{margin-top:12px; font-size:13px; font-weight:700; color:#16233C}
 
   /* Panneau « Aliments à sélectionner » */
-  .panel{background:var(--surface); border-radius:24px; padding:18px; box-shadow:0 2px 10px rgba(21,61,43,.06)}
+  .panel{background:var(--surface); border-radius:24px; padding:12px 14px; box-shadow:0 2px 10px rgba(21,61,43,.06)}
   .panel .ph{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
   .panel .ph .countpill{margin-left:auto}
   .panel .ph h2{flex-basis:100%; order:3; margin-top:8px}
@@ -275,11 +275,7 @@
       <div class="herostats" id="herostats"></div>
     </div>
     <div class="panel">
-      <div class="ph"><a class="searchicon" href="#aubaines" aria-label="Rechercher"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span id="searchiconlabel">Rechercher</span></a><h2 id="paneltitle">Aliments à sélectionner</h2><span class="countpill" id="tilecount">0 choisi</span></div>
-      <p class="hint" id="panelhint">Touchez un aliment pour l'ajouter à votre liste, au meilleur prix. Touchez-le de nouveau pour le retirer.</p>
-      <div class="tiles" id="tiles"></div>
-      <p class="empty-note" id="tilenote">Aucun aliment choisi pour le moment.</p>
-      <button class="btn-dark" id="btnvoirliste">Voir ma liste</button>
+      <div class="ph"><a class="searchicon" href="#aubaines" aria-label="Rechercher"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span id="searchiconlabel">Rechercher</span></a><span class="countpill" id="tilecount" style="margin-left:auto">0 choisi</span></div>
     </div>
   </div>
 
@@ -581,13 +577,10 @@ function applyStatic() {
   document.getElementById("herotitle").innerHTML = t.heroTitle;
   document.getElementById("herosub").textContent = t.heroSub;
   document.getElementById("herocta").textContent = t.heroCta;
-  document.getElementById("paneltitle").textContent = t.panelTitle;
   document.getElementById("searchiconlabel").textContent = t.searchIcon;
   document.getElementById("navbrowse").textContent = t.navBrowse;
   document.getElementById("navsearch").textContent = t.navSearch;
   document.getElementById("navlist").textContent = t.navList;
-  document.getElementById("panelhint").textContent = t.panelHint;
-  document.getElementById("btnvoirliste").textContent = t.seeList;
   document.getElementById("stepstitle").textContent = t.stepsTitle;
   const boldFirst = s => s.replace(/^(\S+)/, "<b>$1</b>");
   document.getElementById("s1t").innerHTML = boldFirst(t.s1t);
@@ -620,7 +613,6 @@ function renderTop() {
   document.getElementById("listtotal").textContent = fmt(listTotal());
   const sel = TILES.filter(([, , id]) => inList(id)).length;
   document.getElementById("tilecount").textContent = t.tileChosen(sel);
-  document.getElementById("tilenote").textContent = sel ? "" : t.tileNone;
   const days = Math.max(0, Math.ceil((PERIOD_END - Date.now()) / 864e5));
   document.getElementById("daysleft").textContent = t.days(days);
   let maxGap = 0;
@@ -630,7 +622,7 @@ function renderTop() {
 
 // Tuiles de sélection
 function renderTiles() {
-  const box = document.getElementById("tiles"); box.innerHTML = "";
+  const box = document.getElementById("tiles"); if (!box) return; box.innerHTML = "";
   TILES.forEach(([fr, en, id]) => {
     const it = byId(id), st = STORES[it[0]];
     if (fStore !== "all" && it[0] !== +fStore) return;
@@ -903,7 +895,6 @@ document.getElementById("langbtn").onclick = e => {
   try { localStorage.setItem("zeluvia-lang", lang); } catch (err) {}
   applyStatic(); renderChips(); renderAll();
 };
-document.getElementById("btnvoirliste").onclick = openDrawer;
 document.getElementById("btnback").onclick = closeDrawer;
 document.getElementById("btnclear").onclick = () => {
   if (!Object.keys(state.list).length) return;

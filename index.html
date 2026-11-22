@@ -141,7 +141,7 @@
   .car-row::-webkit-scrollbar{display:none}
   .car-row .card{flex:0 0 128px; scroll-snap-align:start}
   .card{background:#DCE9FB; border-radius:18px; overflow:hidden; border:1px solid #B9CFEF; box-shadow:0 2px 8px rgba(21,61,43,.05); display:flex; flex-direction:column}
-  .photo{position:relative; background:#EDF3FD; height:60px; flex:none}
+  .photo{position:relative; background:#EDF3FD; height:50px; flex:none}
   .photo img{width:100%; height:100%; object-fit:cover; display:block}
   .nophoto{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; color:#46536A}
   .nophoto .np-tx{font-size:12px; text-align:center; padding:0 6px}
@@ -150,7 +150,7 @@
   .storechip img{height:18px; width:auto; display:block}
   .bestbadge{position:absolute; left:10px; bottom:12px; background:var(--yellow); color:#14231a; font-weight:800; font-size:12.5px; border-radius:999px; padding:5px 11px; box-shadow:0 2px 6px rgba(0,0,0,.15)}
   .photoline{height:5px}
-  .cbody{padding:7px 9px 8px; display:flex; flex-direction:column; gap:2px; flex:1}
+  .cbody{padding:7px 9px 6px; display:flex; flex-direction:column; gap:2px; flex:1}
   .cname{color:#14231A; font-weight:700; font-size:13px; line-height:1.2; height:47px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
   .cunit{color:#46536A; font-size:12px; min-height:17px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
   .csave{color:#1E7A34; font-size:11.5px; font-weight:600; min-height:16px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
@@ -162,7 +162,7 @@
   .cflyer{color:#46536A; font-size:11px; margin-top:3px; white-space:nowrap}
   .addbtn{border:none; border-radius:0; padding:15px; height:52px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16.5px; color:#fff; white-space:nowrap; width:100%; flex:none; background:#1E52A1}
   .addbtn.added{background:#D8293B !important; color:#fff !important; border:none; padding:15px}
-  .cstore{display:flex; align-items:center; gap:6px; margin-top:6px; padding-top:6px; border-top:1px solid #B9CFEF}
+  .cstore{display:flex; align-items:center; gap:6px; margin-top:4px; padding-top:5px; border-top:1px solid #B9CFEF}
   .slogochip{background:#fff; border-radius:5px; padding:1px 4px; display:inline-flex; align-items:center; flex:none}
   .slogochip img{height:15px; width:auto; display:block}
   .sname{font-size:12.5px; font-weight:700; color:#46536A}
@@ -744,7 +744,7 @@ function renderGrid() {
         <div class="cunit">${unitLabel(it[3])}</div>
         <div class="csave">${savingsLine(it) || ""}</div>
         <div class="cfoot">
-          <div><div class="cprice" style="color:${st.color}">${it[4] === "lb" ? fmt(it[2]) + '<span class="pu">/lb</span>' : fmt(it[2])}</div><div class="cflyer">${T().flyerPrice}</div></div>
+          <div><div class="cprice" style="color:${st.color}">${it[4] === "lb" ? fmt(it[2]) + '<span class="pu">/lb</span>' : fmt(it[2])}</div></div>
         </div>
         <div class="cstore"><span class="slogochip"><img src="${LOGOS[it[0]]}" alt=""></span><span class="sname">${st.name}</span></div>
       </div>`;

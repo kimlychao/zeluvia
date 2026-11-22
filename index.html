@@ -87,16 +87,16 @@
   /* Comparaison : cartes comme l'originale (fond surface, bordure fine) */
   .compare{margin-top:28px}
   .cmp-intro{color:var(--muted); font-size:14px; line-height:1.5; margin:4px 0 2px}
-  .cmp-row{background:#DCE9FB; border:1px solid #B9CFEF; border-radius:16px; padding:12px; margin-top:10px; display:flex; gap:14px; align-items:center; box-shadow:0 10px 28px rgba(28,48,36,.09)}
-  .cmp-thumb{width:84px; height:84px; flex:none; align-self:center; border-radius:11px; object-fit:cover; background:#EDF3FD}
+  .cmp-row{background:#DCE9FB; border:1px solid #B9CFEF; border-radius:16px; padding:0; margin-top:8px; display:flex; gap:0; align-items:stretch; overflow:hidden; box-shadow:0 10px 28px rgba(28,48,36,.09)}
+  .cmp-thumb{width:96px; flex:none; align-self:stretch; border-radius:0; object-fit:cover; background:#EDF3FD}
   .cmp-thumb.na{display:flex; align-items:center; justify-content:center; text-align:center; color:#46536A; font-size:11.5px; font-weight:700; padding:6px}
-  .cmp-main{flex:1; min-width:0; display:flex; flex-direction:column}
-  .cmp-row .cn{font-weight:800; font-size:15.5px; margin-bottom:2px; color:#14231A}
-  .cmp-gapline{color:#163E75; font-weight:800; font-size:13.5px; margin-bottom:7px}
+  .cmp-main{flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; padding:10px 12px}
+  .cmp-row .cn{font-weight:800; font-size:15px; line-height:1.25; margin-bottom:1px; color:#14231A}
+  .cmp-gapline{color:#163E75; font-weight:800; font-size:13px; margin-bottom:6px}
   .cmp-pills{display:flex; flex-wrap:wrap; gap:6px; align-items:center}
   .cmp-pill{border-radius:8px; padding:5px 9px; font-size:12.5px; font-weight:700; background:#FFFFFF; color:#46536A}
   .cmp-pill.best{background:var(--yellow); color:#14231A}
-  .cmp-add{margin-top:9px; align-self:flex-end; background:#1E52A1; color:#fff; border:none; border-radius:9px; padding:8px 14px; font-weight:700; font-size:13.5px}
+  .cmp-add{margin-left:auto; background:#1E52A1; color:#fff; border:none; border-radius:9px; padding:8px 14px; font-weight:700; font-size:13.5px; white-space:nowrap}
   .cmp-add.added{background:#D8293B; color:#fff}
 
   /* Filtres */
@@ -661,12 +661,12 @@ function renderCompare() {
       p.textContent = `${STORES[it[0]].name} · ${priceDisp(it)}`;
       pills.appendChild(p);
     });
-    main.appendChild(pills);
     const add = document.createElement("button");
     add.className = "cmp-add" + (inList(best[5]) ? " added" : "");
     add.textContent = inList(best[5]) ? T().added : T().add;
     add.onclick = () => toggleItem(best[5]);
-    main.appendChild(add);
+    pills.appendChild(add);
+    main.appendChild(pills);
     row.appendChild(main); box.appendChild(row);
   });
 }

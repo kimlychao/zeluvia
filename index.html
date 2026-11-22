@@ -46,14 +46,18 @@
   /* Héros */
   .hero{display:grid; grid-template-columns:1fr; gap:12px; margin-top:12px; align-items:start}
   @media(min-width:900px){ .hero{grid-template-columns:1.15fr .85fr} }
-  .herobox{background:#FFFFFF; border:1px solid var(--line); border-radius:22px; padding:18px; color:#16233C; text-align:center}
-  .herologo{display:block; margin:0 auto 10px; border-radius:15px}
+  .herobox{background:#FFFFFF; border:1px solid #D7E3F8; border-radius:22px; padding:20px 18px 16px; color:#16233C; text-align:center; box-shadow:0 12px 32px rgba(12,20,36,.20)}
+  .herologo{display:block; border-radius:12px}
+  .herobrand{display:flex; align-items:center; justify-content:center; gap:11px; margin-bottom:12px}
+  .herobrand .wm{font-family:Manrope,"DM Sans",sans-serif; font-size:28px; font-weight:800; color:#10233F; letter-spacing:.2px}
+  .herophotos{display:flex; gap:8px; margin:0 0 14px}
+  .herophotos img{flex:1 1 0; min-width:0; height:72px; object-fit:cover; border-radius:14px; display:block}
   .pill-days{display:inline-flex; align-items:center; gap:8px; background:var(--yellow); color:#14231a; font-weight:700; font-size:12.5px; border-radius:999px; padding:6px 12px}
   .pill-days .dot{width:9px; height:9px; border-radius:50%; background:#D8293B; flex:none}
-  .herobox h1{font-size:clamp(25px,6vw,34px); line-height:1.12; margin:12px 0 8px; font-weight:800; letter-spacing:-.5px}
-  .herobox p{color:#5A6B84; font-size:14px; line-height:1.45; margin:0 0 14px}
-  .cta{display:inline-block; background:var(--yellow); color:#14231a; font-weight:800; font-size:15px; border:none; border-radius:999px; padding:10px 18px; text-decoration:none}
-  .herostats{margin-top:12px; font-size:13px; font-weight:700; color:#16233C}
+  .herobox h1{font-size:clamp(25px,6vw,34px); line-height:1.12; margin:10px 0 8px; font-weight:800; letter-spacing:-.5px}
+  .herobox p{color:#5A6B84; font-size:14px; line-height:1.45; margin:0 auto 12px; max-width:350px}
+  .cta{display:block; background:var(--yellow); color:#14231a; font-weight:800; font-size:16.5px; border:none; border-radius:999px; padding:14px; text-decoration:none; box-shadow:0 6px 16px rgba(240,198,65,.45)}
+  .herostats{margin-top:13px; font-size:13px; font-weight:700; color:#16233C}
 
   /* Panneau « Aliments à sélectionner » */
   .panel{background:var(--surface); border-radius:24px; padding:12px 14px; box-shadow:0 2px 10px rgba(21,61,43,.06)}
@@ -267,10 +271,11 @@
 
   <div class="hero">
     <div class="herobox">
-      <img class="herologo" src="logo.svg" alt="Zeluvia" width="62" height="62">
+      <div class="herobrand"><img class="herologo" src="logo.svg" alt="Zeluvia" width="46" height="46"><span class="wm">Zeluvia</span></div>
       <span class="pill-days"><span class="dot"></span><span id="daysleft"></span></span>
       <h1 id="herotitle">Vos besoins,<br>vos meilleurs prix.</h1>
       <p id="herosub">Les prix de 6 épiceries, comparés pour vous. Touchez les aliments qu'il vous faut : on garde le meilleur prix de la semaine et on prépare votre liste, magasin par magasin.</p>
+      <div class="herophotos" id="herophotos"></div>
       <a class="cta" id="herocta" href="#aubaines">Voir les aubaines de la semaine ↓</a>
       <div class="herostats" id="herostats"></div>
     </div>
@@ -688,6 +693,7 @@ function setStore(v) {
   const fs = document.getElementById("fstore"); if (fs) fs.value = v;
   renderStoreLogos(); renderGrid(); renderTiles();
 }
+(function () { const hp = document.getElementById("herophotos"); if (hp) hp.innerHTML = [2, 1, 28, 20].map(id => PHOTO[id] ? `<img src="${PHOTO[id]}" alt="" loading="lazy">` : "").join(""); })();
 function renderChips() {
   const fc = document.getElementById("fcat");
   fc.innerHTML = `<option value="all">${T().catAll}</option>` + CATS.filter(c => c[0] !== "all").map(c => `<option value="${c[0]}">${lang === "en" ? c[2] : c[1]}</option>`).join("");

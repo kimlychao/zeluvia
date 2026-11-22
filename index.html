@@ -102,6 +102,14 @@
   /* Filtres */
   .filters{margin-top:28px}
   .filterbox{background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:18px; margin-top:14px}
+  .storelabel{font-weight:800; font-size:15.5px; margin-bottom:10px}
+  .storelogos{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px}
+  .slogo-btn{position:relative; background:#fff; border:2.5px solid #fff; border-radius:14px; padding:8px 6px 6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; flex:1 1 29%; min-height:64px}
+  .slogo-btn img{height:24px; width:auto; max-width:96px; display:block}
+  .slogo-btn .sn{font-size:12px; font-weight:700; color:#14231A}
+  .slogo-btn.on{border-color:#D8293B}
+  .slogo-btn.on::after{content:"✓"; position:absolute; top:-9px; right:-7px; width:21px; height:21px; border-radius:50%; background:#D8293B; color:#fff; font-size:12.5px; font-weight:900; display:flex; align-items:center; justify-content:center}
+  .slogo-btn.allb{font-weight:800; font-size:14.5px; color:#14231A}
   .needrow{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
   .filters .flabel{font-weight:800; font-size:16.5px; margin-right:2px}
   .qlabel{font-weight:700; font-size:15.5px; margin:18px 0 8px}
@@ -152,7 +160,7 @@
   .cprice{font-size:21px; font-weight:800; line-height:1; white-space:nowrap}
   .cprice .pu{font-size:12px; font-weight:700}
   .cflyer{color:#46536A; font-size:11px; margin-top:3px; white-space:nowrap}
-  .addbtn{border:none; border-radius:0; padding:15px; font-weight:800; font-size:16.5px; color:#fff; white-space:nowrap; width:100%; flex:none; background:#1E52A1}
+  .addbtn{border:none; border-radius:0; padding:15px; height:52px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16.5px; color:#fff; white-space:nowrap; width:100%; flex:none; background:#1E52A1}
   .addbtn.added{background:#D8293B !important; color:#fff !important; border:none; padding:15px}
   .cstore{display:flex; align-items:center; gap:6px; margin-top:9px; padding-top:8px; border-top:1px solid #B9CFEF}
   .slogochip{background:#fff; border-radius:5px; padding:1px 4px; display:inline-flex; align-items:center; flex:none}
@@ -207,17 +215,17 @@
   .archive-form .btn-grey{background:#EBEFF5; color:#16233C}
   .archive-form .afrow{display:flex; gap:8px; margin-top:10px}
   .archive-form .afrow button{flex:1}
-  .folder{margin-top:10px; border:1px solid var(--line); border-radius:14px; overflow:hidden}
-  .folder-head{display:flex; gap:9px; align-items:center; background:var(--surface2); padding:10px 12px}
-  .folder-toggle{flex:1; min-width:0; display:flex; gap:8px; align-items:center; background:none; border:0; padding:0; font-weight:700; font-size:14.5px; text-align:left; color:var(--ink)}
-  .folder-toggle .fm{margin-left:auto; color:var(--muted); font-size:12.5px; font-weight:600; white-space:nowrap}
+  .folder{margin-top:10px; border:1px solid #B9CFEF; border-radius:14px; overflow:hidden}
+  .folder-head{display:flex; gap:9px; align-items:center; background:#DCE9FB; padding:10px 12px}
+  .folder-toggle{flex:1; min-width:0; display:flex; gap:8px; align-items:center; background:none; border:0; padding:0; font-weight:700; font-size:14.5px; text-align:left; color:#14231A}
+  .folder-toggle .fm{margin-left:auto; color:#46536A; font-size:12.5px; font-weight:600; white-space:nowrap}
   .fcheck{width:20px; height:20px; accent-color:#D8293B; flex:none; margin:0}
   .folder-trash{flex:none; background:transparent; border:1.5px solid #D8293B; color:#D8293B; border-radius:999px; padding:6px 9px; font-size:12.5px; font-weight:700; display:inline-flex; align-items:center; gap:4px}
   .folder-trash.armed{background:#D8293B; color:#fff}
   .bulkdel{width:100%; margin-top:10px; background:transparent; border:1.5px solid #D8293B; color:#D8293B; border-radius:999px; padding:10px; font-weight:700; font-size:13.5px}
   .bulkdel.armed{background:#D8293B; color:#fff}
   .folder-items{padding:2px 8px 8px}
-  .bought-item{display:flex; gap:8px; align-items:center; background:var(--surface2); border-radius:12px; padding:9px 12px; margin-top:8px; font-size:14px}
+  .bought-item{display:flex; gap:8px; align-items:center; background:#DCE9FB; color:#14231A; border-radius:12px; padding:9px 12px; margin-top:8px; font-size:14px}
   .bought-item .bn{font-weight:600}
   .bought-item .bp{margin-left:auto; font-weight:800; white-space:nowrap; flex:none}
   .spent{font-weight:800; margin-top:10px; font-size:15px}
@@ -279,6 +287,8 @@
     <h2 class="sec-title" id="seltitle">Sélection de la semaine</h2>
     <p id="selhint" style="color:var(--muted); font-size:14px; margin:4px 0 14px">Touchez « Ajouter » pour mettre une aubaine dans votre liste.</p>
     <div class="filterbox">
+      <div class="storelabel" id="storelabel">Choisissez votre épicerie</div>
+      <div class="storelogos" id="storelogos"></div>
       <div class="needrow">
         <span class="flabel" id="flabel">J'ai besoin de</span>
         <div class="chips" id="catchips"></div>
@@ -430,7 +440,7 @@ const S = {
     best: "Meilleur prix", flyerPrice: "Prix de circulaire", add: "+ Ajouter", added: "Ajouté ✓", photoNA: "Photo non disponible",
     saveVs: (amt, store, price) => `Économisez ${amt} vs ${store} (${price})`,
     gap: g => `Écart de ${g} entre épiceries`, addBest: "+ Ajouter le meilleur prix",
-    searchPh: "🔍 Fraises, poulet, fromage…", recentLabel: "Recherches récentes", seeResults: n => `▼ Voir les ${n} résultat${n > 1 ? "s" : ""}`, seeNotice: "▼ Voir le résultat", storeAll: "Toutes les enseignes", catAll: "Toutes les catégories",
+    searchPh: "🔍 Fraises, poulet, fromage…", recentLabel: "Recherches récentes", seeResults: n => `▼ Voir les ${n} résultat${n > 1 ? "s" : ""}`, seeNotice: "▼ Voir le résultat", storeAll: "Toutes les enseignes", storePick: "Choisissez votre épicerie", catAll: "Toutes les catégories",
     searchLabel: "Ou cherchez un aliment par son nom :",
     cmpIntro: "Les mêmes aliments, dans plusieurs épiceries cette semaine. Le premier prix montré est toujours le moins cher. Touchez « Ajouter » pour le mettre dans votre liste.",
     modeBest: n => `Meilleur prix (${n} aubaines)`, modeAll: "Sélection de 72 aubaines",
@@ -469,7 +479,7 @@ const S = {
     best: "Best price", flyerPrice: "Flyer price", add: "+ Add", added: "Added ✓", photoNA: "Photo not available",
     saveVs: (amt, store, price) => `Save ${amt} vs ${store} (${price})`,
     gap: g => `${g} difference between stores`, addBest: "+ Add the best price",
-    searchPh: "🔍 Strawberries, chicken, cheese…", recentLabel: "Recent searches", seeResults: n => `▼ See the ${n} result${n > 1 ? "s" : ""}`, seeNotice: "▼ See the result", storeAll: "All stores", catAll: "All categories",
+    searchPh: "🔍 Strawberries, chicken, cheese…", recentLabel: "Recent searches", seeResults: n => `▼ See the ${n} result${n > 1 ? "s" : ""}`, seeNotice: "▼ See the result", storeAll: "All stores", storePick: "Choose your store", catAll: "All categories",
     searchLabel: "Or search for a food by name:",
     cmpIntro: "The same foods at several stores this week. The first price shown is always the lowest. Tap “Add” to put it in your list.",
     modeBest: n => `Best price (${n} deals)`, modeAll: "Full selection of 72 deals",
@@ -629,6 +639,7 @@ function renderTiles() {
   const box = document.getElementById("tiles"); box.innerHTML = "";
   TILES.forEach(([fr, en, id]) => {
     const it = byId(id), st = STORES[it[0]];
+    if (fStore !== "all" && it[0] !== +fStore) return;
     const b = document.createElement("button");
     b.className = "tile" + (inList(id) ? " sel" : "");
     b.innerHTML = `<div class="tn">${lang === "en" ? en : fr}</div><div class="ts">${st.name} · ${priceDisp(it)}</div>`;
@@ -668,6 +679,29 @@ function renderCompare() {
 
 // Filtres + grille
 let fCat = "all", fMode = "best", fStore = "all", query = "";
+try { const fv = localStorage.getItem("zeluvia-favstore"); if (fv === "all" || /^[0-5]$/.test(fv || "")) fStore = fv; } catch (e) {}
+function renderStoreLogos() {
+  const box = document.getElementById("storelogos"); if (!box) return; box.innerHTML = "";
+  document.getElementById("storelabel").textContent = T().storePick;
+  const all = document.createElement("button");
+  all.className = "slogo-btn allb" + (fStore === "all" ? " on" : "");
+  all.textContent = T().storeAll;
+  all.onclick = () => setStore("all");
+  box.appendChild(all);
+  STORES.forEach((s, i) => {
+    const b = document.createElement("button");
+    b.className = "slogo-btn" + (fStore === String(i) ? " on" : "");
+    b.innerHTML = `<img src="${LOGOS[i]}" alt="${s.name}"><span class="sn">${s.name}</span>`;
+    b.onclick = () => setStore(fStore === String(i) ? "all" : String(i));
+    box.appendChild(b);
+  });
+}
+function setStore(v) {
+  fStore = v;
+  try { localStorage.setItem("zeluvia-favstore", v); } catch (e) {}
+  const fs = document.getElementById("fstore"); if (fs) fs.value = v;
+  renderStoreLogos(); renderGrid(); renderTiles();
+}
 function renderChips() {
   const box = document.getElementById("catchips"); box.innerHTML = "";
   CATS.forEach(([k, fr, en]) => {
@@ -871,7 +905,7 @@ function renderDrawer() {
   document.getElementById("fsave").textContent = fmt(savedAmt);
 }
 
-function renderAll() { renderTop(); renderTiles(); renderCompare(); renderGrid(); if (document.getElementById("drawer").classList.contains("open")) renderDrawer(); }
+function renderAll() { renderTop(); renderStoreLogos(); renderTiles(); renderCompare(); renderGrid(); if (document.getElementById("drawer").classList.contains("open")) renderDrawer(); }
 
 // Événements
 document.getElementById("listbar").onclick = openDrawer;
@@ -933,7 +967,7 @@ document.getElementById("goresults").addEventListener("click", () => {
   const target = nrEl.style.display !== "none" ? nrEl : document.getElementById("grid");
   target.scrollIntoView({ behavior: "smooth", block: "start" });
 });
-document.getElementById("fstore").addEventListener("change", e => { fStore = e.target.value; renderGrid(); });
+document.getElementById("fstore").addEventListener("change", e => { setStore(e.target.value); });
 document.getElementById("fcat").addEventListener("change", e => { fCat = e.target.value; renderChips(); renderGrid(); });
 document.querySelectorAll("#mode button").forEach(b => b.onclick = () => { fMode = b.dataset.m; renderChips(); renderGrid(); });
 document.getElementById("btncopy").onclick = async () => {

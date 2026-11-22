@@ -45,7 +45,7 @@
 
   /* Héros */
   .hero{display:grid; grid-template-columns:1fr; gap:12px; margin-top:12px; align-items:start}
-  @media(min-width:900px){ .hero{grid-template-columns:1.15fr .85fr} }
+  @media(min-width:900px){ .hero{grid-template-columns:1fr} }
   .herobox{background:#FFFFFF; border:1px solid #D7E3F8; border-radius:22px; padding:14px 14px 12px; color:#16233C; text-align:center; box-shadow:0 12px 32px rgba(12,20,36,.20)}
   .herologo{display:block; border-radius:12px}
   .herobrand{display:flex; align-items:center; justify-content:center; gap:9px; margin-bottom:9px}
@@ -122,6 +122,7 @@
   .searchrow{margin-top:10px; display:grid; grid-template-columns:1.2fr 1fr; gap:8px}
   @media(min-width:760px){ .searchrow{grid-template-columns:2fr 1fr} }
   .searchrow input, .searchrow select{width:100%; padding:12px 14px; border-radius:14px; border:1.5px solid var(--line); background:var(--page); font-size:15px; font-family:inherit; color:var(--ink)}
+  .searchrow input{border:2.5px solid var(--yellow); box-shadow:0 0 0 5px rgba(240,198,65,.18); font-weight:600}
   .qwrap{position:relative}
   .qmenu{position:absolute; top:calc(100% + 6px); left:0; right:0; background:var(--surface); border:1.5px solid var(--line); border-radius:14px; overflow:hidden; z-index:60; box-shadow:0 10px 30px rgba(0,0,0,.35)}
   .qm-label{padding:9px 14px 3px; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.4px}
@@ -276,9 +277,6 @@
       <p id="herosub">Les prix de 6 épiceries, comparés pour vous. Touchez les aliments qu'il vous faut : on garde le meilleur prix de la semaine et on prépare votre liste, magasin par magasin.</p>
       <a class="cta" id="herocta" href="#aubaines">Voir les aubaines de la semaine ↓</a>
       <div class="herostats" id="herostats"></div>
-    </div>
-    <div class="panel">
-      <div class="ph"><a class="searchicon" href="#aubaines" aria-label="Rechercher"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span id="searchiconlabel">Rechercher</span></a><span class="countpill" id="tilecount" style="margin-left:auto">0 choisi</span></div>
     </div>
   </div>
 
@@ -580,7 +578,6 @@ function applyStatic() {
   document.getElementById("herotitle").innerHTML = t.heroTitle;
   document.getElementById("herosub").textContent = t.heroSub;
   document.getElementById("herocta").textContent = t.heroCta;
-  document.getElementById("searchiconlabel").textContent = t.searchIcon;
   document.getElementById("navbrowse").textContent = t.navBrowse;
   document.getElementById("navsearch").textContent = t.navSearch;
   document.getElementById("navlist").textContent = t.navList;
@@ -615,7 +612,7 @@ function renderTop() {
   document.getElementById("listcount").textContent = n === 0 ? t.chosen0 : n === 1 ? t.chosen1 : t.chosenN(n);
   document.getElementById("listtotal").textContent = fmt(listTotal());
   const sel = TILES.filter(([, , id]) => inList(id)).length;
-  document.getElementById("tilecount").textContent = t.tileChosen(sel);
+  const tcEl = document.getElementById("tilecount"); if (tcEl) tcEl.textContent = t.tileChosen(sel);
   const days = Math.max(0, Math.ceil((PERIOD_END - Date.now()) / 864e5));
   document.getElementById("daysleft").textContent = t.days(days);
   let maxGap = 0;

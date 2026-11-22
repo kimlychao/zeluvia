@@ -78,13 +78,13 @@
   .btn-dark{display:inline-block; background:var(--ink); color:var(--surface); font-weight:700; font-size:15px; border:none; border-radius:999px; padding:11px 20px; margin-top:12px}
 
   /* Étapes */
-  .steps{margin-top:26px; background:#DCE9FB; border:1px solid #B9CFEF; border-radius:22px; padding:18px; box-shadow:0 12px 32px rgba(12,20,36,.20); color:#14231A}
-  .steps h2{color:#10233F}
+  .steps{margin-top:14px; background:#DCE9FB; border:1px solid #B9CFEF; border-radius:22px; padding:12px 14px; box-shadow:0 12px 32px rgba(12,20,36,.20); color:#14231A}
+  .steps h2{color:#10233F; font-size:17px; margin:0}
   .steps h2, .sec-title{font-size:clamp(17px, 4.9vw, 24px); font-weight:800; margin:0 0 6px; white-space:nowrap; letter-spacing:-0.01em}
-  .steps-grid{display:grid; grid-template-columns:1fr; gap:13px; margin-top:14px}
+  .steps-grid{display:grid; grid-template-columns:1fr; gap:8px; margin-top:9px}
   .step{display:flex; gap:12px; align-items:center}
-  .step .num{width:34px; height:34px; flex:none; border-radius:50%; background:var(--yellow); color:#14231a; font-weight:800; display:flex; align-items:center; justify-content:center}
-  .step .st{font-weight:400; font-size:16.5px}
+  .step .num{width:27px; height:27px; flex:none; border-radius:50%; background:var(--yellow); color:#14231a; font-weight:800; display:flex; align-items:center; justify-content:center}
+  .step .st{font-weight:400; font-size:14.5px}
   .step .st b{font-weight:800}
 
   /* Comparaison : cartes comme l'originale (fond surface, bordure fine) */
@@ -282,6 +282,15 @@
     </div>
   </div>
 
+  <section class="steps">
+    <h2 id="stepstitle">Comment ça marche</h2>
+    <div class="steps-grid">
+      <div class="step"><span class="num">1</span><div class="st" id="s1t"><b>Choisissez</b> vos aliments</div></div>
+      <div class="step"><span class="num">2</span><div class="st" id="s2t"><b>Ajoutez</b> à votre liste</div></div>
+      <div class="step"><span class="num">3</span><div class="st" id="s3t"><b>Magasinez</b> en magasin</div></div>
+    </div>
+  </section>
+
   <section class="filters" id="aubaines">
     <h2 class="sec-title" id="seltitle">Sélection de la semaine</h2>
     <p id="selhint" style="color:var(--muted); font-size:14px; margin:4px 0 14px">Touchez « Ajouter » pour mettre une aubaine dans votre liste.</p>
@@ -304,15 +313,6 @@
       <div class="nr-title" id="nrestitle"></div>
       <p class="nr-sub" id="nressub"></p>
       <div class="flyerlinks nr-links" id="noreslinks"></div>
-    </div>
-  </section>
-
-  <section class="steps">
-    <h2 id="stepstitle">Comment ça marche, en 3 étapes</h2>
-    <div class="steps-grid">
-      <div class="step"><span class="num">1</span><div class="st" id="s1t"><b>Choisissez</b> vos aliments</div></div>
-      <div class="step"><span class="num">2</span><div class="st" id="s2t"><b>Ajoutez</b> les aubaines à votre liste</div></div>
-      <div class="step"><span class="num">3</span><div class="st" id="s3t"><b>Magasinez</b> avec votre liste, en magasin</div></div>
     </div>
   </section>
 
@@ -451,10 +451,10 @@ const S = {
     heroCta: "Voir les aubaines de la semaine ↓",
     panelTitle: "Aliments à sélectionner", searchIcon: "Rechercher", navBrowse: "Parcourir", navSearch: "Recherche", navList: "Ma liste",
     panelHint: "Touchez un aliment pour l'ajouter à votre liste, au meilleur prix. Touchez-le de nouveau pour le retirer.",
-    stepsTitle: "Comment ça marche, en 3 étapes",
+    stepsTitle: "Comment ça marche",
     s1t: "Choisissez vos aliments", s1d: "Parcourez les aubaines de la semaine dans les 6 épiceries.",
-    s2t: "Ajoutez les aubaines à votre liste", s2d: "Chaque aliment est gardé au meilleur prix trouvé.",
-    s3t: "Magasinez avec votre liste, en magasin", s3d: "Votre liste est rangée magasin par magasin, prête pour vos courses.",
+    s2t: "Ajoutez à votre liste", s2d: "Chaque aliment est gardé au meilleur prix trouvé.",
+    s3t: "Magasinez en magasin", s3d: "Votre liste est rangée magasin par magasin, prête pour vos courses.",
     cmpTitle: "Le même produit, pas le même prix", selTitle: "Sélection de la semaine",
     selHint: "Touchez « Ajouter » pour mettre une aubaine dans votre liste.",
     needLabel: "J'ai besoin de",
@@ -490,10 +490,10 @@ const S = {
     heroCta: "See this week's deals ↓",
     panelTitle: "Foods to select", searchIcon: "Search", navBrowse: "Browse", navSearch: "Search", navList: "My list",
     panelHint: "Tap a food to add it to your list at the best price. Tap it again to remove it.",
-    stepsTitle: "How it works, in 3 steps",
+    stepsTitle: "How it works",
     s1t: "Choose your foods", s1d: "Browse this week's deals across the 6 stores.",
-    s2t: "Add deals to your list", s2d: "Every food is kept at the best price found.",
-    s3t: "Shop in store with your list", s3d: "Your list is sorted store by store, ready for your groceries.",
+    s2t: "Add to your list", s2d: "Every food is kept at the best price found.",
+    s3t: "Shop in store", s3d: "Your list is sorted store by store, ready for your groceries.",
     cmpTitle: "Same product, different price", selTitle: "This week's selection",
     selHint: "Tap “Add” to put a deal in your list.",
     needLabel: "I need",

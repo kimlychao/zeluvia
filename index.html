@@ -326,10 +326,10 @@
     <h2 id="foottitle">Une circulaire complète à consulter ?</h2>
     <div class="flyerlinks" id="flyerlinks"></div>
     <p class="note" id="legalnote">Zeluvia est indépendant et n'est affilié à aucune des épiceries nommées. Les noms des enseignes appartiennent à leurs propriétaires respectifs.</p>
-    <p class="note" id="footenote">Prix valides du 19 au 25 novembre 2026. Prix relevés dans les circulaires de la semaine des 6 épiceries. Les prix en magasin peuvent varier.</p>
+    <p class="note" id="footenote">Prix valides du 26 novembre au 2 décembre 2026. Prix relevés dans les circulaires de la semaine des 6 épiceries. Les prix en magasin peuvent varier.</p>
     <details>
       <summary id="srcsummary">Sources des prix et des photos</summary>
-      <p id="srcp">Prix : circulaires hebdomadaires officielles de IGA, Maxi, Metro, Provigo, Super C et Walmart (semaine du 19 au 25 novembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.</p>
+      <p id="srcp">Prix : circulaires hebdomadaires officielles de IGA, Maxi, Metro, Provigo, Super C et Walmart (semaine du 26 novembre au 2 décembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.</p>
     </details>
     <button class="kofi" id="kofi">☕ Offrir un café : 3 $</button>
   </footer>
@@ -381,48 +381,52 @@ const STORES = [
 const STORE_ALPHA = STORES.map((s, i) => i).sort((a, b) => STORES[a].name.localeCompare(STORES[b].name, "fr"));
 
 const DATA = [
-[0,"Champignons blancs ou crémini",2.49,"170 g","fixe"],[0,"Pamplemousse rouge",0.88,"ch.","fixe"],[0,"Mangues rouges",1.88,"ch.","fixe"],[0,"Bœuf haché maigre",5.44,"/lb","lb"],[0,"Épaule de porc fraîche désossée",1.99,"/lb","lb"],[0,"Poitrines de poulet avec dos",5.49,"/lb","lb"],[0,"Beurre Lactantia",4.97,"ch.","fixe"],[0,"Chou vert",0.75,"/lb","lb"],[0,"Limes",0.68,"ch.","fixe"],[0,"Carottes ou oignons jaunes",2.00,"sac 2 lb","fixe"],[0,"Pâtes Barilla ou sauce pour pâtes",1.69,"ch.","fixe"],[0,"Thé glacé ou jus Oasis",2.97,"ch.","fixe"],
-[1,"Saucisses fraîches ou fumées ou bacon fumé Selection",2.44,"/lb","lb"],[1,"Grenade ou papaye",0.99,"ch.","fixe"],[1,"Persil ou menthe fraîche",0.99,"ch.","fixe"],[1,"Aubergines ou courgettes vertes",1.44,"/lb","lb"],[1,"Soupe aux tomates Selection",0.97,"284 ml","fixe"],[1,"Chips Selection",1.25,"ch.","fixe"],[1,"Beurre Lactantia",4.65,"ch.","fixe"],[1,"Filet de porc entier frais",3.72,"/lb","lb"],[1,"Filet de saumon frais",3.99,"/lb","lb"],[1,"Clémentines marocaines",2.44,"/lb","lb"],[1,"Laitue iceberg",1.74,"ch.","fixe"],[1,"Café moulu Maxwell House",7.97,"631-925 g","fixe"],
-[2,"Poitrines de poulet désossées sans peau, fraîches",4.88,"/lb","lb"],[2,"Pommes Gala ou McIntosh",1.52,"/lb","lb"],[2,"Courgettes vertes ou aubergines",1.79,"/lb","lb"],[2,"Carottes ou oignons",2.49,"sac 2 lb","fixe"],[2,"Mûres",2.44,"170 g","fixe"],[2,"Portions de saumon norvégien",6.57,"/lb","lb"],[2,"Bacon ou rondelles de saucisse Irresistibles",4.99,"375-500 g","fixe"],[2,"Mini-concombres",2.99,"sac 340 g","fixe"],[2,"Pizza Giuseppe Dr. Oetker",5.47,"ch.","fixe"],[2,"Lait ou crème Lactantia PurFiltre",2.69,"1 L","fixe"],[2,"Céréales General Mills",3.99,"297-725 g","fixe"],[2,"Coca-Cola ou Pepsi",7.99,"12×355 ml","fixe"],
-[3,"Poulet entier frais",2.88,"ch.","fixe"],[3,"Jambon cuit La Belle Bretagne",1.49,"/100 g","fixe"],[3,"Sucre blanc granulé",2.29,"2 kg","fixe"],[3,"Pommes Cortland, Spartan ou Ambrosia",1.79,"/lb","lb"],[3,"Filets de saumon coho frais",8.97,"/lb","lb"],[3,"Côtes levées de porc assaisonnées",4.48,"/lb","lb"],[3,"Bébés épinards ou roquette Attitude",2.97,"142 g","fixe"],[3,"Poires",2.97,"sac 2 lb","fixe"],[3,"Canneberges fraîches",1.97,"340 g","fixe"],[3,"Chocolat Lindt Lindor ou Excellence",3.47,"100 g","fixe"],[3,"Tortillas Casa Mendosa",2.47,"10 unités","fixe"],[3,"Nourriture pour bébé Heinz",1.00,"ch.","fixe"],
-[4,"Pilons de poulet",2.49,"/lb","lb"],[4,"Filets de saumon",8.77,"/lb","lb"],[4,"Côtes de flanc de porc marinées",3.99,"/lb","lb"],[4,"Mûres ou framboises",2.50,"170 g","fixe"],[4,"Avocats Hass",5.00,"sac 5","fixe"],[4,"Grenade",1.50,"ch.","fixe"],[4,"Choux de Bruxelles",2.49,"/lb","lb"],[4,"Beurre Lactantia",6.18,"ch.","fixe"],[4,"Pizza Stromboli ou Focaccia",5.00,"ch.","fixe"],[4,"Plats cuisinés Stefano ou Quebec Déli",7.00,"ch.","fixe"],[4,"Jus Allen's ou Oasis",1.25,"1,54 L","fixe"],[4,"Boissons gazeuses PC ou Montellier",2.00,"2 L","fixe"],
-[5,"Oranges sans pépins en vrac",2.47,"/lb","lb"],[5,"Filet de porc Olymel",4.37,"/lb","lb"],[5,"Raisins verts ou rouges en vrac",4.44,"/lb","lb"],[5,"Chou vert ou rouge en vrac",0.97,"/lb","lb"],[5,"Salades de charcuterie Reser's",3.97,"397-454 g","fixe"],[5,"Biscuits OREO ou Chips Ahoy!",2.47,"format éco","fixe"],[5,"Pizza Dr. Oetker",4.97,"ch.","fixe"],[5,"Croustilles Lay's",2.27,"format éco","fixe"],[5,"Coca-Cola ou boissons gazeuses",4.47,"6×710 ml","fixe"],[5,"Bacon Great Value",3.97,"375 g","fixe"],[5,"Beurre Gay Lea ou fromage Armstrong",4.97,"ch.","fixe"],[5,"Crevettes crues Great Value",8.97,"340 g","fixe"]
+[0,"Beurre Lactantia",4.97,"454 g","fixe"],[0,"Raisins rouges sans pépins",1.67,"/lb","lb"],[0,"Poulet entier frais",2.44,"/lb","lb"],[0,"Porc haché mi-maigre",2.44,"/lb","lb"],[0,"Demi-longe de porc désossée",1.99,"/lb","lb"],[0,"Mûres",1.99,"170 g","fixe"],[0,"Avocats Délices du Marché",2.99,"sac 5","fixe"],[0,"Mini-concombres Délices du Marché",1.99,"paquet 6","fixe"],[0,"Fromage P'tit Québec",5.47,"400 g","fixe"],[0,"Sirop d'érable Émilie",5.97,"540 ml","fixe"],[0,"Huile d'olive Gallo",7.77,"750 ml","fixe"],[0,"Soupe Aylmer",0.67,"284 ml","fixe"]
+[1,"Rôti de bas de palette désossé",6.72,"/lb","lb"],[1,"Poulet entier Exceldor",2.85,"/lb","lb"],[1,"Porc haché extra-maigre",2.94,"/lb","lb"],[1,"Mûres",1.67,"170 g","fixe"],[1,"Framboises",1.97,"170 g","fixe"],[1,"Tomates rouges de serre",1.88,"/lb","lb"],[1,"Couronne de brocoli",1.44,"ch.","fixe"],[1,"Fromage Selection",4.25,"400 g","fixe"],[1,"Céleri",1.99,"ch.","fixe"],[1,"Melon miel ou dattes Borna",2.77,"ch.","fixe"],[1,"Soupe St-Hubert",1.47,"540 ml","fixe"],[1,"Pâté St-Hubert",6.99,"675-825 g","fixe"]
+[2,"Rôti de longe ou d'épaule de porc",1.99,"/lb","lb"],[2,"Bœuf haché maigre",4.97,"/lb","lb"],[2,"Poitrines de poulet désossées sans peau",5.99,"/lb","lb"],[2,"Filets de saumon Atlantique ou coho",9.99,"/lb","lb"],[2,"Framboises",2.99,"170 g","fixe"],[2,"Patates douces",1.29,"/lb","lb"],[2,"Pommes Gala",2.49,"/lb","lb"],[2,"Couronnes de brocoli ou salade de chou Dole",1.99,"ch.","fixe"],[2,"Oignons jaunes, carottes ou avocat Hass",0.99,"ch.","fixe"],[2,"Beurre Selection",4.99,"ch.","fixe"],[2,"Yogourt grec Oikos Danone",6.46,"ch.","fixe"],[2,"Coca-Cola ou Canada Dry",5,"ch.","fixe"]
+[3,"Côtelettes de longe de porc",2.49,"/lb","lb"],[3,"Dinde jeune congelée Exceldor",1.99,"/lb","lb"],[3,"Cuisses de poulet",2.99,"/lb","lb"],[3,"Mûres",1.88,"ch.","fixe"],[3,"Bleuets",2.99,"ch.","fixe"],[3,"Grenades",1.50,"ch.","fixe"],[3,"Pommes Honeycrisp",2.99,"/lb","lb"],[3,"Courge, chou rouge ou chou vert",0.99,"/lb","lb"],[3,"Avocats Hass",3.99,"sac 5","fixe"],[3,"Beurre Compliments",4.77,"454 g","fixe"],[3,"Fromage à la crème Philadelphia",3.97,"227 g","fixe"],[3,"Pâtes Catelli ou Barilla",1.69,"ch.","fixe"]
+[4,"Bifteck d'aloyau",8.88,"/lb","lb"],[4,"Filet de saumon Coho frais",8.97,"/lb","lb"],[4,"Hauts de cuisse de poulet",5.99,"/lb","lb"],[4,"Grosses crevettes blanches du Pacifique PC",9,"400 g","fixe"],[4,"Pommes de terre rouges ou russet",2,"sac 10 lb","fixe"],[4,"Oranges Navel ou citrons",3,"3 lb","fixe"],[4,"Couronnes de brocoli",2,"ch.","fixe"],[4,"Yogourt Activia ou Iögo",6.50,"12×100 g","fixe"],[4,"Pâté St-Hubert",7,"675-800 g","fixe"],[4,"Soupe Habitant",1.50,"796 ml","fixe"],[4,"Céréales Post",3,"282-525 g","fixe"],[4,"Concombres anglais",2.50,"ch.","fixe"]
+[5,"Bacon Great Value",3.97,"375 g","fixe"],[5,"Bœuf haché maigre Our Promise",5.98,"450 g","fixe"],[5,"Hauts de cuisse ou pilons de poulet Olymel",3.62,"/lb","lb"],[5,"Beurre Gay Lea",4.97,"454 g","fixe"],[5,"Pommes de terre russet ou oignons jaunes",3.94,"sac 10 lb","fixe"],[5,"Bleuets",3.84,"1 chopine","fixe"],[5,"Fromage Armstrong",4.97,"400 g","fixe"],[5,"Coca-Cola",3.98,"6×710 ml","fixe"],[5,"Boissons Silk ou Earth's Own",3.98,"1,75 L","fixe"],[5,"Saucisses Lafleur ou La Fernandière",6.97,"675 g","fixe"],[5,"Lait évaporé Carnation",1.74,"354 ml","fixe"],[5,"Filet de porc frais Maple Leaf",5.97,"/lb","lb"]
 ];
 
-const CAT = ["fl","fl","fl","v","v","v","pl","fl","fl","fl","gm","gm",
-"v","fl","fl","fl","gm","gm","pl","v","v","fl","fl","gm",
-"v","fl","fl","fl","fl","v","v","fl","gm","pl","gm","gm",
-"v","v","gm","fl","v","v","fl","fl","fl","gm","gm","gm",
-"v","v","v","fl","fl","fl","fl","pl","gm","gm","gm","gm",
-"fl","v","fl","fl","gm","gm","gm","gm","gm","v","pl","v"];
+const CAT = [
+"pl","fl","v","v","v","fl","fl","fl","pl","gm","gm","gm",
+"v","v","v","fl","fl","fl","fl","pl","fl","fl","gm","gm",
+"v","v","v","v","fl","fl","fl","fl","fl","pl","pl","gm",
+"v","v","v","fl","fl","fl","fl","fl","fl","pl","pl","gm",
+"v","v","v","v","fl","fl","fl","pl","gm","gm","gm","fl",
+"v","v","v","pl","fl","fl","pl","gm","gm","v","pl","v"
+];
 
-const GKEY = ["","","","","","","beurre","chou","","carottes","","",
-"","grenade","","","","","beurre","filetporc","saumon","","","",
-"poitrines","pommes","","carottes","mures","saumon","","","","","","coke",
-"","","","pommes","saumon","","","","","","","",
-"","saumon","","mures","","grenade","","beurre","","","","",
-"","filetporc","","chou","","","","","coke","","beurre",""];
+const GKEY = [
+"beurre","","pouletentier","","","mures","avocats","","","","","",
+"","pouletentier","","mures","framboises","","brocoli","","","","","patesthubert",
+"","boeufhache","","saumon","framboises","","","brocoli","","beurre","","coke",
+"","","","mures","bleuets","","","","avocats","beurre","","",
+"","saumon","","","pommesdeterre","","brocoli","","patesthubert","","","",
+"","boeufhache","","beurre","pommesdeterre","bleuets","","coke","","","",""
+];
 
 const PHOTO = DATA.map((_, i) => (window.ZPHOTOS || {})[i] || "");
 
-const NAME_EN = ["White or cremini whole mushrooms", "Red grapefruit", "Red mangoes", "Lean ground beef", "Pork shoulder", "Chicken breasts", "Lactantia butter", "Green cabbage", "Limes", "Carrots or onions", "Barilla pasta or Selection pasta sauce", "Iced tea / Oasis juice", "La Fernandière fresh sausages", "Pomegranate or large papaya", "Curly or Italian parsley, mint or celery root", "Eggplants or zucchini", "Aylmer tomato soup", "Selection chips", "Lactantia butter", "Fresh pork tenderloin", "Fresh Atlantic or Coho salmon fillet", "Clementines", "Iceberg lettuce", "Maxwell House instant coffee", "Fresh boneless skinless chicken breasts", "Gala apples (large)", "Green zucchini or eggplants", "Carrots or yellow onions", "Blackberries", "Fresh Norwegian Atlantic salmon portions", "Maple Leaf or Schneiders bacon, or frozen sausage rounds", "Mini cucumbers", "Giuseppe frozen pizza (Dr. Oetker)", "Lactantia PurFiltre milk or cream", "General Mills cereal", "Coca-Cola or Pepsi", "Fresh whole chicken", "Cooked ham", "Granulated white sugar", "Cortland, Spartan or McIntosh apples", "Fresh Coho salmon fillets", "Fresh pork loin back ribs", "Baby spinach, arugula or spring mix", "Bosc, Bartlett, Anjou or red pears", "Fresh cranberries", "Chocolate", "Tortillas", "Baby food", "Chicken drumsticks", "Fresh Atlantic salmon fillets", "Pork side rib portion", "Blackberries or raspberries", "Délices du Marché bag of avocados", "Pomegranate", "Brussels sprouts", "Lactantia butter", "Stromboli pizza, Focaccia pizzas or PC flatbread", "PC or Menu Bleu prepared meals", "Allen's or Del Monte juice 1 L, Oasis juice or Arizona iced tea 960 mL", "Coca-Cola or Pepsi soft drinks", "Seedless oranges (bulk)", "Olymel pork tenderloin, pack of 2", "Seedless red or green grapes", "Green or red cabbage", "Your Fresh Market deli salads", "Christie OREO or Chips Ahoy! cookies", "Dr. Oetker Ristorante or Casa Di Mama frozen pizza", "Lay's or Hardbite chips", "Coca-Cola, pack of 6 x 710 mL", "Great Value bacon", "Gay Lea salted or unsalted butter 454 g (or Armstrong cheese block 400 g)", "Great Value cooked Pacific white shrimp"];
+const NAME_EN = ["Lactantia butter", "Seedless red grapes", "Fresh whole chicken", "Lean ground pork", "Boneless pork loin half", "Blackberries", "Avocados, bag of 5", "Mini cucumbers, pack of 6", "P'tit Québec cheese", "Émilie maple syrup", "Gallo olive oil", "Aylmer soup", "Boneless bottom blade roast", "Exceldor whole chicken", "Extra-lean ground pork", "Blackberries", "Raspberries", "Greenhouse red tomatoes", "Broccoli crown", "Selection cheese", "Celery", "Honeydew melon or Borna dates", "St-Hubert soup", "St-Hubert pâté", "Pork loin, sirloin or shoulder roast", "Lean ground beef, economy pack", "Boneless skinless chicken breasts", "Fresh Atlantic or Coho salmon fillets", "Raspberries", "Sweet potatoes", "Gala apples", "Broccoli crowns or Dole coleslaw salad", "Yellow onions, carrots or Hass avocado", "Selection butter", "Danone Oikos Greek yogurt", "Coca-Cola or Canada Dry", "Fresh pork loin chops", "Exceldor young frozen turkey", "Fresh chicken thighs", "Blackberries", "Blueberries", "Pomegranates", "Honeycrisp apples", "Squash, red or green cabbage", "Hass avocados, bag of 5", "Compliments butter 454 g", "Philadelphia cream cheese", "Catelli or Barilla pasta", "Sirloin steak", "Fresh Coho salmon fillet", "Chicken thighs", "PC large Pacific white shrimp", "Red or russet potatoes", "Navel oranges or lemons", "Broccoli crowns", "Danone Activia or Iögo yogurt", "St-Hubert pâté", "Habitant soup", "Post cereal", "English cucumbers", "Great Value bacon", "Our Promise lean ground beef", "Olymel chicken thighs or drumsticks", "Gay Lea butter", "Russet potatoes or yellow onions", "Blueberries", "Armstrong cheese", "Coca-Cola", "Silk or Earth's Own beverages", "Lafleur or La Fernandière sausages", "Carnation evaporated milk", "Maple Leaf fresh pork tenderloin"];
 
 // Tuiles « Aliments à sélectionner » : [nom FR, nom EN, id du produit au meilleur prix]
-const TILES = [["Limes","Limes",8],["Soupe aux tomates","Tomato soup",16],["Chou vert","Green cabbage",7],["Grenade","Pomegranate",13],["Pommes Gala","Gala apples",25],["Épaule de porc","Pork shoulder",4],["Pilons de poulet","Chicken drumsticks",48],["Poulet entier","Whole chicken",36],["Filet de porc","Pork tenderloin",19],["Beurre","Butter",18],["Poitrines de poulet","Chicken breasts",24],["Saumon coho","Coho salmon",40]];
+const TILES = [["Mûres","Blackberries",15],["Beurre","Butter",45],["Poulet entier","Whole chicken",2],["Brocoli","Broccoli",18],["Pommes de terre","Potatoes",52],["Coca-Cola","Coca-Cola",67],["Saumon","Salmon",49],["Bœuf haché","Ground beef",25],["Raisins rouges","Red grapes",1],["Avocats","Avocados",6],["Framboises","Raspberries",16],["Bleuets","Blueberries",40]];
 
 // Section « Le même produit, pas le même prix » : [nom FR, nom EN, ids à comparer]
-const COMPARE = [["Poitrines de poulet","Chicken breasts",[24,5]],["Chou vert","Green cabbage",[7,63]],["Grenade ou papaye","Pomegranate or papaya",[13,53]],["Beurre Lactantia","Lactantia butter",[18,6,70,55]],["Aubergines ou courgettes","Eggplants or zucchini",[15,26]],["Filet de porc","Pork tenderloin",[19,61]],["Filet de saumon","Salmon fillet",[20,40,49]]];
+const COMPARE = [["Beurre","Butter",[0,33,45,63]],["Mûres","Blackberries",[5,15,39]],["Poulet entier","Whole chicken",[2,13]],["Saumon","Salmon",[27,49]],["Bœuf haché","Ground beef",[25,61]],["Brocoli","Broccoli",[18,31,54]],["Pommes de terre","Potatoes",[52,64]]];
 
 // Catégories : [clé, FR, EN]
 const CATS = [["all","Tout voir","View all"],["petit","Petit budget","Small budget"],["fl","Fruits et légumes","Fruits & vegetables"],["v","Viandes","Meats"],["pl","Produits laitiers","Dairy"],["gm","Garde-manger","Pantry"]];
 
-const PERIOD_END = new Date("2026-11-25T23:59:59");
+const PERIOD_END = new Date("2026-12-02T23:59:59");
 
 const S = {
   fr: {
     mylist: "Ma liste", chosen0: "0 article choisi", chosen1: "1 article choisi", chosenN: n => n + " articles choisis",
     tileChosen: n => n + " choisi", tileNone: "Aucun aliment choisi pour le moment.", seeList: "Voir ma liste",
-    days: d => `Plus que ${d} jours. Les prix se terminent mercredi 25 novembre`,
+    days: d => `Plus que ${d} jours. Les prix se terminent mercredi 2 décembre`,
     heroStats: g => `72 aubaines · 6 épiceries comparées · jusqu'à ${g} d'écart sur un même produit`,
     best: "Meilleur prix", flyerPrice: "Prix de circulaire", add: "+ Ajouter", added: "Ajouté ✓", photoNA: "Photo non disponible",
     saveVs: (amt, store, price) => `Économisez ${amt} vs ${store} (${price})`,
@@ -438,7 +442,7 @@ const S = {
     flyerWord: "Circulaire", drawerTitle: "Ma liste de courses", back: "← Continuer de magasiner", clearBtn: "Supprimer liste", clearSure: "Sûr ?",
     toastAdd: "Ajouté à la liste de courses", toastRemove: "Retiré de la liste", toastBought: "Mis dans vos achats",
     copyOk: "Liste copiée", copyFail: "Copie impossible sur cet appareil",
-    listHead: "Ma liste Zeluvia", dlHead: "Ma liste Zeluvia : prix du 19 au 25 novembre 2026",
+    listHead: "Ma liste Zeluvia", dlHead: "Ma liste Zeluvia : prix du 26 novembre au 2 décembre 2026",
     heroTitle: "Vos besoins,<br>vos meilleurs prix.",
     heroSub: "Les prix de 6 épiceries, comparés pour vous. Touchez les aliments qu'il vous faut : on garde le meilleur prix de la semaine et on prépare votre liste, magasin par magasin.",
     heroCta: "Voir les aubaines de la semaine ↓",
@@ -452,17 +456,17 @@ const S = {
     selHint: "Touchez « Ajouter » pour mettre une aubaine dans votre liste.",
     needLabel: "J'ai besoin de",
     footTitle: "Une circulaire complète à consulter ?",
-    footNote: "Prix valides du 19 au 25 novembre 2026. Prix relevés dans les circulaires de la semaine des 6 épiceries. Les prix en magasin peuvent varier.",
+    footNote: "Prix valides du 26 novembre au 2 décembre 2026. Prix relevés dans les circulaires de la semaine des 6 épiceries. Les prix en magasin peuvent varier.",
     legalNote: "Zeluvia est indépendant et n'est affilié à aucune des épiceries nommées. Les noms des enseignes appartiennent à leurs propriétaires respectifs.",
     srcSummary: "Sources des prix et des photos",
-    srcP: "Prix : circulaires hebdomadaires officielles de IGA, Maxi, Metro, Provigo, Super C et Walmart (semaine du 19 au 25 novembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.",
+    srcP: "Prix : circulaires hebdomadaires officielles de IGA, Maxi, Metro, Provigo, Super C et Walmart (semaine du 26 novembre au 2 décembre 2026). Photos : photos des produits lorsqu'elles sont disponibles ; sinon, la mention « Photo non disponible » s'affiche.",
     kofi: "☕ Offrir un café : 3 $",
     seeFlyer: name => "Voir la circulaire " + name
   },
   en: {
     mylist: "My list", chosen0: "0 items selected", chosen1: "1 item selected", chosenN: n => n + " items selected",
     tileChosen: n => n + " selected", tileNone: "No food selected yet.", seeList: "See my list",
-    days: d => `Only ${d} days left. Prices end Wednesday, November 25`,
+    days: d => `Only ${d} days left. Prices end Wednesday, December 2`,
     heroStats: g => `72 deals · 6 stores compared · up to ${g} difference on the same product`,
     best: "Best price", flyerPrice: "Flyer price", add: "+ Add", added: "Added ✓", photoNA: "Photo not available",
     saveVs: (amt, store, price) => `Save ${amt} vs ${store} (${price})`,
@@ -478,7 +482,7 @@ const S = {
     flyerWord: "Flyer", drawerTitle: "My grocery list", back: "← Continue shopping", clearBtn: "Delete list", clearSure: "Sure?",
     toastAdd: "Added to your grocery list", toastRemove: "Removed from the list", toastBought: "Moved to your purchases",
     copyOk: "List copied", copyFail: "Copy isn't available on this device",
-    listHead: "My Zeluvia list", dlHead: "My Zeluvia list: prices for November 19 to 25, 2026",
+    listHead: "My Zeluvia list", dlHead: "My Zeluvia list: prices for November 26 to December 2, 2026",
     heroTitle: "Your needs,<br>your best prices.",
     heroSub: "Prices from 6 grocery stores, compared for you. Tap the foods you need: we keep the week's best price and build your list, store by store.",
     heroCta: "See this week's deals ↓",
@@ -492,10 +496,10 @@ const S = {
     selHint: "Tap “Add” to put a deal in your list.",
     needLabel: "I need",
     footTitle: "Want to browse a full flyer?",
-    footNote: "Prices valid November 19 to 25, 2026. Prices taken from this week's flyers at the 6 stores. In-store prices may vary.",
+    footNote: "Prices valid November 26 to December 2, 2026. Prices taken from this week's flyers at the 6 stores. In-store prices may vary.",
     legalNote: "Zeluvia is independent and is not affiliated with any of the stores named. Store names belong to their respective owners.",
     srcSummary: "Price and photo sources",
-    srcP: "Prices: official weekly flyers from IGA, Maxi, Metro, Provigo, Super C and Walmart (week of November 19 to 25, 2026). Photos: product photos when available; otherwise “Photo not available” is shown.",
+    srcP: "Prices: official weekly flyers from IGA, Maxi, Metro, Provigo, Super C and Walmart (week of November 26 to December 2, 2026). Photos: product photos when available; otherwise “Photo not available” is shown.",
     kofi: "☕ Buy me a coffee: $3",
     seeFlyer: name => "See the " + name + " flyer"
   }
@@ -511,7 +515,7 @@ if (lang !== "en") lang = "fr";
 const T = () => S[lang];
 const fmt = n => lang === "en" ? "$" + n.toFixed(2) : n.toFixed(2).replace(".", ",") + " $";
 const nm = it => lang === "en" ? NAME_EN[it[5]] : it[1];
-const UNIT_EN = { "ch.": "each", "sac 2 lb": "2 lb bag", "sac 340 g": "340 g bag", "sac 5": "bag of 5", "format éco": "value size", "10 unités": "10 pack", "1,54 L": "1.54 L" };
+const UNIT_EN = { "ch.": "each", "sac 2 lb": "2 lb bag", "sac 340 g": "340 g bag", "sac 5": "bag of 5", "sac 10 lb": "10 lb bag", "paquet 6": "pack of 6", "1 chopine": "1 pint", "3 lb": "3 lb", "1,75 L": "1.75 L", "format éco": "value size", "10 unités": "10 pack", "1,54 L": "1.54 L" };
 const unitLabel = u => u.startsWith("/") ? "" : (lang === "en" ? (UNIT_EN[u] || u) : (u === "ch." ? "chacun" : u));
 const priceDisp = it => fmt(it[2]) + (it[3].startsWith("/") ? it[3] : "");
 
